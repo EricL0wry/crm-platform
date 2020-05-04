@@ -1,26 +1,52 @@
 import React from 'react';
 import Login from './login';
+import DashBoard from './dashboard';
+import AppContext from '../lib/context';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: null,
-      isLoading: true
+      currentUser: null
+    };
+    this.contextValue = {
+      onLogin: this.onLogin.bind(this),
+      isLoggedIn: this.isLoggedIn.bind(this)
     };
   }
 
   componentDidMount() {
-    fetch('/api/health-check')
-      .then(res => res.json())
-      .then(data => this.setState({ message: data.message || data.error }))
-      .catch(err => this.setState({ message: err.message }))
-      .finally(() => this.setState({ isLoading: false }));
+
+  }
+
+  onLogin(user) {
+    this.setState({ currentUser: user });
+  }
+
+  isLoggedIn() {
+    return this.state.currentUser !== null;
+  }
+
+  userLogin() {
+    return (
+      <AppContext.Provider value={this.contextValue}>
+        <Login />
+      </AppContext.Provider>
+    );
   }
 
   render() {
-    return (
-      <Login />
-    );
+    if (this.state.currentUser) {
+      return (
+        <AppContext.Provider value={this.contextValue}>
+          <BrowserRouter>
+            <Route exact path="/" component={DashBoard} />
+          </BrowserRouter>
+        </AppContext.Provider>
+      );
+    } else {
+      return this.userLogin();
+    }
   }
 }
