@@ -317,7 +317,8 @@ CREATE TABLE public.users (
     "addressStreet" text NOT NULL,
     "addressCity" text NOT NULL,
     "addressState" text NOT NULL,
-    "addressZip" text NOT NULL
+    "addressZip" text NOT NULL,
+    password text NOT NULL
 );
 
 
@@ -441,7 +442,7 @@ COPY public.tickets ("ticketId", status, priority, description, details, "startD
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle", "phoneNumber", email, "addressStreet", "addressCity", "addressState", "addressZip") FROM stdin;
+COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle", "phoneNumber", email, "addressStreet", "addressCity", "addressState", "addressZip", password) FROM stdin;
 \.
 
 
