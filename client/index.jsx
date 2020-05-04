@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app';
-
+import theme from './theme';
+import ThemeProvider from '@material-ui/core/ThemeProvider';
 ReactDOM.render(
-  <App />,
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>,
   document.querySelector('#root')
 );
