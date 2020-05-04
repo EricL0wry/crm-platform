@@ -86,6 +86,8 @@
     }
   },
   "dependencies": {
+    "@material-ui/core": "4.9.13",
+    "@material-ui/icons": "4.9.1",
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "express-session": "1.17.0",
