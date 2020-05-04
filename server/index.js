@@ -13,14 +13,32 @@ app.use(sessionMiddleware);
 
 app.use(express.json());
 
-app.get('/api/health-check', (req, res, next) => {
-  db.query(`select 'successfully connected' as "message"`)
-    .then(result => res.json(result.rows[0]))
-    .catch(err => next(err));
-});
+app.get('/api/login', (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
-app.use('/api', (req, res, next) => {
-  next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
+  if (email.trim() === '' || password.trim() === '') {
+    return next(new ClientError('Email and Password are required', 400));
+  }
+
+  const sql = `
+    select "userId"
+    from "users"
+    where "email" = $1 and "password" = $2
+  `;
+  const params = [email, password];
+  db.query(sql, params)
+    .then(result => {
+      const userId = result.rows[0];
+      if (!userId) {
+        throw new ClientError('No userId found', 404);
+      } else {
+        res.json(userId);
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 app.use((err, req, res, next) => {
