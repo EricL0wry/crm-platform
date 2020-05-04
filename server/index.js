@@ -13,7 +13,7 @@ app.use(sessionMiddleware);
 
 app.use(express.json());
 
-app.get('/api/login', (req, res, next) => {
+app.post('/api/login', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
