@@ -443,6 +443,7 @@ COPY public.tickets ("ticketId", status, priority, description, details, "startD
 --
 
 COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle", "phoneNumber", email, "addressStreet", "addressCity", "addressState", "addressZip", password) FROM stdin;
+1	Our	Guy	LearningFuze	Sales	9496797699	ourguy@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	password
 \.
 
 
@@ -499,7 +500,7 @@ SELECT pg_catalog.setval('public."tickets_ticketId_seq"', 1, false);
 -- Name: users_userId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."users_userId_seq"', 1, false);
+SELECT pg_catalog.setval('public."users_userId_seq"', 1, true);
 
 
 --
