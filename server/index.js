@@ -41,6 +41,33 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
+app.get('/api/users/:userId', (req, res, next) => {
+  const id = req.body.userId;
+  if (id < 0 || id === null) {
+    return next(new ClientError('Valid entry is required.', 400));
+  }
+  const sql = `
+    select "firstName",
+           "lastName",
+           "companyName",
+           "jobTitle",
+           "phoneNumber",
+           "email"
+      from "users"
+     where "userId" = $1
+  `;
+  const params = [req.params.userId];
+  db.query(sql, params)
+    .then(result => {
+      if (!result.rows[0]) {
+        next(new ClientError(`Unable to find  id of ${params[0]}`), 404);
+      } else {
+        res.json(result.rows[0]);
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
     res.status(err.status).json({ error: err.message });
