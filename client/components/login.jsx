@@ -1,33 +1,45 @@
-import React, { Fragment } from 'react';
-import Box from '@material-ui/core/Box';
+import React, { Fragment, useContext, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-
 import AppContext from '../lib/context';
 
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: ''
-    };
-    this.onChange = this.onChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+const useStyles = makeStyles(theme => ({
+  root: {
+    minHeight: '90vh'
+  },
+  logo: {
+    width: '100%',
+    objectFit: 'contain'
+  },
+  loginContainer: {
+    height: '50%'
+  },
+  loginForm: {
+    minHeight: '200px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly'
   }
+}));
 
-  onChange(event) {
-    const newState = {};
+export default function Login() {
+  const classes = useStyles();
+  const context = useContext(AppContext);
+  const [state, setState] = useState({ email: '', password: '' });
+
+  const onChange = event => {
+    const newState = Object.assign({}, state);
     newState[event.target.name] = event.target.value;
-    this.setState(newState);
-  }
+    setState(newState);
+  };
 
-  handleSubmit(e) {
+  const handleSubmit = e => {
     e.preventDefault();
     const loginInput = {};
-    loginInput.email = this.state.email;
-    loginInput.password = this.state.password;
+    loginInput.email = state.email;
+    loginInput.password = state.password;
 
     const req = {
       method: 'POST',
@@ -39,48 +51,40 @@ export default class Login extends React.Component {
     fetch('/api/login', req)
       .then(response => response.json())
       .then(data => {
-        this.context.onLogin(data);
-
+        context.onLogin(data);
       });
-  }
+  };
 
-  render() {
-    return (
-      <Fragment>
-        <Grid container direction="column">
-          <Grid item container>
-            <Grid item xs={0} md={4} />
-            <Grid item container xs={12} md={4} direction="column">
-              <form onSubmit={this.handleSubmit}>
-                <Box display="flex" flexDirection="column" justifyContent="center">
-                  <Input
-                    placeholder="email"
-                    type="email"
-                    name="email"
-                    required
-                    inputProps={{ 'aria-label': 'description' }}
-                    onChange={this.onChange} />
-                  <Input
-                    placeholder="password"
-                    type="password"
-                    name="password"
-                    required
-                    inputProps={{ 'aria-label': 'description' }}
-                    onChange={this.onChange} />
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    type="submit">Log In</Button>
-                </Box>
-
-              </form>
-            </Grid>
-            <Grid item xs={0} md={4} />
-          </Grid>
+  return (
+    <Fragment>
+      <Grid className={classes.root} container direction="column" alignItems="center" justify="center">
+        <Grid className={ classes.loginContainer } item container xs={12} sm={8} md={3} direction="column" alignItems="center">
+          <img className={classes.logo} src="/images/placeholder-logo.png" />
+          <form className={classes.loginForm} onSubmit={handleSubmit}>
+            <Input
+              placeholder="email"
+              type="email"
+              name="email"
+              required
+              inputProps={{ 'aria-label': 'description' }}
+              onChange={onChange}
+              value={state.email} />
+            <Input
+              placeholder="password"
+              type="password"
+              name="password"
+              required
+              inputProps={{ 'aria-label': 'description' }}
+              onChange={onChange}
+              value={state.password} />
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit">Log In</Button>
+          </form>
         </Grid>
-      </Fragment>
-    );
-  }
-}
+      </Grid>
+    </Fragment>
+  );
 
-Login.contextType = AppContext;
+}

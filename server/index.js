@@ -23,18 +23,18 @@ app.post('/api/login', (req, res, next) => {
   }
 
   const sql = `
-    select "userId"
-      from "users"
-     where "email" = $1 and "password" = $2
+    select "userId", "email"
+    from "users"
+    where "email" = $1 and "password" = $2
   `;
   const params = [email, password];
   db.query(sql, params)
     .then(result => {
-      const userId = result.rows[0];
-      if (!userId) {
+      const user = result.rows[0];
+      if (!user) {
         throw new ClientError('No userId found', 404);
       } else {
-        res.json(userId);
+        res.json(user);
       }
     })
     .catch(err => {
@@ -98,6 +98,33 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
     })
     .then(result => {
       res.json(result);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/users/:userId', (req, res, next) => {
+  const id = req.body.userId;
+  if (id < 0 || id === null) {
+    return next(new ClientError('Valid entry is required.', 400));
+  }
+  const sql = `
+    select "firstName",
+           "lastName",
+           "companyName",
+           "jobTitle",
+           "phoneNumber",
+           "email"
+      from "users"
+     where "userId" = $1
+  `;
+  const params = [req.params.userId];
+  db.query(sql, params)
+    .then(result => {
+      if (!result.rows[0]) {
+        next(new ClientError(`Unable to find  id of ${params[0]}`), 404);
+      } else {
+        res.json(result.rows[0]);
+      }
     })
     .catch(err => next(err));
 });
