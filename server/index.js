@@ -1,5 +1,6 @@
 require('dotenv/config');
 const express = require('express');
+const fetch = require('node-fetch');
 
 const db = require('./database');
 const ClientError = require('./client-error');
@@ -39,6 +40,66 @@ app.post('/api/login', (req, res, next) => {
     .catch(err => {
       next(err);
     });
+});
+
+app.get('/api/dashboard/:userId', (req, res, next) => {
+  const params = [req.params.userId];
+
+  const userQuery = `
+    select "firstName",
+           "addressZip"
+      from "users"
+     where "userId" = $1
+  `;
+
+  db.query(userQuery, params)
+    .then(result => {
+      const dashboardResponse = { userInfo: result.rows[0] };
+      return dashboardResponse;
+    })
+    .then(result => {
+      const dashboardResponse = result;
+      const ticketQuery = `
+        select "t"."ticketId",
+              "t"."description",
+              "t"."priority",
+              "t"."dueDate",
+              "c"."firstName",
+              "c"."lastName"
+          from "tickets" as "t"
+          join "customers" as "c" using ("customerId")
+        where "t"."ownerId" = $1
+        order by "t"."dueDate" asc
+        limit 5;
+      `;
+
+      return db.query(ticketQuery, params)
+        .then(result => {
+          const tickets = result.rows;
+          if (!tickets.length) {
+            next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
+          } else {
+            dashboardResponse.ticketList = tickets;
+            return dashboardResponse;
+          }
+        })
+        .catch(err => next(err));
+    })
+    .then(result => {
+      const dashboardResponse = result;
+      const { addressZip } = dashboardResponse.userInfo;
+      return fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${addressZip}&units=imperial&appid=${process.env.MAP_KEY}`)
+        .then(response => response.json())
+        .then(weather => {
+          dashboardResponse.weather = weather;
+          return dashboardResponse;
+        })
+        .catch(err => next(err));
+    })
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => next(err));
 });
 
 app.get('/api/users/:userId', (req, res, next) => {
