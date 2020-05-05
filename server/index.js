@@ -49,7 +49,7 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
       from "tickets" as "t"
       join "customers" as "c" using ("customerId")
      where "t"."ownerId" = $1
-     order by "t"."startDate" asc
+     order by "t"."dueDate" asc
      limit 5;
   `;
   const params = [req.params.userId];
