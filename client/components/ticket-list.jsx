@@ -12,20 +12,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
-
-getProducts() {
-  fetch('/api/products')
-    .then(response => response.json())
-    .then(data => this.setState({ products: data }))
-    .catch(error => console.log('Fetch failed!', error));
-}
-
-componentDidMount() {
-  this.getProducts();
-}
-
-
 export default function TicketList() {
   const classes = useStyles();
   const context = useContext(AppContext);
