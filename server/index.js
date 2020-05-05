@@ -87,7 +87,14 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
         .catch(err => next(err));
     })
     .then(result => {
-      res.json(result);
+      const dashboardResponse = result;
+      const { addressZip } = dashboardResponse.userInfo;
+      const options = {
+        hostname: 'https://api.openweathermap.org',
+        path: `/data/2.5/forecast?zip=${addressZip}&appid=de6d52c2ebb7b1398526329875a49c57`,
+        method: 'GET'
+      };
+
     })
     .catch(err => next(err));
 
