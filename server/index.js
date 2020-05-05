@@ -22,18 +22,18 @@ app.post('/api/login', (req, res, next) => {
   }
 
   const sql = `
-    select "userId"
+    select "userId", "email"
     from "users"
     where "email" = $1 and "password" = $2
   `;
   const params = [email, password];
   db.query(sql, params)
     .then(result => {
-      const userId = result.rows[0];
-      if (!userId) {
+      const user = result.rows[0];
+      if (!user) {
         throw new ClientError('No userId found', 404);
       } else {
-        res.json(userId);
+        res.json(user);
       }
     })
     .catch(err => {
