@@ -1,4 +1,5 @@
 require('dotenv/config');
+const https = require('https');
 const express = require('express');
 
 const db = require('./database');
@@ -14,7 +15,8 @@ app.use(sessionMiddleware);
 app.use(express.json());
 
 app.post('/api/login', (req, res, next) => {
-  const { email, password } = req.body;
+  const email = req.body.email;
+  const password = req.body.password;
 
   if (email.trim() === '' || password.trim() === '') {
     return next(new ClientError('Email and Password are required', 400));
@@ -35,24 +37,29 @@ app.post('/api/login', (req, res, next) => {
         res.json(userId);
       }
     })
-    .catch(err => next(err));
+    .catch(err => {
+      next(err);
+    });
 });
 
 app.get('/api/dashboard/:userId', (req, res, next) => {
-  const dashboardResponse = {};
+
   const params = [req.params.userId];
 
   const userQuery = `
-    select "firstName"
-           "addressCity"
+    select "firstName",
+           "addressZip"
       from "users"
      where "userId" = $1
   `;
 
   db.query(userQuery, params)
     .then(result => {
-      dashboardResponse.userName = result.rows;
-
+      const dashboardResponse = { userInfo: result.rows[0] };
+      return dashboardResponse;
+    })
+    .then(result => {
+      const dashboardResponse = result;
       const ticketQuery = `
         select "t"."ticketId",
               "t"."description",
@@ -67,17 +74,20 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
         limit 5;
       `;
 
-      db.query(ticketQuery, params)
+      return db.query(ticketQuery, params)
         .then(result => {
           const tickets = result.rows;
           if (!tickets.length) {
             next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
           } else {
             dashboardResponse.ticketList = tickets;
-            res.json(dashboardResponse);
+            return dashboardResponse;
           }
         })
         .catch(err => next(err));
+    })
+    .then(result => {
+      res.json(result);
     })
     .catch(err => next(err));
 
