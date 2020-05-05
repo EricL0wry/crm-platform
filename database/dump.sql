@@ -37,7 +37,6 @@ ALTER TABLE public.users ALTER COLUMN "userId" DROP DEFAULT;
 ALTER TABLE public.tickets ALTER COLUMN "ticketId" DROP DEFAULT;
 ALTER TABLE public."ticketStatus" ALTER COLUMN "statusId" DROP DEFAULT;
 ALTER TABLE public."ticketPriority" ALTER COLUMN "priorityId" DROP DEFAULT;
-ALTER TABLE public.interactions ALTER COLUMN "timeCreated" DROP DEFAULT;
 ALTER TABLE public.interactions ALTER COLUMN notes DROP DEFAULT;
 ALTER TABLE public.interactions ALTER COLUMN "interactionId" DROP DEFAULT;
 ALTER TABLE public.customers ALTER COLUMN "customerId" DROP DEFAULT;
@@ -49,7 +48,6 @@ DROP SEQUENCE public."ticketStatus_statusId_seq";
 DROP TABLE public."ticketStatus";
 DROP SEQUENCE public."ticketPriority_priorityId_seq";
 DROP TABLE public."ticketPriority";
-DROP SEQUENCE public."interactions_timeCreated_seq";
 DROP SEQUENCE public.interactions_notes_seq;
 DROP SEQUENCE public."interactions_interactionId_seq";
 DROP TABLE public.interactions;
@@ -136,10 +134,10 @@ ALTER SEQUENCE public."customers_customerId_seq" OWNED BY public.customers."cust
 CREATE TABLE public.interactions (
     "interactionId" integer NOT NULL,
     type text NOT NULL,
-    notes integer NOT NULL,
-    "timeCreated" integer NOT NULL,
+    notes text NOT NULL,
     "userId" integer NOT NULL,
-    "customerId" integer NOT NULL
+    "customerId" integer NOT NULL,
+    "timeCreated" timestamp without time zone
 );
 
 
@@ -181,26 +179,6 @@ CREATE SEQUENCE public.interactions_notes_seq
 --
 
 ALTER SEQUENCE public.interactions_notes_seq OWNED BY public.interactions.notes;
-
-
---
--- Name: interactions_timeCreated_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public."interactions_timeCreated_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: interactions_timeCreated_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public."interactions_timeCreated_seq" OWNED BY public.interactions."timeCreated";
 
 
 --
@@ -361,13 +339,6 @@ ALTER TABLE ONLY public.interactions ALTER COLUMN "interactionId" SET DEFAULT ne
 --
 
 ALTER TABLE ONLY public.interactions ALTER COLUMN notes SET DEFAULT nextval('public.interactions_notes_seq'::regclass);
-
-
---
--- Name: interactions timeCreated; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.interactions ALTER COLUMN "timeCreated" SET DEFAULT nextval('public."interactions_timeCreated_seq"'::regclass);
 
 
 --
@@ -613,7 +584,10 @@ COPY public.customers ("customerId", "firstName", "lastName", "companyName", "jo
 -- Data for Name: interactions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.interactions ("interactionId", type, notes, "timeCreated", "userId", "customerId") FROM stdin;
+COPY public.interactions ("interactionId", type, notes, "userId", "customerId", "timeCreated") FROM stdin;
+1	by phone	talked to Will about his name	1	1	2020-05-05 16:00:22.84152
+2	email	followed up with Carmela about our meeting	1	121	2020-05-05 16:00:22.84152
+3	in person	Cherie asked for more info about our current promotions	1	26	2020-05-05 16:00:22.84152
 \.
 
 
@@ -681,7 +655,7 @@ SELECT pg_catalog.setval('public."customers_customerId_seq"', 203, true);
 -- Name: interactions_interactionId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."interactions_interactionId_seq"', 1, false);
+SELECT pg_catalog.setval('public."interactions_interactionId_seq"', 3, true);
 
 
 --
@@ -689,13 +663,6 @@ SELECT pg_catalog.setval('public."interactions_interactionId_seq"', 1, false);
 --
 
 SELECT pg_catalog.setval('public.interactions_notes_seq', 1, false);
-
-
---
--- Name: interactions_timeCreated_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public."interactions_timeCreated_seq"', 1, false);
 
 
 --
