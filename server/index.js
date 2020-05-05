@@ -39,31 +39,46 @@ app.post('/api/login', (req, res, next) => {
 });
 
 app.get('/api/dashboard/:userId', (req, res, next) => {
-  const sql = `
-    select "t"."ticketId",
-           "t"."description",
-           "t"."priority",
-           "t"."dueDate",
-           "c"."firstName",
-           "c"."lastName"
-      from "tickets" as "t"
-      join "customers" as "c" using ("customerId")
-     where "t"."ownerId" = $1
-     order by "t"."dueDate" asc
-     limit 5;
-  `;
+  const dashboardResponse = [];
   const params = [req.params.userId];
 
-  db.query(sql, params)
+  const userQuery = `
+    select "firstName"
+      from "users"
+     where "userId" = $1
+  `;
+
+  db.query(userQuery, params)
     .then(result => {
-      const tickets = result.rows;
-      if (!tickets.length) {
-        next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
-      } else {
-        res.json(tickets);
-      }
+      dashboardResponse.push(result.rows);
+      res.json(dashboardResponse);
     })
     .catch(err => next(err));
+
+  // const ticketQuery = `
+  //   select "t"."ticketId",
+  //          "t"."description",
+  //          "t"."priority",
+  //          "t"."dueDate",
+  //          "c"."firstName",
+  //          "c"."lastName"
+  //     from "tickets" as "t"
+  //     join "customers" as "c" using ("customerId")
+  //    where "t"."ownerId" = $1
+  //    order by "t"."dueDate" asc
+  //    limit 5;
+  // `;
+
+  // db.query(ticketQuery, params)
+  //   .then(result => {
+  //     const tickets = result.rows;
+  //     if (!tickets.length) {
+  //       next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
+  //     } else {
+  //       res.json(tickets);
+  //     }
+  //   })
+  //   .catch(err => next(err));
 });
 
 app.use((err, req, res, next) => {
