@@ -14,8 +14,7 @@ app.use(sessionMiddleware);
 app.use(express.json());
 
 app.post('/api/login', (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
 
   if (email.trim() === '' || password.trim() === '') {
     return next(new ClientError('Email and Password are required', 400));
@@ -23,8 +22,8 @@ app.post('/api/login', (req, res, next) => {
 
   const sql = `
     select "userId"
-    from "users"
-    where "email" = $1 and "password" = $2
+      from "users"
+     where "email" = $1 and "password" = $2
   `;
   const params = [email, password];
   db.query(sql, params)
@@ -36,9 +35,35 @@ app.post('/api/login', (req, res, next) => {
         res.json(userId);
       }
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(err => next(err));
+});
+
+app.get('/api/dashboard/:userId', (req, res, next) => {
+  const sql = `
+    select "t"."ticketId",
+           "t"."description",
+           "t"."priority",
+           "t"."dueDate",
+           "c"."firstName",
+           "c"."lastName"
+      from "tickets" as "t"
+      join "customers" as "c" using ("customerId")
+     where "t"."ownerId" = $1
+     order by "t"."startDate" asc
+     limit 5;
+  `;
+  const params = [req.params.userId];
+
+  db.query(sql, params)
+    .then(result => {
+      const tickets = result.rows;
+      if (!tickets.length) {
+        next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
+      } else {
+        res.json(tickets);
+      }
+    })
+    .catch(err => next(err));
 });
 
 app.use((err, req, res, next) => {
