@@ -2,7 +2,9 @@ import React from 'react';
 import Login from './login';
 import DashBoard from './dashboard';
 import AppContext from '../lib/context';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Header from './header';
+// import { Switch } from '@material-ui/core';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -12,7 +14,9 @@ export default class App extends React.Component {
     };
     this.contextValue = {
       onLogin: this.onLogin.bind(this),
-      isLoggedIn: this.isLoggedIn.bind(this)
+      onLogout: this.onLogout.bind(this),
+      isLoggedIn: this.isLoggedIn.bind(this),
+      getUser: this.getUser.bind(this)
     };
   }
 
@@ -22,6 +26,10 @@ export default class App extends React.Component {
 
   onLogin(user) {
     this.setState({ currentUser: user });
+  }
+
+  onLogout() {
+    this.setState({ currentUser: null });
   }
 
   isLoggedIn() {
@@ -36,12 +44,20 @@ export default class App extends React.Component {
     );
   }
 
+  getUser() {
+    const user = Object.assign({}, this.state.currentUser);
+    return user;
+  }
+
   render() {
     if (this.state.currentUser) {
       return (
         <AppContext.Provider value={this.contextValue}>
           <BrowserRouter>
-            <Route exact path="/" component={DashBoard} />
+            <Switch>
+              <Route exact path="/" component={DashBoard} />
+              {/* <Route path="/" component={Login} /> */}
+            </Switch>
           </BrowserRouter>
         </AppContext.Provider>
       );

@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-
+import Header from './header';
 import AppContext from '../lib/context';
 
 export default class Login extends React.Component {
@@ -47,6 +47,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <Fragment>
+        <Header />
         <Grid container direction="column">
           <Grid item container>
             <Grid item xs={0} md={4} />
