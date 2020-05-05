@@ -403,6 +403,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN "userId" SET DEFAULT nextval('public.
 --
 
 COPY public.customers ("customerId", "firstName", "lastName", "companyName", "jobTitle", "phoneNumber", email, "addressStreet", "addressCity", "addressState", "addressZip", "repId") FROM stdin;
+1	Will	Billiamson	Bill Propane & More	CFO	6968008132	bill.bill@willbill.biz	9200 Irvine Center Dr.	Irvine	CA	92618	1
 \.
 
 
@@ -419,6 +420,9 @@ COPY public.interactions ("interactionId", type, notes, "timeCreated", "userId",
 --
 
 COPY public."ticketPriority" ("priorityId", name, level) FROM stdin;
+1	High	1
+2	Medium	2
+3	Low	3
 \.
 
 
@@ -427,6 +431,10 @@ COPY public."ticketPriority" ("priorityId", name, level) FROM stdin;
 --
 
 COPY public."ticketStatus" ("statusId", name) FROM stdin;
+1	Created
+2	In-Progress
+3	Pending
+4	Complete
 \.
 
 
@@ -435,6 +443,14 @@ COPY public."ticketStatus" ("statusId", name) FROM stdin;
 --
 
 COPY public.tickets ("ticketId", status, priority, description, details, "startDate", "dueDate", "ownerId", "assignedToId", "customerId") FROM stdin;
+1	1	3	 Low on stock on propane	Call Jan about propane vendors	2020-05-04 16:58:40.520663	\N	1	1	1
+2	1	3	Need quotes on propane accessories	Call Hank for more prices	2020-05-04 17:02:23.816835	\N	1	1	1
+3	1	3	 Call Bill	Ask him why his name is so weird	2020-05-04 17:03:53.62954	\N	1	1	1
+4	2	1	 Call Mom	She keeps texting me how run my biz wth	2020-05-04 17:05:24.140499	\N	1	1	1
+5	1	1	 Kill Bill Vol. 1	Ask him if he wants to go watch a movie.	2020-05-04 17:06:07.963722	\N	1	1	1
+6	1	1	Visit Bills shop	Check what supplies Bill needs	2020-05-04 17:06:53.867358	\N	1	1	1
+7	1	1	Propane tank expiration dates	Check inventory for expired tanks. See if Will can take any expired	2020-05-04 17:08:46.46379	\N	1	1	1
+8	1	2	BBQ Specials	Send email to Will regarding July’s Weber grill specials	2020-05-04 17:09:36.481726	\N	1	1	1
 \.
 
 
@@ -451,7 +467,7 @@ COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle",
 -- Name: customers_customerId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."customers_customerId_seq"', 1, false);
+SELECT pg_catalog.setval('public."customers_customerId_seq"', 1, true);
 
 
 --
@@ -479,21 +495,21 @@ SELECT pg_catalog.setval('public."interactions_timeCreated_seq"', 1, false);
 -- Name: ticketPriority_priorityId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."ticketPriority_priorityId_seq"', 1, false);
+SELECT pg_catalog.setval('public."ticketPriority_priorityId_seq"', 3, true);
 
 
 --
 -- Name: ticketStatus_statusId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."ticketStatus_statusId_seq"', 1, false);
+SELECT pg_catalog.setval('public."ticketStatus_statusId_seq"', 4, true);
 
 
 --
 -- Name: tickets_ticketId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."tickets_ticketId_seq"', 1, false);
+SELECT pg_catalog.setval('public."tickets_ticketId_seq"', 8, true);
 
 
 --
