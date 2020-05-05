@@ -1,5 +1,4 @@
 require('dotenv/config');
-const https = require('https');
 const express = require('express');
 
 const db = require('./database');
@@ -43,7 +42,6 @@ app.post('/api/login', (req, res, next) => {
 });
 
 app.get('/api/dashboard/:userId', (req, res, next) => {
-
   const params = [req.params.userId];
 
   const userQuery = `
@@ -87,16 +85,12 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
         .catch(err => next(err));
     })
     .then(result => {
-      const dashboardResponse = result;
-      const { addressZip } = dashboardResponse.userInfo;
-      const options = {
-        hostname: 'https://api.openweathermap.org',
-        path: `/data/2.5/forecast?zip=${addressZip}&appid=de6d52c2ebb7b1398526329875a49c57`,
-        method: 'GET'
-      };
-
+      res.json(result);
     })
     .catch(err => next(err));
+});
+
+app.get('/api/weather', (req, res, next) => {
 
 });
 
