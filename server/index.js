@@ -1,5 +1,6 @@
 require('dotenv/config');
 const express = require('express');
+const fetch = require('node-fetch');
 
 const db = require('./database');
 const ClientError = require('./client-error');
@@ -85,13 +86,20 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
         .catch(err => next(err));
     })
     .then(result => {
+      const dashboardResponse = result;
+      const { addressZip } = dashboardResponse.userInfo;
+      return fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${addressZip}&units=imperial&appid=${process.env.MAP_KEY}`)
+        .then(response => response.json())
+        .then(weather => {
+          dashboardResponse.weather = weather;
+          return dashboardResponse;
+        })
+        .catch(err => next(err));
+    })
+    .then(result => {
       res.json(result);
     })
     .catch(err => next(err));
-});
-
-app.get('/api/weather', (req, res, next) => {
-
 });
 
 app.use((err, req, res, next) => {
