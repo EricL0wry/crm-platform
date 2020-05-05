@@ -3,6 +3,7 @@ import Login from './login';
 import DashBoard from './dashboard';
 import AppContext from '../lib/context';
 import { BrowserRouter, Route } from 'react-router-dom';
+import Header from './header';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ export default class App extends React.Component {
   userLogin() {
     return (
       <AppContext.Provider value={this.contextValue}>
+        <Header />
         <Login />
       </AppContext.Provider>
     );
