@@ -103,7 +103,7 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
 });
 
 app.get('/api/users/:userId', (req, res, next) => {
-  const id = req.body.userId;
+  const id = req.params.userId;
   if (id < 0 || id === null) {
     return next(new ClientError('Valid entry is required.', 400));
   }
@@ -117,14 +117,37 @@ app.get('/api/users/:userId', (req, res, next) => {
       from "users"
      where "userId" = $1
   `;
-  const params = [req.params.userId];
+  const params = [id];
   db.query(sql, params)
     .then(result => {
       if (!result.rows[0]) {
-        next(new ClientError(`Unable to find  id of ${params[0]}`), 404);
+        throw new ClientError(`Unable to find  id of ${params[0]}`, 404);
       } else {
         res.json(result.rows[0]);
       }
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/customerlist/:userId', (req, res, next) => {
+  const userId = req.params.userId;
+  if (!parseInt(userId, 10)) {
+    return next(new ClientError('"userId" must be a positive integer', 400));
+  }
+
+  const sql = `
+    select "firstName",
+           "lastName",
+           "phoneNumber",
+           "email"
+    from "customers"
+    where "repId" = $1
+  `;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const customers = result.rows;
+      res.status(200).json(customers);
     })
     .catch(err => next(err));
 });
