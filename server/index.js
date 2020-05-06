@@ -144,7 +144,8 @@ app.get('/api/customerlist/:userId', (req, res, next) => {
   }
 
   const sql = `
-    select "firstName",
+    select "customerId",
+           "firstName",
            "lastName",
            "phoneNumber",
            "email"
