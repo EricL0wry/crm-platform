@@ -3,6 +3,7 @@ import Login from './login';
 import Profile from './profile';
 import DashBoard from './dashboard';
 import Customers from './customers';
+import Organization from './organization';
 import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MenuAppBar from './menu-app-bar';
@@ -64,6 +65,7 @@ export default class App extends React.Component {
               <Route path="/customers" component={Customers} />
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
+              <Route path="/organization" component={Organization} />
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>
