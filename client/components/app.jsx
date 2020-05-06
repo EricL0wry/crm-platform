@@ -1,6 +1,7 @@
 import React from 'react';
 import Login from './login';
 import DashBoard from './dashboard';
+import Customers from './customers';
 import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -57,6 +58,7 @@ export default class App extends React.Component {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={DashBoard} />
+              <Route path="/customers" component={Customers} />
               {/* <Route path="/" component={Login} /> */}
             </Switch>
           </BrowserRouter>
