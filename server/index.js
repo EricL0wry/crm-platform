@@ -156,8 +156,8 @@ app.get('/api/org/:userId', (req, res, next) => {
   db.query(orgQuery, params)
     .then(result => {
       res.json(result.rows);
-    });
-
+    })
+    .catch(err => next(err));
 });
 
 app.use((err, req, res, next) => {
