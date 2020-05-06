@@ -208,8 +208,26 @@ app.get('/api/customers/:customerId', (req, res, next) => {
       if (!result.rows[0]) {
         throw new ClientError(`Unable to find  id of ${params[0]}`, 404);
       } else {
-        res.json(result.rows[0]);
+        const response = { customerInfo: result.rows[0] };
+        return response;
       }
+    })
+    .then(result => {
+      const response = result;
+      const sql = `
+    select *
+      from "interactions"
+     where "customerId" = $1
+  `;
+      return db.query(sql, params)
+        .then(result => {
+          response.interactions = result.rows;
+          return response;
+        })
+        .catch(err => next(err));
+    })
+    .then(result => {
+      res.json(result);
     })
     .catch(err => next(err));
 });
