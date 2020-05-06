@@ -10,6 +10,19 @@ import Grid from '@material-ui/core/Grid';
 import AppContext from '../lib/context';
 import { makeStyles } from '@material-ui/core';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    paddingTop: '0',
+    paddingBottom: '0',
+    margin: '0'
+  },
+  avatarStyles: {
+    width: theme.spacing(8),
+    height: theme.spacing(8)
+  }
+}));
+
 export default function Profile(props) {
   const [user, setUser] = useState({});
 
