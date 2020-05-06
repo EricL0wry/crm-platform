@@ -3,14 +3,15 @@ import Login from './login';
 import DashBoard from './dashboard';
 import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Header from './header';
-// import { Switch } from '@material-ui/core';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null
+      currentUser: {
+        email: 'ourguy@lfz.com',
+        userId: 1
+      }
     };
     this.contextValue = {
       onLogin: this.onLogin.bind(this),
