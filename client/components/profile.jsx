@@ -2,24 +2,23 @@ import React, { Fragment, useState, useEffect, useContext } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import MenuAppBar from './menu-app-bar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import AppContext from '../lib/context';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Box } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
-    paddingTop: '0',
-    paddingBottom: '0',
-    margin: '0'
+    width: '100%'
+  },
+  appBarStyles: {
+    marginBottom: '20px'
   },
   avatarStyles: {
-    width: theme.spacing(8),
-    height: theme.spacing(8)
+    width: theme.spacing(15),
+    height: theme.spacing(15)
   }
 }));
 
@@ -32,7 +31,7 @@ export default function Profile(props) {
       .then(data => {
         setUser(data);
       });
-  });
+  }, []);
   if (!user) {
     return null;
   }
@@ -46,15 +45,20 @@ export default function Profile(props) {
   } = user;
   const classes = useStyles();
   const context = useContext(AppContext);
+  const handleLogout = () => {
+    context.onLogout();
+    props.history.push('/');
+  };
 
   return (
-    <div className="container classes.root">
-      <MenuAppBar />
+    <div className="container">
       <Grid container direction="column" alignItems="center" justify="center">
-        <Grid item>
-          <Typography component="span" variant="h5" color="textPrimary">
-            My Profile
-          </Typography>
+        <Grid className="classes.titleStyles" item>
+          <Box m={3}>
+            <Typography component="span" variant="h3" color="textPrimary">
+              My Profile
+            </Typography>
+          </Box>
         </Grid>
         <Grid item>
           <Avatar
@@ -74,7 +78,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="subtitle1"
+                      variant="h6"
                       color="textPrimary"
                     >
                       Name
@@ -85,7 +89,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="h6"
+                      variant="h5"
                       color="textPrimary"
                     >
                       {firstName + ' ' + lastName}
@@ -100,7 +104,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="subtitle1"
+                      variant="h6"
                       color="textPrimary"
                     >
                       Company
@@ -111,7 +115,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="h6"
+                      variant="h5"
                       color="textPrimary"
                     >
                       {companyName}
@@ -126,7 +130,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="subtitle1"
+                      variant="h6"
                       color="textPrimary"
                     >
                       Job Title
@@ -137,7 +141,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="h6"
+                      variant="h5"
                       color="textPrimary"
                     >
                       {jobTitle}
@@ -152,7 +156,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="subtitle1"
+                      variant="h6"
                       color="textPrimary"
                     >
                       Phone
@@ -163,7 +167,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="h6"
+                      variant="h5"
                       color="textPrimary"
                     >
                       {phoneNumber}
@@ -178,7 +182,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="subtitle1"
+                      variant="h6"
                       color="textPrimary"
                     >
                       Email
@@ -189,7 +193,7 @@ export default function Profile(props) {
                   <Fragment>
                     <Typography
                       component="span"
-                      variant="h6"
+                      variant="h5"
                       color="textPrimary"
                     >
                       {email}
@@ -201,7 +205,7 @@ export default function Profile(props) {
           </List>
         </Grid>
         <Button
-          onClick={context.onLogout}
+          onClick={handleLogout}
           variant="contained"
           color="secondary"
           context=""
