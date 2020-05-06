@@ -129,6 +129,29 @@ app.get('/api/users/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/customerList/:userId', (req, res, next) => {
+  const userId = req.params.userId;
+  if (!parseInt(userId, 10)) {
+    return next(new ClientError('"userId" must be a positive integer', 400));
+  }
+
+  const sql = `
+    select "firstName",
+           "lastName",
+           "phoneNumber",
+           "email"
+    from "customers"
+    where "repId" = $1
+  `;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const customers = result.rows;
+      res.status(200).json(customers);
+    })
+    .catch(err => next(err));
+});
+
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
     res.status(err.status).json({ error: err.message });
