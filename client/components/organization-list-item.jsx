@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 
 export default function OrganizationListItem(props) {
   const classes = useStyles();
-  const { member } = props;
+  const { firstName, lastName, phoneNumber, email } = props.member;
 
   return (
     <Card className={classes.root}>
@@ -35,10 +35,16 @@ export default function OrganizationListItem(props) {
           </Grid>
           <Grid item xs={5}>
             <Typography className={classes.text} color="textSecondary">
-              Name: {`${member.firstName} ${member.lastName}`}
+              Name: {`${firstName} ${lastName}`}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={6}>
+            <Typography className={classes.text} color="textSecondary">
+              Phone: {phoneNumber}
+            </Typography>
+            <Typography className={classes.text} color="textSecondary">
+              Email: {email}
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>

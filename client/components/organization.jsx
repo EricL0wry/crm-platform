@@ -1,13 +1,23 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import AppContext from '../lib/context';
-import MenuAppBar from './menu-app-bar';
 import { Typography } from '@material-ui/core';
 import OrganizationList from './organization-list';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => {
+  return {
+    root: {
+      marginTop: '14px'
+    }
+  };
+});
 
 export default function Organization() {
   const context = useContext(AppContext);
   const userId = context.getUser().userId;
   const [orgData, setOrgData] = useState([]);
+  const classes = useStyles();
+
   useEffect(() => {
     fetch(`/api/org/${userId}`)
       .then(response => response.json())
@@ -19,9 +29,11 @@ export default function Organization() {
 
   return (
     <Fragment>
-      <MenuAppBar />
+      <Typography variant="h4" className={classes.root}>
+        Organization
+      </Typography>
       <Typography variant="h4">
-        Organization Members
+        Members
       </Typography>
       <OrganizationList orgData={orgData}/>
     </Fragment>
