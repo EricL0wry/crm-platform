@@ -11,6 +11,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import BusinessIcon from '@material-ui/icons/Business';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   list: {
@@ -56,11 +57,29 @@ export default function MenuDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Dashboard', 'Tickets', 'Customers', 'Organization'].map((text, index) => (
-          <ListItem button key={text} onClick={null}>
-            {renderIcon(index)}
-            <ListItemText primary={text} />
-          </ListItem>
+        {[{
+          label: 'Dashboard',
+          path: '/'
+        },
+        {
+          label: 'Tickets',
+          path: '/tickets'
+        },
+        {
+          label: 'Customers',
+          path: '/customers'
+        },
+        {
+          label: 'Organization',
+          path: '/organization'
+        }
+        ].map((item, index) => (
+          <Link to={item.path} key={item.label} style={{ textDecoration: 'none' }}>
+            <ListItem button>
+              {renderIcon(index)}
+              <ListItemText primary={item.label} />
+            </ListItem>
+          </Link>
         ))}
       </List>
       <Divider />
@@ -70,7 +89,7 @@ export default function MenuDrawer() {
   return (
     <div>
       <React.Fragment key={'left'}>
-        <MenuIcon onClick={toggleDrawer('left', true)}/>
+        <MenuIcon onClick={toggleDrawer('left', true)} />
         <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
           {list('left')}
         </Drawer>
