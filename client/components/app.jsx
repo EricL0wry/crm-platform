@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from './login';
+import Profile from './profile';
 import DashBoard from './dashboard';
 import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -58,6 +59,7 @@ export default class App extends React.Component {
             <Switch>
               <Route exact path="/" component={DashBoard} />
               {/* <Route path="/" component={Login} /> */}
+              <Route path="/profile" component={Profile} />
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>
