@@ -45,4 +45,168 @@ export default function Profile(props) {
     email
   } = user;
   const classes = useStyles();
+  return (
+    <div className="container classes.root">
+      <MenuAppBar />
+      <Grid container direction="column" alignItems="center" justify="center">
+        <Grid item>
+          <Typography component="span" variant="h5" color="textPrimary">
+            My Profile
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Avatar
+            className={classes.avatarStyles}
+            alt="default"
+            src="/images/default-user-img.JPG"
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container direction="column">
+        <Grid item>
+          <List className="classes.listStyles">
+            <ListItem className={classes.root}>
+              <ListItemText
+                primary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="subtitle1"
+                      color="textPrimary"
+                    >
+                      Name
+                    </Typography>
+                  </Fragment>
+                }
+                secondary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      color="textPrimary"
+                    >
+                      {firstName + ' ' + lastName}
+                    </Typography>
+                  </Fragment>
+                }
+              />
+            </ListItem>
+            <ListItem className={classes.root}>
+              <ListItemText
+                primary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="subtitle1"
+                      color="textPrimary"
+                    >
+                      Company
+                    </Typography>
+                  </Fragment>
+                }
+                secondary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      color="textPrimary"
+                    >
+                      {companyName}
+                    </Typography>
+                  </Fragment>
+                }
+              />
+            </ListItem>
+            <ListItem className={classes.root}>
+              <ListItemText
+                primary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="subtitle1"
+                      color="textPrimary"
+                    >
+                      Job Title
+                    </Typography>
+                  </Fragment>
+                }
+                secondary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      color="textPrimary"
+                    >
+                      {jobTitle}
+                    </Typography>
+                  </Fragment>
+                }
+              />
+            </ListItem>
+            <ListItem className={classes.root}>
+              <ListItemText
+                primary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="subtitle1"
+                      color="textPrimary"
+                    >
+                      Phone
+                    </Typography>
+                  </Fragment>
+                }
+                secondary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      color="textPrimary"
+                    >
+                      {phoneNumber}
+                    </Typography>
+                  </Fragment>
+                }
+              />
+            </ListItem>
+            <ListItem className={classes.root}>
+              <ListItemText
+                primary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="subtitle1"
+                      color="textPrimary"
+                    >
+                      Email
+                    </Typography>
+                  </Fragment>
+                }
+                secondary={
+                  <Fragment>
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      color="textPrimary"
+                    >
+                      {email}
+                    </Typography>
+                  </Fragment>
+                }
+              />
+            </ListItem>
+          </List>
+        </Grid>
+        <Button
+          onClick={context.onLogout}
+          variant="contained"
+          color="secondary"
+          context=""
+        >
+          Log Out
+        </Button>
+      </Grid>
+    </div>
+  );
 }
