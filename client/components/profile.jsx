@@ -33,5 +33,16 @@ export default function Profile(props) {
         setUser(data);
       });
   });
-
+  if (!user) {
+    return null;
+  }
+  const {
+    firstName,
+    lastName,
+    companyName,
+    jobTitle,
+    phoneNumber,
+    email
+  } = user;
+  const classes = useStyles();
 }
