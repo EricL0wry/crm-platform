@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import AppContext from '../lib/context';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -21,33 +20,34 @@ const useStyles = makeStyles({
   }
 });
 
-export default function TicketListItem() {
+export default function TicketListItem(props) {
   const classes = useStyles();
-  const context = useContext(AppContext);
+  const priorities = ['', 'Hign', 'Medium', 'Low'];
+  const ticket = props.ticket;
   return (
     <Card className={classes.root} onClick={null}>
       <CardContent className= {classes.card}>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <Typography className={classes.text} color="textSecondary" >
-              TKT: {1001}
+              TKT: {ticket.ticketId}
             </Typography>
             <Typography className={classes.text} color="textSecondary" >
-              Name: {'Will Billiamson'}
+              Name: {ticket.firstName + ' ' + ticket.lastName}
             </Typography>
             <Typography className={classes.text} color="textSecondary" >
-              Task: {'Send Quote'}
+              Task: {ticket.description}
             </Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography className={classes.text} color="textSecondary" >
-              Priority: {'High'}
+              Priority: {priorities[ticket.priority]}
             </Typography>
             <Typography className={classes.text} color="textSecondary" >
-              Due: {'05/05/20'}
+              Due: {ticket.dueDate}
             </Typography>
             <Typography className={classes.text} color="textSecondary" >
-              Created by: {'Tim'}
+              Created by: {ticket.ownerFirstName + ' ' + ticket.ownerLastName}
             </Typography>
           </Grid>
         </Grid>

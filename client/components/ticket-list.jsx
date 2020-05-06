@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import AppContext from '../lib/context';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,27 +11,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function TicketList() {
+export default function TicketList(props) {
   const classes = useStyles();
-  const context = useContext(AppContext);
-
+  const tickets = props.tickets;
   return (
     <List className={classes.root}>
-      <ListItem disableGutters>
-        <TicketListItem />
-      </ListItem>
-      <ListItem disableGutters>
-        <TicketListItem />
-      </ListItem>
-      <ListItem disableGutters>
-        <TicketListItem />
-      </ListItem>
-      <ListItem disableGutters>
-        <TicketListItem />
-      </ListItem>
-      <ListItem disableGutters>
-        <TicketListItem />
-      </ListItem>
+      {tickets.map((ticket, index) => (
+        <ListItem disableGutters key={index}>
+          <TicketListItem ticket={ticket}/>
+        </ListItem>
+      ))}
     </List>
   );
 }
