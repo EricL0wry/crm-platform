@@ -28,9 +28,20 @@ export default function OrganizationListItem(props) {
 
   return (
     <Card className={classes.root}>
-      <Typography>
-        {member.firstName}
-      </Typography>
+      <CardContent className={classes.card}>
+        <Grid container alignItems="center">
+          <Grid item xs={1}>
+            <Icon>accessibility</Icon>
+          </Grid>
+          <Grid item xs={5}>
+            <Typography className={classes.text} color="textSecondary">
+              Name: {`${member.firstName} ${member.lastName}`}
+            </Typography>
+          </Grid>
+          <Grid item xs={1}>
+          </Grid>
+        </Grid>
+      </CardContent>
     </Card>
   );
 }
