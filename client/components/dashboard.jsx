@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import AppContext from '../lib/context';
-import MenuAppBar from './menu-app-bar';
 import TicketList from './ticket-list';
 import Weather from './weather';
 export default function Dashboard() {
@@ -20,7 +19,6 @@ export default function Dashboard() {
   if (myData !== null) {
     return (
       <Fragment>
-        <MenuAppBar />
         <Weather weather={myData.weather} userInfo={myData.userInfo} />
         <TicketList tickets={myData.ticketList} />
       </Fragment>

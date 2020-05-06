@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar(props) {
   const context = useContext(AppContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -39,6 +39,11 @@ export default function MenuAppBar() {
 
   const handleProfileClicked = () => {
 
+  };
+
+  const handleLogout = () => {
+    context.onLogout();
+    props.history.push('/');
   };
 
   return (
@@ -84,7 +89,7 @@ export default function MenuAppBar() {
               <Link to='/profile' style={{ textDecoration: 'none' }}>
                 <MenuItem >Profile</MenuItem>
               </Link>
-              <MenuItem onClick={context.onLogout}>Logout</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>
