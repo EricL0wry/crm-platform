@@ -45,6 +45,8 @@ export default function Profile(props) {
     email
   } = user;
   const classes = useStyles();
+  const context = useContext(AppContext);
+
   return (
     <div className="container classes.root">
       <MenuAppBar />
