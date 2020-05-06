@@ -3,6 +3,7 @@ import Login from './login';
 import DashBoard from './dashboard';
 import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Organization from './organization';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -56,7 +57,7 @@ export default class App extends React.Component {
         <AppContext.Provider value={this.contextValue}>
           <BrowserRouter>
             <Switch>
-              <Route exact path="/" component={DashBoard} />
+              <Route exact path="/" component={Organization} />
               {/* <Route path="/" component={Login} /> */}
             </Switch>
           </BrowserRouter>

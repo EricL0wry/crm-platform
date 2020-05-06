@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import OrganizationListItem from './organization-list-item';
 
 export default function OrganizationList(props) {
 
   return (
-    <h1>organization list</h1>
+    <Fragment>
+      <OrganizationListItem />
+    </Fragment>
   );
 }

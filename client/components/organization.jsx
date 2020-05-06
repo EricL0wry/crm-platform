@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import AppContext from '../lib/context';
 import MenuAppBar from './menu-app-bar';
 import { Typography } from '@material-ui/core';
+import OrganizationList from './organization-list';
 
 export default function Organization() {
   const context = useContext(AppContext);
@@ -12,7 +13,6 @@ export default function Organization() {
       .then(response => response.json())
       .then(data => {
         setCustomerData(data);
-        console.log(data);
       })
       .catch(error => console.error('unable to fetch customer data', error));
   }, []);
@@ -23,6 +23,7 @@ export default function Organization() {
       <Typography variant="h4">
         Organization Members
       </Typography>
+      <OrganizationList customerData={customerData}/>
     </Fragment>
   );
 }
