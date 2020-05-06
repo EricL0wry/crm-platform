@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MenuDrawer from './menu-drawer';
 
 const useStyles = makeStyles(theme => ({
@@ -42,7 +42,6 @@ export default function MenuAppBar() {
   };
 
   return (
-    // <BrowserRouter>
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
@@ -86,15 +85,10 @@ export default function MenuAppBar() {
                 <MenuItem >Profile</MenuItem>
               </Link>
               <MenuItem onClick={context.onLogout}>Logout</MenuItem>
-              {/* <Link to='/profile' style={{ textDecoration: 'none' }}>
-                  <MenuItem onClick={handleProfileClicked}>Profile</MenuItem>
-                </Link>
-                <MenuItem onClick={handleLogoutClicked}>Logout</MenuItem> */}
             </Menu>
           </div>
         </Toolbar>
       </AppBar>
     </div>
-
   );
 }
