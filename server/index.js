@@ -44,8 +44,8 @@ app.post('/api/login', (req, res, next) => {
 
 app.get('/api/dashboard/:userId', (req, res, next) => {
   const { userId } = req.params;
-  if (!parseInt(userId, 10)) {
-    return next(new ClientError('"userId" must be a positive integer', 400));
+  if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
+    return next(new ClientError('userId must be a positive integer', 400));
   }
 
   const params = [userId];
@@ -139,8 +139,8 @@ app.get('/api/users/:userId', (req, res, next) => {
 
 app.get('/api/customerlist/:userId', (req, res, next) => {
   const userId = req.params.userId;
-  if (!parseInt(userId, 10)) {
-    return next(new ClientError('"userId" must be a positive integer', 400));
+  if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
+    return next(new ClientError('userId must be a positive integer', 400));
   }
 
   const sql = `
@@ -162,8 +162,8 @@ app.get('/api/customerlist/:userId', (req, res, next) => {
 
 app.get('/api/org/:userId', (req, res, next) => {
   const { userId } = req.params;
-  if (!parseInt(userId, 10)) {
-    return next(new ClientError('"userId" must be a positive integer', 400));
+  if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
+    return next(new ClientError('userId must be a positive integer', 400));
   }
 
   const params = [userId];
