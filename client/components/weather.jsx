@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import AppContext from '../lib/context';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -26,38 +25,30 @@ const useStyles = makeStyles({
 
 });
 
-export default function Weather() {
+export default function Weather(props) {
   const classes = useStyles();
-  const context = useContext(AppContext);
+  const d = new Date();
+  const n = d.getDay();
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const day = days[n];
+  const icon = props.weather.weather[0].icon;
+  const url = 'https://openweathermap.org/img/wn/' + icon + '@2x.png';
   return (
     <Card className={classes.root}>
       <CardContent>
         <Grid container spacing={3} justify="space-between">
           <Grid item xs={12}>
             <Typography className={classes.header} color="textSecondary">
-              Good Morning <br />{'John'}
+              Good Morning <br />{props.userInfo.firstName}
             </Typography>
             <Typography className={classes.text} color="textSecondary">
-              Here is the weather for the next 3 days
+              Here is the current weather information at {props.weather.name}
             </Typography>
-
           </Grid>
-          <Grid item xs={4}>
-            <Avatar alt="" src="https://openweathermap.org/img/wn/01d@2x.png" className={classes.marginAutoItem}/>
+          <Grid className= {classes.marginAutoItem} item xs={4}>
+            <Avatar alt="" src={url} className={classes.marginAutoItem}/>
             <Typography className={classes.text} color="textSecondary">
-              {'Monday'}
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Avatar alt="" src="https://openweathermap.org/img/wn/01d@2x.png" className={classes.marginAutoItem}/>
-            <Typography className={classes.text} color="textSecondary">
-              {'Tuesday'}
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Avatar alt="" src="https://openweathermap.org/img/wn/03n@2x.png" className={classes.marginAutoItem} />
-            <Typography className={classes.text} color="textSecondary" >
-              {'Wednesday'}
+              {day}
             </Typography>
           </Grid>
         </Grid>
