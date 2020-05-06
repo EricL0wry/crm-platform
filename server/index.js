@@ -43,8 +43,12 @@ app.post('/api/login', (req, res, next) => {
 });
 
 app.get('/api/dashboard/:userId', (req, res, next) => {
-  const params = [req.params.userId];
+  const { userId } = req.params;
+  if (!parseInt(userId, 10)) {
+    return next(new ClientError('"userId" must be a positive integer', 400));
+  }
 
+  const params = [userId];
   const userQuery = `
     select "firstName",
            "addressZip"
@@ -65,9 +69,13 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
               "t"."priority",
               "t"."dueDate",
               "c"."firstName",
-              "c"."lastName"
+              "c"."lastName",
+              "u"."firstName" as "ownerFirstName",
+              "u"."lastName" as "ownerLastName"
           from "tickets" as "t"
           join "customers" as "c" using ("customerId")
+         inner join "users" as "u"
+            on "t"."ownerId" = "u"."userId"
         where "t"."ownerId" = $1
         order by "t"."dueDate" asc
         limit 5;
@@ -127,6 +135,29 @@ app.get('/api/users/:userId', (req, res, next) => {
       }
     })
     .catch(err => next(err));
+});
+
+app.get('/api/org/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  if (!parseInt(userId, 10)) {
+    return next(new ClientError('"userId" must be a positive integer', 400));
+  }
+
+  const params = [userId];
+  const orgQuery = `
+    select "firstName",
+           "lastName",
+           "phoneNumber",
+           "email"
+      from "users"
+     where not "userId" = $1
+  `;
+
+  db.query(orgQuery, params)
+    .then(result => {
+      res.json(result.rows);
+    });
+
 });
 
 app.use((err, req, res, next) => {
