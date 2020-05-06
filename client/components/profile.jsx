@@ -26,4 +26,12 @@ const useStyles = makeStyles(theme => ({
 export default function Profile(props) {
   const [user, setUser] = useState({});
 
+  useEffect(() => {
+    fetch('/api/users/1')
+      .then(res => res.json())
+      .then(data => {
+        setUser(data);
+      });
+  });
+
 }
