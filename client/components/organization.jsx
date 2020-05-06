@@ -7,12 +7,12 @@ import OrganizationList from './organization-list';
 export default function Organization() {
   const context = useContext(AppContext);
   const userId = context.getUser().userId;
-  const [customerData, setCustomerData] = useState(null);
+  const [orgData, setOrgData] = useState([]);
   useEffect(() => {
     fetch(`/api/org/${userId}`)
       .then(response => response.json())
       .then(data => {
-        setCustomerData(data);
+        setOrgData(data);
       })
       .catch(error => console.error('unable to fetch customer data', error));
   }, []);
@@ -23,7 +23,7 @@ export default function Organization() {
       <Typography variant="h4">
         Organization Members
       </Typography>
-      <OrganizationList customerData={customerData}/>
+      <OrganizationList orgData={orgData}/>
     </Fragment>
   );
 }
