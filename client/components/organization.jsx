@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import AppContext from '../lib/context';
 import MenuAppBar from './menu-app-bar';
+import { Typography } from '@material-ui/core';
 
 export default function Organization() {
   const context = useContext(AppContext);
@@ -19,6 +20,9 @@ export default function Organization() {
   return (
     <Fragment>
       <MenuAppBar />
+      <Typography variant="h4">
+        Organization Members
+      </Typography>
     </Fragment>
   );
 }
