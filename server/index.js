@@ -183,6 +183,55 @@ app.get('/api/org/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/customers/:customerId', (req, res, next) => {
+  const id = req.params.customerId;
+  if (id < 0 || id === null) {
+    return next(new ClientError('Valid entry is required.', 400));
+  }
+  const sql = `
+    select "firstName",
+           "lastName",
+           "addressStreet",
+           "addressCity",
+           "addressState",
+           "addressZip",
+           "companyName",
+           "jobTitle",
+           "phoneNumber",
+           "email"
+      from "customers"
+     where "customerId" = $1
+  `;
+  const params = [id];
+  db.query(sql, params)
+    .then(result => {
+      if (!result.rows[0]) {
+        throw new ClientError(`Unable to find  id of ${params[0]}`, 404);
+      } else {
+        const response = { customerInfo: result.rows[0] };
+        return response;
+      }
+    })
+    .then(result => {
+      const response = result;
+      const sql = `
+    select *
+      from "interactions"
+     where "customerId" = $1
+  `;
+      return db.query(sql, params)
+        .then(result => {
+          response.interactions = result.rows;
+          return response;
+        })
+        .catch(err => next(err));
+    })
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => next(err));
+});
+
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
     res.status(err.status).json({ error: err.message });
