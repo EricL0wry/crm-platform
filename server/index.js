@@ -42,6 +42,27 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
+app.get('/api/assignedtickets/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  const sql = `
+        select "t"."ticketId",
+               "t"."description",
+               "t"."priority",
+               "t"."dueDate",
+               "c"."firstName",
+               "c"."lastName",
+               "u"."firstName" as "ownerFirstName",
+               "u"."lastName" as "ownerLastName"
+          from "tickets" as "t"
+          join "customers" as "c" using ("customerId")
+         inner join "users" as "u"
+            on "t"."ownerId" = "u"."userId"
+        where "t"."ownerId" = $1
+        order by "t"."dueDate"
+      `;
+  const params = [userId];
+});
+
 app.get('/api/dashboard/:userId', (req, res, next) => {
   const { userId } = req.params;
   if (!parseInt(userId, 10)) {
@@ -77,7 +98,7 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
          inner join "users" as "u"
             on "t"."ownerId" = "u"."userId"
         where "t"."ownerId" = $1
-        order by "t"."dueDate" asc
+        order by "t"."dueDate"
         limit 5;
       `;
 
