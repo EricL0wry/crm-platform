@@ -260,6 +260,46 @@ app.get('/api/customers/:customerId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/ticket/:ticketId', (req, res, next) => {
+  const { ticketId } = req.params;
+  if (!parseInt(ticketId, 10) || Math.sign(ticketId) !== 1) {
+    return next(new ClientError('ticketId must be a positive integer', 400));
+  }
+
+  const params = [ticketId];
+  const ticketQuery = `
+        select "t"."ticketId",
+          "s"."name" as "status",
+          "p"."name" as "priority",
+          "t"."description",
+          "t"."details",
+          "t"."startDate",
+          "t"."dueDate",
+          "o"."firstName" as "ownerFirstName",
+          "o"."lastName" as "ownerLastName",
+          "a"."firstName" as "assigneeFirstName",
+          "a"."lastName" as "assigneeLastName",
+          "c"."firstName" as "custFirstName",
+          "c"."lastName" as "custLastName"
+      from "tickets" as "t"
+    inner join "ticketPriority" as "p"
+        on "t"."priority" = "p"."priorityId"
+    inner join "ticketStatus" as "s"
+        on "t"."status" = "s"."statusId"
+    inner join "users" as "o"
+        on "t"."ownerId" = "o"."userId"
+    inner join "users" as "a"
+        on "t"."assignedToId" = "a"."userId"
+      join "customers" as "c" using ("customerId")
+    where "t"."ticketId" = $1;
+  `;
+  db.query(ticketQuery, params)
+    .then(result => {
+      res.json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 
 app.post('/api/customers', (req, res, next) => {
   const {
