@@ -42,9 +42,9 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
-app.get('/api/assignedtickets/:userId', (req, res, next) => {
-  const { id } = req.params;
-  if (id < 0 || id === null) {
+app.get('/api/tickets/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  if (userId < 0 || userId === null) {
     return next(new ClientError('Valid entry is required.', 400));
   }
   const sql = `
@@ -63,7 +63,7 @@ app.get('/api/assignedtickets/:userId', (req, res, next) => {
         where "t"."ownerId" = $1
         order by "t"."dueDate"
       `;
-  const params = [id];
+  const params = [userId];
   db.query(sql, params).then(result => {
     if (!result.rows) {
       throw new ClientError('No assigned tickets available', 404);
@@ -75,8 +75,8 @@ app.get('/api/assignedtickets/:userId', (req, res, next) => {
 
 app.get('/api/dashboard/:userId', (req, res, next) => {
   const { userId } = req.params;
-  if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
-    return next(new ClientError('userId must be a positive integer', 400));
+  if (!parseInt(userId, 10)) {
+    return next(new ClientError('"userId" must be a positive integer', 400));
   }
 
   const params = [userId];
@@ -115,12 +115,8 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
       return db.query(ticketQuery, params)
         .then(result => {
           const tickets = result.rows;
-          if (!tickets.length) {
-            next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
-          } else {
-            dashboardResponse.ticketList = tickets;
-            return dashboardResponse;
-          }
+          dashboardResponse.ticketList = tickets;
+          return dashboardResponse;
         })
         .catch(err => next(err));
     })
@@ -170,8 +166,8 @@ app.get('/api/users/:userId', (req, res, next) => {
 
 app.get('/api/customerlist/:userId', (req, res, next) => {
   const userId = req.params.userId;
-  if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
-    return next(new ClientError('userId must be a positive integer', 400));
+  if (!parseInt(userId, 10)) {
+    return next(new ClientError('"userId" must be a positive integer', 400));
   }
 
   const sql = `
@@ -194,8 +190,8 @@ app.get('/api/customerlist/:userId', (req, res, next) => {
 
 app.get('/api/org/:userId', (req, res, next) => {
   const { userId } = req.params;
-  if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
-    return next(new ClientError('userId must be a positive integer', 400));
+  if (!parseInt(userId, 10)) {
+    return next(new ClientError('"userId" must be a positive integer', 400));
   }
 
   const params = [userId];
@@ -203,8 +199,7 @@ app.get('/api/org/:userId', (req, res, next) => {
     select "firstName",
            "lastName",
            "phoneNumber",
-           "email",
-           "userId"
+           "email"
       from "users"
      where not "userId" = $1
   `;
@@ -305,6 +300,7 @@ app.get('/api/ticket/:ticketId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+
 app.post('/api/customers', (req, res, next) => {
   const {
     firstName,
@@ -374,7 +370,7 @@ app.post('/api/customers', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.delete('/api/customer/:customerId', (req, res, next) => {
+app.delete('/api/customers/:customerId', (req, res, next) => {
   const { customerId } = req.params;
   if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
     return next(new ClientError('userId must be a positive integer', 400));
@@ -439,6 +435,7 @@ app.delete('/api/customer/:customerId', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
 
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
