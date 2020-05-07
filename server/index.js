@@ -42,6 +42,37 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
+app.get('/api/assignedtickets/:userId', (req, res, next) => {
+  const { id } = req.params;
+  if (id < 0 || id === null) {
+    return next(new ClientError('Valid entry is required.', 400));
+  }
+  const sql = `
+        select "t"."ticketId",
+               "t"."description",
+               "t"."priority",
+               "t"."dueDate",
+               "c"."firstName",
+               "c"."lastName",
+               "u"."firstName" as "ownerFirstName",
+               "u"."lastName" as "ownerLastName"
+          from "tickets" as "t"
+          join "customers" as "c" using ("customerId")
+         inner join "users" as "u"
+            on "t"."ownerId" = "u"."userId"
+        where "t"."ownerId" = $1
+        order by "t"."dueDate"
+      `;
+  const params = [id];
+  db.query(sql, params).then(result => {
+    if (!result.rows) {
+      throw new ClientError('No assigned tickets available', 404);
+    } else {
+      res.json(result.rows);
+    }
+  });
+});
+
 app.get('/api/dashboard/:userId', (req, res, next) => {
   const { userId } = req.params;
   if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
@@ -77,7 +108,7 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
          inner join "users" as "u"
             on "t"."ownerId" = "u"."userId"
         where "t"."ownerId" = $1
-        order by "t"."dueDate" asc
+        order by "t"."dueDate"
         limit 5;
       `;
 
@@ -230,6 +261,75 @@ app.get('/api/customers/:customerId', (req, res, next) => {
     })
     .then(result => {
       res.json(result);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/customers', (req, res, next) => {
+  const {
+    firstName,
+    lastName,
+    companyName,
+    jobTitle,
+    phoneNumber,
+    email,
+    addressStreet,
+    addressCity,
+    addressState,
+    addressZip,
+    repId
+  } = req.body;
+
+  if (!firstName || firstName.trim().length === 0 ||
+      !lastName || lastName.trim().length === 0 ||
+      !companyName || companyName.trim().length === 0 ||
+      !jobTitle || jobTitle.trim().length === 0 ||
+      !phoneNumber || phoneNumber.trim().length === 0 ||
+      !email || email.trim().length === 0 ||
+      !addressStreet || addressStreet.trim().length === 0 ||
+      !addressCity || addressCity.trim().length === 0 ||
+      !addressState || addressState.trim().length === 0 ||
+      !addressZip || addressZip.trim().length === 0 ||
+      !repId || parseInt(repId, 10) <= 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+  }
+
+  const sql = `
+    insert into "customers"
+       ("firstName",
+        "lastName",
+        "companyName",
+        "jobTitle",
+        "phoneNumber",
+        "email",
+        "addressStreet",
+        "addressCity",
+        "addressState",
+        "addressZip",
+        "repId")
+    values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+    returning *
+  `;
+  const params = [
+    firstName,
+    lastName,
+    companyName,
+    jobTitle,
+    phoneNumber,
+    email,
+    addressStreet,
+    addressCity,
+    addressState,
+    addressZip,
+    repId];
+  db.query(sql, params)
+    .then(result => {
+      const customer = result.rows[0];
+      if (!customer) {
+        throw new ClientError('Customer could not be created', 400);
+      } else {
+        res.status(201).json(customer);
+      }
     })
     .catch(err => next(err));
 });
