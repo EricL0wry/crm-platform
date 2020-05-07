@@ -578,6 +578,7 @@ COPY public.customers ("customerId", "firstName", "lastName", "companyName", "jo
 202	Minerva	Kahane	Yoveo	Web Designer IV	2144646274	mkahane2r@smugmug.com	1922 Lake View Terrace	Dallas	TX	75387	5
 203	Jerrie	de Leon	Abatz	Senior Editor	3038822884	jdeleon2s@businesswire.com	5470 Farragut Parkway	Denver	CO	80255	1
 206	Bill	Just	Cool Inc.	Tester	2131231234	jbill@tester.com	8500 Beverly Blvd	Los Angeles	CA	90048	1
+211	Justin	Bieber	JB Music	Music Guy	3211231234	itsreallyme@justinbieber.com	2301 N Highland Ave	Los Angeles	CA	90068	1
 \.
 
 
@@ -649,7 +650,7 @@ COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle",
 -- Name: customers_customerId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."customers_customerId_seq"', 210, true);
+SELECT pg_catalog.setval('public."customers_customerId_seq"', 214, true);
 
 
 --
