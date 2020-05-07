@@ -49,6 +49,7 @@ export default function NewCustomer() {
       })
       .then(customer => {
         if (customer) {
+          context.openSnackbar('New Customer Added');
           history.push('/customers');
         }
       })
