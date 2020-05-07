@@ -11,6 +11,7 @@ import NewCustomer from './new-customer';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Customer from './customer';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -109,9 +110,12 @@ export default class App extends React.Component {
               <Route exact path="/" component={DashBoard} />
               <Route path="/customers" component={Customers} />
               <Route path="/customer/new" component={NewCustomer} />
+              <Route exact path="/customers" component={Customers} />
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
+              <Route path="/customers/:customerId" component={Customer} />
               <Route path="/organization" component={Organization} />
+
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>

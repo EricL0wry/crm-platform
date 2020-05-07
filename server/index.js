@@ -42,6 +42,37 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
+app.get('/api/assignedtickets/:userId', (req, res, next) => {
+  const { id } = req.params;
+  if (id < 0 || id === null) {
+    return next(new ClientError('Valid entry is required.', 400));
+  }
+  const sql = `
+        select "t"."ticketId",
+               "t"."description",
+               "t"."priority",
+               "t"."dueDate",
+               "c"."firstName",
+               "c"."lastName",
+               "u"."firstName" as "ownerFirstName",
+               "u"."lastName" as "ownerLastName"
+          from "tickets" as "t"
+          join "customers" as "c" using ("customerId")
+         inner join "users" as "u"
+            on "t"."ownerId" = "u"."userId"
+        where "t"."ownerId" = $1
+        order by "t"."dueDate"
+      `;
+  const params = [id];
+  db.query(sql, params).then(result => {
+    if (!result.rows) {
+      throw new ClientError('No assigned tickets available', 404);
+    } else {
+      res.json(result.rows);
+    }
+  });
+});
+
 app.get('/api/dashboard/:userId', (req, res, next) => {
   const { userId } = req.params;
   if (!parseInt(userId, 10) || Math.sign(userId) !== 1) {
@@ -77,7 +108,7 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
          inner join "users" as "u"
             on "t"."ownerId" = "u"."userId"
         where "t"."ownerId" = $1
-        order by "t"."dueDate" asc
+        order by "t"."dueDate"
         limit 5;
       `;
 
@@ -299,6 +330,72 @@ app.post('/api/customers', (req, res, next) => {
       } else {
         res.status(201).json(customer);
       }
+    })
+    .catch(err => next(err));
+});
+
+app.delete('/api/customer/:customerId', (req, res, next) => {
+  const { customerId } = req.params;
+  if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
+    return next(new ClientError('userId must be a positive integer', 400));
+  }
+
+  const params = [customerId];
+  const customerQuery = `
+    select *
+      from "customers"
+     where "customerId" = $1;
+  `;
+  db.query(customerQuery, params)
+    .then(result => {
+      const customer = result.rows[0];
+      if (!customer) {
+        throw next(new ClientError(`There were zero customers found for customerId ${params[0]}`, 404));
+      } else {
+        return customer.customerId;
+      }
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const ticketQuery = `
+        delete from "tickets"
+         where "customerId" = $1;
+      `;
+      return db.query(ticketQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const interactionQuery = `
+        delete from "interactions"
+         where "customerId" = $1;
+      `;
+      return db.query(interactionQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const customerQuery = `
+        delete from "customers"
+         where "customerId" = $1;
+      `;
+      return db.query(customerQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      res.status(204).json();
     })
     .catch(err => next(err));
 });
