@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import MenuDrawer from './menu-drawer';
 
 const useStyles = makeStyles(theme => ({
@@ -28,6 +28,7 @@ export default function MenuAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const history = useHistory();
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -43,7 +44,7 @@ export default function MenuAppBar(props) {
 
   const handleLogout = () => {
     context.onLogout();
-    props.history.push('/');
+    history.push('/');
   };
 
   return (

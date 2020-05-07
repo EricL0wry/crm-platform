@@ -334,6 +334,72 @@ app.post('/api/customers', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.delete('/api/customer/:customerId', (req, res, next) => {
+  const { customerId } = req.params;
+  if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
+    return next(new ClientError('userId must be a positive integer', 400));
+  }
+
+  const params = [customerId];
+  const customerQuery = `
+    select *
+      from "customers"
+     where "customerId" = $1;
+  `;
+  db.query(customerQuery, params)
+    .then(result => {
+      const customer = result.rows[0];
+      if (!customer) {
+        throw next(new ClientError(`There were zero customers found for customerId ${params[0]}`, 404));
+      } else {
+        return customer.customerId;
+      }
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const ticketQuery = `
+        delete from "tickets"
+         where "customerId" = $1;
+      `;
+      return db.query(ticketQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const interactionQuery = `
+        delete from "interactions"
+         where "customerId" = $1;
+      `;
+      return db.query(interactionQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const customerQuery = `
+        delete from "customers"
+         where "customerId" = $1;
+      `;
+      return db.query(customerQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      res.status(204).json();
+    })
+    .catch(err => next(err));
+});
+
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
     res.status(err.status).json({ error: err.message });
