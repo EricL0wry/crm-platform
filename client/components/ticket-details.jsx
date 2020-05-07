@@ -5,6 +5,7 @@ import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/Icon';
+import TicketDetailList from './ticket-details-list';
 
 const useStyles = makeStyles(theme => {
   return {
