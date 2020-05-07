@@ -114,11 +114,11 @@ export default class App extends React.Component {
               <Route exact path="/customers" component={Customers} />
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
-              <Route path="/customers/:customerId" component={Customer} />
+              <Route exact path="/customers/:customerId" component={Customer} />
               <Route path="/organization" component={Organization} />
               <Route path="/tickets/:userId" component={AssignedTickets}></Route>
               <Route path="/ticket/new" component={NewTicket} />
-
+              <Route path="/customers/:customerId/newInteraction" component={null}></Route>
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>

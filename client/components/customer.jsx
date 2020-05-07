@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/Icon';
-import { useParams, useHistory } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import CustomerInfo from './customer-info';
 import InteractionList from './interaction-list';
 import AlertDialog from './alert-dialog';
@@ -44,11 +44,19 @@ export default function Customer() {
         </Box>
         <CustomerInfo customerInfo={customerData.customerInfo} />
         {customerData.interactions.length === 0 ? (
-          <Typography variant="h4"
-            color="textSecondary"
-            align='center'>
+          <Fragment>
+            <Typography variant="h4">
+              Interactions
+              <Link to={`/customers/${customerId}/newInteraction`} style={{ textDecoration: 'none', minWidth: '100%' }}>
+                <IconButton>add_circle</IconButton>
+              </Link>
+            </Typography>
+            <Typography variant="h4"
+              color="textSecondary"
+              align='center'>
             There is no interaction record
-          </Typography>
+            </Typography>
+          </Fragment>
         ) : (
           <InteractionList interactions = {customerData.interactions} />
         )}
