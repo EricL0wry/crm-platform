@@ -73,6 +73,58 @@ app.get('/api/tickets/:userId', (req, res, next) => {
   });
 });
 
+app.post('/api/tickets', (req, res, next) => {
+  const {
+    status,
+    priority,
+    description,
+    details,
+    startDate,
+    dueDate,
+    ownerId,
+    assignedToId,
+    customerId
+  } = req.body;
+
+  if (!status || parseInt(status, 10) <= 0 ||
+    !priority || parseInt(priority, 10) === 0 ||
+    !description || description.trim().length === 0 ||
+    !details || details.trim().length === 0 ||
+    !startDate || parseInt(startDate, 10) <= 0 ||
+    !dueDate || parseInt(dueDate, 10) <= 0 ||
+    !ownerId || parseInt(ownerId, 10) <= 0 ||
+    !assignedToId || parseInt(assignedToId, 10) <= 0 ||
+    !customerId || parseInt(customerId, 10) <= 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+  }
+
+  const sql = `
+    insert into "tickets"
+      ("status",
+       "priority",
+       "description",
+       "details",
+       "startDate",
+       "dueDate",
+       "ownerId",
+       "assignedToId",
+       "customerId")
+    values ($1, $2, $3, $4, to_timestamp($5 / 1000.0), to_timestamp($6 / 1000.0), $7, $8, $9)
+    returning *
+  `;
+  const params = [status, priority, description, details, startDate, dueDate, ownerId, assignedToId, customerId];
+  db.query(sql, params)
+    .then(result => {
+      const ticket = result.rows[0];
+      if (!ticket) {
+        throw new ClientError('ticket could not be created', 400);
+      } else {
+        res.status(201).json(ticket);
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/dashboard/:userId', (req, res, next) => {
   const { userId } = req.params;
   if (!parseInt(userId, 10)) {
