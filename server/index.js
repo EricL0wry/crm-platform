@@ -43,7 +43,10 @@ app.post('/api/login', (req, res, next) => {
 });
 
 app.get('/api/assignedtickets/:userId', (req, res, next) => {
-  const { userId } = req.params;
+  const { id } = req.params;
+  if (id < 0 || id === null) {
+    return next(new ClientError('Valid entry is required.', 400));
+  }
   const sql = `
         select "t"."ticketId",
                "t"."description",
@@ -60,7 +63,7 @@ app.get('/api/assignedtickets/:userId', (req, res, next) => {
         where "t"."ownerId" = $1
         order by "t"."dueDate"
       `;
-  const params = [userId];
+  const params = [id];
   db.query(sql, params).then(result => {
     if (!result.rows) {
       throw new ClientError('No assigned tickets available', 404);
