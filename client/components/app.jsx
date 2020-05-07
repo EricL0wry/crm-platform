@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Customer from './customer';
 
+import TicketDetails from './ticket-details';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -116,7 +118,7 @@ export default class App extends React.Component {
               <Route path="/customers/:customerId" component={Customer} />
               <Route path="/organization" component={Organization} />
               <Route path="/tickets/:userId" component={AssignedTickets}></Route>
-
+              <Route path="/ticket/:ticketId" component={TicketDetails}></Route>
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>
