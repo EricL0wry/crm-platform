@@ -38,10 +38,10 @@ export default function TicketDetailsList(props) {
 
   return (
     <List className={classes.list}>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         <Grid className={classes.grey} item xs={4}>
           <Typography>
-            Ticket Number
+            Ticket #
           </Typography>
         </Grid>
         <Grid item xs={8}>
