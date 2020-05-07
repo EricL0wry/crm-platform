@@ -7,6 +7,7 @@ import Organization from './organization';
 import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MenuAppBar from './menu-app-bar';
+import NewCustomer from './new-customer';
 import Customer from './customer';
 
 export default class App extends React.Component {
@@ -63,6 +64,8 @@ export default class App extends React.Component {
             <MenuAppBar />
             <Switch>
               <Route exact path="/" component={DashBoard} />
+              <Route path="/customers" component={Customers} />
+              <Route path="/customer/new" component={NewCustomer} />
               <Route exact path="/customers" component={Customers} />
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
