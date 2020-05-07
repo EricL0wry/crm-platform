@@ -264,6 +264,143 @@ app.get('/api/customers/:customerId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+
+app.post('/api/customers', (req, res, next) => {
+  const {
+    firstName,
+    lastName,
+    companyName,
+    jobTitle,
+    phoneNumber,
+    email,
+    addressStreet,
+    addressCity,
+    addressState,
+    addressZip,
+    repId
+  } = req.body;
+
+  if (!firstName || firstName.trim().length === 0 ||
+      !lastName || lastName.trim().length === 0 ||
+      !companyName || companyName.trim().length === 0 ||
+      !jobTitle || jobTitle.trim().length === 0 ||
+      !phoneNumber || phoneNumber.trim().length === 0 ||
+      !email || email.trim().length === 0 ||
+      !addressStreet || addressStreet.trim().length === 0 ||
+      !addressCity || addressCity.trim().length === 0 ||
+      !addressState || addressState.trim().length === 0 ||
+      !addressZip || addressZip.trim().length === 0 ||
+      !repId || parseInt(repId, 10) <= 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+  }
+
+  const sql = `
+    insert into "customers"
+       ("firstName",
+        "lastName",
+        "companyName",
+        "jobTitle",
+        "phoneNumber",
+        "email",
+        "addressStreet",
+        "addressCity",
+        "addressState",
+        "addressZip",
+        "repId")
+    values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+    returning *
+  `;
+  const params = [
+    firstName,
+    lastName,
+    companyName,
+    jobTitle,
+    phoneNumber,
+    email,
+    addressStreet,
+    addressCity,
+    addressState,
+    addressZip,
+    repId];
+  db.query(sql, params)
+    .then(result => {
+      const customer = result.rows[0];
+      if (!customer) {
+        throw new ClientError('Customer could not be created', 400);
+      } else {
+        res.status(201).json(customer);
+      }
+    })
+    .catch(err => next(err));
+});
+
+app.delete('/api/customer/:customerId', (req, res, next) => {
+  const { customerId } = req.params;
+  if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
+    return next(new ClientError('userId must be a positive integer', 400));
+  }
+
+  const params = [customerId];
+  const customerQuery = `
+    select *
+      from "customers"
+     where "customerId" = $1;
+  `;
+  db.query(customerQuery, params)
+    .then(result => {
+      const customer = result.rows[0];
+      if (!customer) {
+        throw next(new ClientError(`There were zero customers found for customerId ${params[0]}`, 404));
+      } else {
+        return customer.customerId;
+      }
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const ticketQuery = `
+        delete from "tickets"
+         where "customerId" = $1;
+      `;
+      return db.query(ticketQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const interactionQuery = `
+        delete from "interactions"
+         where "customerId" = $1;
+      `;
+      return db.query(interactionQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      const params = [customerId];
+      const customerQuery = `
+        delete from "customers"
+         where "customerId" = $1;
+      `;
+      return db.query(customerQuery, params)
+        .then(result => {
+          const customerId = params[0];
+          return customerId;
+        })
+        .catch(err => next(err));
+    })
+    .then(customerId => {
+      res.status(204).json();
+    })
+    .catch(err => next(err));
+});
+
+
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
     res.status(err.status).json({ error: err.message });
