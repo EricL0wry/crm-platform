@@ -8,6 +8,7 @@ import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MenuAppBar from './menu-app-bar';
 import NewCustomer from './new-customer';
+import Customer from './customer';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -65,9 +66,12 @@ export default class App extends React.Component {
               <Route exact path="/" component={DashBoard} />
               <Route path="/customers" component={Customers} />
               <Route path="/customer/new" component={NewCustomer} />
+              <Route exact path="/customers" component={Customers} />
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
+              <Route path="/customers/:customerId" component={Customer} />
               <Route path="/organization" component={Organization} />
+
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>
