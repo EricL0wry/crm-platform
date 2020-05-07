@@ -73,6 +73,54 @@ app.get('/api/tickets/:userId', (req, res, next) => {
   });
 });
 
+app.get('/api/tickets/newform/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  if (!userId || parseInt(userId, 10) <= 0) {
+    return next(new ClientError('param "userId" must be included', 400));
+  }
+
+  const sql = `
+    select "customerId",
+           "firstName",
+           "lastName"
+      from "customers"
+     where "repId" = $1
+  `;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const customers = result.rows;
+      if (customers.length === 0) {
+        throw new ClientError('this user has no customers', 404);
+      }
+      const sql = `
+        select *
+        from "ticketPriority"
+      `;
+      return db.query(sql)
+        .then(result => {
+          const ticketPriorities = result.rows;
+          if (ticketPriorities.length === 0) {
+            throw new ClientError('there are no available ticket priorities', 404);
+          }
+          const sql = `
+            select "userId", "firstName", "lastName"
+            from "users"
+          `;
+          return db.query(sql)
+            .then(result => {
+              const users = result.rows;
+              const response = {};
+              response.customers = customers;
+              response.ticketPriorities = ticketPriorities;
+              response.users = users;
+              res.status(200).json(response);
+            });
+        });
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/tickets', (req, res, next) => {
   const {
     status,
@@ -91,9 +139,7 @@ app.post('/api/tickets', (req, res, next) => {
     !description || description.trim().length === 0 ||
     !details || details.trim().length === 0 ||
     !startDate || parseInt(startDate, 10) <= 0 ||
-    !dueDate || parseInt(dueDate, 10) <= 0 ||
     !ownerId || parseInt(ownerId, 10) <= 0 ||
-    !assignedToId || parseInt(assignedToId, 10) <= 0 ||
     !customerId || parseInt(customerId, 10) <= 0) {
     return next(new ClientError('either missing field or in improper format', 400));
   }
