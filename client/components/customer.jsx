@@ -29,7 +29,7 @@ export default function Customer() {
           <IconButton>delete</IconButton>
         </Typography>
         <CustomerInfo customerInfo={customerData.customerInfo} />
-        {/* <InteractionList interaction={customerData.interactions} /> */}
+        <InteractionList interactions={customerData.interactions} />
       </Fragment>
     );
   } else {
