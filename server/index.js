@@ -61,6 +61,13 @@ app.get('/api/assignedtickets/:userId', (req, res, next) => {
         order by "t"."dueDate"
       `;
   const params = [userId];
+  db.query(sql, params).then(result => {
+    if (!result.rows) {
+      throw new ClientError('No assigned tickets available', 404);
+    } else {
+      res.json(result.rows);
+    }
+  });
 });
 
 app.get('/api/dashboard/:userId', (req, res, next) => {
