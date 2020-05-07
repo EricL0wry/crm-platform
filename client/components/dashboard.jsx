@@ -2,8 +2,9 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import AppContext from '../lib/context';
 import TicketList from './ticket-list';
 import Weather from './weather';
-export default function Dashboard() {
+import Typography from '@material-ui/core/Typography';
 
+export default function Dashboard() {
   const context = useContext(AppContext);
   const userId = context.getUser().userId;
   const [myData, setMyData] = useState(null);
@@ -20,7 +21,15 @@ export default function Dashboard() {
     return (
       <Fragment>
         <Weather weather={myData.weather} userInfo={myData.userInfo} />
-        <TicketList tickets={myData.ticketList} />
+        {myData.ticketList.length === 0 ? (
+          <Typography variant="h4"
+            color="textSecondary"
+            align = 'center'>
+            There is no ticket
+          </Typography>
+        ) : (
+          <TicketList tickets={myData.ticketList} />
+        )}
       </Fragment>
     );
   } else {

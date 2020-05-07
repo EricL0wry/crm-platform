@@ -28,6 +28,10 @@ export default function NewCustomer() {
     setState(newState);
   };
 
+  const handleCancel = () => {
+    history.push('/customers');
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
     const newCustomer = Object.assign({}, state);
@@ -185,7 +189,7 @@ export default function NewCustomer() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Button
-              type="submit"
+              onClick={handleCancel}
               fullWidth
               variant="contained"
             >

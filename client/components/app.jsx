@@ -109,7 +109,6 @@ export default class App extends React.Component {
             <MenuAppBar />
             <Switch>
               <Route exact path="/" component={DashBoard} />
-              <Route path="/customers" component={Customers} />
               <Route path="/customer/new" component={NewCustomer} />
               <Route exact path="/customers" component={Customers} />
               <Route path="/login" component={Login} />
@@ -117,6 +116,7 @@ export default class App extends React.Component {
               <Route path="/customers/:customerId" component={Customer} />
               <Route path="/organization" component={Organization} />
               <Route path="/tickets/:userId" component={AssignedTickets}></Route>
+
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>
