@@ -115,12 +115,8 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
       return db.query(ticketQuery, params)
         .then(result => {
           const tickets = result.rows;
-          if (!tickets.length) {
-            next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
-          } else {
-            dashboardResponse.ticketList = tickets;
-            return dashboardResponse;
-          }
+          dashboardResponse.ticketList = tickets;
+          return dashboardResponse;
         })
         .catch(err => next(err));
     })
@@ -334,7 +330,7 @@ app.post('/api/customers', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.delete('/api/customer/:customerId', (req, res, next) => {
+app.delete('/api/customers/:customerId', (req, res, next) => {
   const { customerId } = req.params;
   if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
     return next(new ClientError('userId must be a positive integer', 400));
