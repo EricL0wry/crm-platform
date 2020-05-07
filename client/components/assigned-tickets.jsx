@@ -8,7 +8,7 @@ import TicketList from './ticket-list';
 
 const useStyles = makeStyles(theme => ({
   addButton: {
-    marginLeft: theme.spacing(12)
+    marginLeft: theme.spacing(26)
   },
   titleStyles: {
     marginTop: theme.spacing(2)
@@ -33,7 +33,7 @@ export default function AssignedTickets() {
     return (
       <Fragment>
         <Typography className={classes.titleStyles} variant="h4">
-          My Customers
+          Tickets
           <Link className={classes.addButton} to="/customer/new">
             <IconButton>add_circle</IconButton>
           </Link>
