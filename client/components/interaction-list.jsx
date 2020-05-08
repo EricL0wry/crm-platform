@@ -32,7 +32,9 @@ export default function InteractionList(props) {
       <List className={classes.root} style={{ textDecoration: 'none' }}>
         {interactions.map((interaction, index) => (
           <ListItem disableGutters key={index} className={classes.listItem} >
-            <InteractionListItem interaction={interaction} />
+            <InteractionListItem interaction={interaction}
+              customerId={props.customerId}
+              getCustomers={props.getCustomers}/>
           </ListItem>
         ))}
       </List>
