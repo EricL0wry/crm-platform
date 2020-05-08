@@ -13,18 +13,19 @@ const useStyles = makeStyles({
 
 export default function InteractionListItem(props) {
   const classes = useStyles();
+  const date = new Date(props.interaction.timeCreated);
   return (
     <Fragment>
       <Grid container className={classes.root} spacing={1}>
         <Grid container item xs={12} spacing={1}>
           <Grid item xs={6}>
             <Typography className={classes.text} color="textSecondary">
-              Date: {props.interaction.timeCreated.substring(0, 10)}
+              Date: {date.toDateString()}
             </Typography>
           </Grid>
           <Grid item xs={6} align='right'>
             <Typography className={classes.text} color="textSecondary">
-              Time: {props.interaction.timeCreated.substring(11, 19)}
+              Time: {date.toTimeString().substring(0, 5)}
             </Typography>
           </Grid>
         </Grid>
