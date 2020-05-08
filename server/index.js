@@ -374,6 +374,74 @@ app.get('/api/org/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.put('/api/customers/', (req, res, next) => {
+  const {
+    customerId,
+    firstName,
+    lastName,
+    companyName,
+    jobTitle,
+    phoneNumber,
+    email,
+    addressStreet,
+    addressCity,
+    addressState,
+    addressZip
+  } = req.body;
+
+  if (!customerId || parseInt(customerId, 10) <= 0 ||
+    !firstName || firstName.trim().length === 0 ||
+    !lastName || lastName.trim().length === 0 ||
+    !companyName || companyName.trim().length === 0 ||
+    !jobTitle || jobTitle.trim().length === 0 ||
+    !phoneNumber || phoneNumber.trim().length === 0 ||
+    !email || email.trim().length === 0 ||
+    !addressStreet || addressStreet.trim().length === 0 ||
+    !addressCity || addressCity.trim().length === 0 ||
+    !addressState || addressState.trim().length === 0 ||
+    !addressZip || addressZip.trim().length === 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+  }
+
+  const sql = `
+    update "customers"
+       set "firstName" = $1,
+           "lastName" = $2,
+           "companyName" = $3,
+           "jobTitle" = $4,
+           "phoneNumber" = $5,
+           "email" = $6,
+           "addressStreet" = $7,
+           "addressCity" = $8,
+           "addressState" = $9,
+           "addressZip" = $10
+     where "customerId" = $11
+    returning *
+  `;
+  const params = [
+    firstName,
+    lastName,
+    companyName,
+    jobTitle,
+    phoneNumber,
+    email,
+    addressStreet,
+    addressCity,
+    addressState,
+    addressZip,
+    customerId];
+  db.query(sql, params)
+    .then(result => {
+      const customer = result.rows[0];
+      if (!customer) {
+        throw new ClientError('Customer could not be found', 404);
+      } else {
+        res.status(201).json(customer);
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/customers/:customerId', (req, res, next) => {
   const id = req.params.customerId;
   if (id < 0 || id === null) {
