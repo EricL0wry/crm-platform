@@ -13,4 +13,16 @@ import DateFnsUtils from '@date-io/date-fns';
 export default function updateTicket() {
   const history = useHistory();
   const context = useContext(AppContext);
+  const [ticket, setTicket] = useState({
+    customeerId: '',
+    assignedToId: '',
+    priority: '',
+    status: '',
+    dueDate: new Date(),
+    description: '',
+    details: ''
+  });
+  const [users, setUsers] = useState([]);
+  const [priorities, setPriorities] = useState([]);
+  const [status, setStatus] = useState([]);
 }
