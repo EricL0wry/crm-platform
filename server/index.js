@@ -73,6 +73,104 @@ app.get('/api/tickets/:userId', (req, res, next) => {
   });
 });
 
+app.get('/api/tickets/newform/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  if (!userId || parseInt(userId, 10) <= 0) {
+    return next(new ClientError('param "userId" must be included', 400));
+  }
+
+  const sql = `
+    select "customerId",
+           "firstName",
+           "lastName"
+      from "customers"
+     where "repId" = $1
+  `;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const customers = result.rows;
+      if (customers.length === 0) {
+        throw new ClientError('this user has no customers', 404);
+      }
+      const sql = `
+        select *
+        from "ticketPriority"
+      `;
+      return db.query(sql)
+        .then(result => {
+          const ticketPriorities = result.rows;
+          if (ticketPriorities.length === 0) {
+            throw new ClientError('there are no available ticket priorities', 404);
+          }
+          const sql = `
+            select "userId", "firstName", "lastName"
+            from "users"
+          `;
+          return db.query(sql)
+            .then(result => {
+              const users = result.rows;
+              const response = {};
+              response.customers = customers;
+              response.ticketPriorities = ticketPriorities;
+              response.users = users;
+              res.status(200).json(response);
+            });
+        });
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/tickets', (req, res, next) => {
+  const {
+    status,
+    priority,
+    description,
+    details,
+    startDate,
+    dueDate,
+    ownerId,
+    assignedToId,
+    customerId
+  } = req.body;
+
+  if (!status || parseInt(status, 10) <= 0 ||
+    !priority || parseInt(priority, 10) === 0 ||
+    !description || description.trim().length === 0 ||
+    !details || details.trim().length === 0 ||
+    !startDate || parseInt(startDate, 10) <= 0 ||
+    !ownerId || parseInt(ownerId, 10) <= 0 ||
+    !customerId || parseInt(customerId, 10) <= 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+  }
+
+  const sql = `
+    insert into "tickets"
+      ("status",
+       "priority",
+       "description",
+       "details",
+       "startDate",
+       "dueDate",
+       "ownerId",
+       "assignedToId",
+       "customerId")
+    values ($1, $2, $3, $4, to_timestamp($5 / 1000.0), to_timestamp($6 / 1000.0), $7, $8, $9)
+    returning *
+  `;
+  const params = [status, priority, description, details, startDate, dueDate, ownerId, assignedToId, customerId];
+  db.query(sql, params)
+    .then(result => {
+      const ticket = result.rows[0];
+      if (!ticket) {
+        throw new ClientError('ticket could not be created', 400);
+      } else {
+        res.status(201).json(ticket);
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/dashboard/:userId', (req, res, next) => {
   const { userId } = req.params;
   if (!parseInt(userId, 10)) {
@@ -115,12 +213,8 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
       return db.query(ticketQuery, params)
         .then(result => {
           const tickets = result.rows;
-          if (!tickets.length) {
-            next(new ClientError(`There were zero tickets found for userId ${params[0]}`, 404));
-          } else {
-            dashboardResponse.ticketList = tickets;
-            return dashboardResponse;
-          }
+          dashboardResponse.ticketList = tickets;
+          return dashboardResponse;
         })
         .catch(err => next(err));
     })
@@ -203,7 +297,8 @@ app.get('/api/org/:userId', (req, res, next) => {
     select "firstName",
            "lastName",
            "phoneNumber",
-           "email"
+           "email",
+           "userId"
       from "users"
      where not "userId" = $1
   `;
@@ -263,6 +358,48 @@ app.get('/api/customers/:customerId', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+
+app.get('/api/ticket/:ticketId', (req, res, next) => {
+  const { ticketId } = req.params;
+  if (!parseInt(ticketId, 10) || Math.sign(ticketId) !== 1) {
+    return next(new ClientError('ticketId must be a positive integer', 400));
+  }
+
+  const params = [ticketId];
+  const ticketQuery = `
+        select "t"."ticketId",
+          "s"."name" as "status",
+          "p"."name" as "priority",
+          "t"."description",
+          "t"."details",
+          "t"."startDate",
+          "t"."dueDate",
+          "o"."firstName" as "ownerFirstName",
+          "o"."lastName" as "ownerLastName",
+          "a"."firstName" as "assigneeFirstName",
+          "a"."lastName" as "assigneeLastName",
+          "c"."firstName" as "custFirstName",
+          "c"."lastName" as "custLastName"
+      from "tickets" as "t"
+    inner join "ticketPriority" as "p"
+        on "t"."priority" = "p"."priorityId"
+    inner join "ticketStatus" as "s"
+        on "t"."status" = "s"."statusId"
+    inner join "users" as "o"
+        on "t"."ownerId" = "o"."userId"
+    inner join "users" as "a"
+        on "t"."assignedToId" = "a"."userId"
+      join "customers" as "c" using ("customerId")
+    where "t"."ticketId" = $1;
+  `;
+  db.query(ticketQuery, params)
+    .then(result => {
+      res.json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 
 app.post('/api/customers', (req, res, next) => {
   const {
@@ -333,6 +470,7 @@ app.post('/api/customers', (req, res, next) => {
     .catch(err => next(err));
 });
 
+
 app.put('/api/tickets', (req, res, next) => {
   const {
     status,
@@ -380,10 +518,10 @@ app.put('/api/tickets', (req, res, next) => {
 
 });
 
-app.delete('/api/customer/:customerId', (req, res, next) => {
+app.delete('/api/customers/:customerId', (req, res, next) => {
   const { customerId } = req.params;
   if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
-    return next(new ClientError('userId must be a positive integer', 400));
+    return{next(new ClientError('userId must be a positive integer', 400));
   }
 
   const params = [customerId];
@@ -442,6 +580,52 @@ app.delete('/api/customer/:customerId', (req, res, next) => {
     })
     .then(customerId => {
       res.status(204).json();
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/interactions', (req, res, next) => {
+  const {
+    type,
+    notes,
+    timeCreated,
+    userId,
+    customerId
+  } = req.body;
+
+  if (!type || type.trim().length === 0 ||
+    !timeCreated ||
+    !notes || notes.trim().length === 0 ||
+    !customerId || parseInt(customerId, 10) <= 0 ||
+    !userId || parseInt(userId, 10) <= 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+  }
+
+  const sql = `
+    insert into "interactions"
+       ("type",
+        "notes",
+        "timeCreated",
+        "userId",
+        "customerId")
+    values ($1, $2, to_timestamp($3 / 1000.0), $4, $5)
+    returning *
+  `;
+  const params = [
+    type,
+    notes,
+    timeCreated,
+    userId,
+    customerId
+  ];
+  db.query(sql, params)
+    .then(result => {
+      const interaction = result.rows[0];
+      if (!interaction) {
+        throw new ClientError('Interaction could not be created', 400);
+      } else {
+        res.status(201).json(interaction);
+      }
     })
     .catch(err => next(err));
 });

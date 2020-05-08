@@ -137,7 +137,7 @@ CREATE TABLE public.interactions (
     notes text NOT NULL,
     "userId" integer NOT NULL,
     "customerId" integer NOT NULL,
-    "timeCreated" timestamp without time zone
+    "timeCreated" timestamp(6) with time zone
 );
 
 
@@ -587,9 +587,22 @@ COPY public.customers ("customerId", "firstName", "lastName", "companyName", "jo
 --
 
 COPY public.interactions ("interactionId", type, notes, "userId", "customerId", "timeCreated") FROM stdin;
-1	by phone	talked to Will about his name	1	1	2020-05-05 16:00:22.84152
-2	email	followed up with Carmela about our meeting	1	121	2020-05-05 16:00:22.84152
-3	in person	Cherie asked for more info about our current promotions	1	26	2020-05-05 16:00:22.84152
+1	by phone	talked to Will about his name	1	1	2020-05-05 16:00:22.84152-07
+2	email	followed up with Carmela about our meeting	1	121	2020-05-05 16:00:22.84152-07
+3	in person	Cherie asked for more info about our current promotions	1	26	2020-05-05 16:00:22.84152-07
+4	Test	fdgdgdf	1	20	2020-05-07 17:24:25.142-07
+5	dfgshsfgdh	gfdhdfgh	1	20	2020-05-07 17:26:56.286-07
+6	IN person 	Test	1	33	2020-05-07 17:33:23.3-07
+7	drfgdfg	gfhfgh	1	33	2020-05-07 18:00:14.009-07
+8	Test	Test	1	33	2020-05-08 00:38:57.352-07
+9	Test	fdhdfgdgdg	1	203	2020-05-07 17:43:50.336-07
+10	Test	dsfdsf	1	203	2020-05-07 17:48:54.035-07
+11	hfghdhdg	dghdh	1	203	2020-05-07 18:02:03.708-07
+12	dfgdfgdfdf	gdfgdfg	1	1	2020-05-07 18:20:13.796-07
+13	fghfgh	fghgfh	1	1	2020-05-07 18:21:04.693-07
+14	fghgfh	fghfgh	1	1	2020-05-07 18:21:41.026-07
+15	fdgdfgdfg	dfgdfg	1	32	2020-05-07 18:23:15.638-07
+16	gdfgdfgdfg	fdgdfgdfgdfg	1	33	2020-05-07 18:23:29.415-07
 \.
 
 
@@ -657,7 +670,7 @@ SELECT pg_catalog.setval('public."customers_customerId_seq"', 214, true);
 -- Name: interactions_interactionId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."interactions_interactionId_seq"', 3, true);
+SELECT pg_catalog.setval('public."interactions_interactionId_seq"', 16, true);
 
 
 --
