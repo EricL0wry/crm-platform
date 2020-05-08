@@ -121,6 +121,70 @@ app.get('/api/tickets/newform/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/tickets/editform/:ticketId', (req, res, next) => {
+  const { ticketId } = req.params;
+  if (!ticketId || parseInt(ticketId, 10) <= 0) {
+    return next(new ClientError('param "ticketId" must be included', 400));
+  }
+
+  const sql = `
+    select "ticket".*,
+           "customer"."customerId",
+           "customer"."firstName" as "customerFirstName",
+           "customer"."lastName" as "customerLastName"
+      from "tickets" as "ticket"
+      join "customers" "customer"
+     using("customerId")
+     where "ticketId" = $1
+  `;
+  const params = [ticketId];
+  db.query(sql, params)
+    .then(result => {
+      const ticket = result.rows[0];
+      if (!ticket) {
+        throw new ClientError('no such ticket exists', 404);
+      }
+      const sql = `
+        select *
+          from "ticketPriority"
+      `;
+      return db.query(sql)
+        .then(result => {
+          const ticketPriorities = result.rows;
+          if (ticketPriorities.length === 0) {
+            throw new ClientError('there are no available ticket priorities', 404);
+          }
+          const sql = `
+            select *
+            from "ticketStatus"
+          `;
+          return db.query(sql)
+            .then(result => {
+              const ticketStatuses = result.rows;
+              if (ticketStatuses.length === 0) {
+                throw new ClientError('there are no available ticket statuses', 404);
+              }
+              const sql = `
+                select "userId", "firstName", "lastName"
+                from "users"
+              `;
+              return db.query(sql)
+                .then(result => {
+                  const users = result.rows;
+                  const response = {};
+                  response.ticket = ticket;
+                  response.ticketPriorities = ticketPriorities;
+                  response.ticketStatuses = ticketStatuses;
+                  response.users = users;
+                  res.status(200).json(response);
+                });
+            });
+
+        });
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/tickets', (req, res, next) => {
   const {
     status,
