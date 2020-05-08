@@ -25,4 +25,14 @@ export default function updateTicket() {
   const [users, setUsers] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [status, setStatus] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/tickets/editform/' + context.getUser().tickedId)
+      .then(res => res.json())
+      .then(data => {
+        setUsers(ticket.users);
+        setPriorities(ticket.priorities);
+        setStatus(ticket.status);
+      });
+  }, []);
 }
