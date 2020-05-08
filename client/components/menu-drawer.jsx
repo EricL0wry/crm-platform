@@ -63,7 +63,7 @@ export default function MenuDrawer() {
         },
         {
           label: 'Tickets',
-          path: '/tickets/:userId'
+          path: '/tickets'
         },
         {
           label: 'Customers',
