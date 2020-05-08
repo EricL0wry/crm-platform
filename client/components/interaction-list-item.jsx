@@ -39,6 +39,15 @@ export default function InteractionListItem(props) {
     setOpen(false);
   };
 
+  const handleDelete = () => {
+    fetch('/api/interactions/' + props.interaction.interactionId, {
+      method: 'DELETE'
+    })
+      .catch(error => console.error('Fetch failed!', error));
+    setOpen(false);
+    props.getCustomers();
+  };
+
   return (
     <Fragment>
       <Card className={classes.root} onClick={handleClickOpen}>
@@ -81,6 +90,9 @@ export default function InteractionListItem(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleDelete} color="secondary" autoFocus>
+            DELETE
+          </Button>
           <Button onClick={handleClose} color="primary" autoFocus>
           Cancel
           </Button>

@@ -4,6 +4,7 @@ import CustomerList from './customer-list';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom';
+import Box from '@material-ui/core/Box';
 
 export default function Customers() {
   const context = useContext(AppContext);
@@ -21,12 +22,18 @@ export default function Customers() {
 
   return (
     <Fragment>
-      <Typography variant="h4">
+      <Box display='flex' alignItems='center'>
+        <Box p={0} flexGrow={1}>
+          <Typography variant="h4">
         My Customers
-        <Link to="/customer/new">
-          <IconButton>add_circle</IconButton>
-        </Link>
-      </Typography>
+          </Typography>
+        </Box>
+        <Box mr={1}>
+          <Link to="/customer/new">
+            <IconButton>add_circle</IconButton>
+          </Link>
+        </Box>
+      </Box>
       <CustomerList customers={customerList} />
     </Fragment>
   );
