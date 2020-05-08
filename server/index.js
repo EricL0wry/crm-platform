@@ -264,7 +264,6 @@ app.get('/api/customers/:customerId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-
 app.post('/api/customers', (req, res, next) => {
   const {
     firstName,
@@ -334,6 +333,53 @@ app.post('/api/customers', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.put('/api/tickets', (req, res, next) => {
+  const {
+    status,
+    priority,
+    description,
+    details,
+    dueDate,
+    assignedToId,
+    customerId,
+    ticketId
+  } = req.body;
+
+  if (!status || parseInt(status, 10) <= 0 ||
+    !priority || parseInt(priority, 10) === 0 ||
+    !description || description.trim().length === 0 ||
+    !details || details.trim().length === 0 ||
+    !ticketId || parseInt(ticketId, 10) <= 0 ||
+    !customerId || parseInt(customerId, 10) <= 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+  }
+
+  const params = [customerId, assignedToId, priority, status, dueDate, description, details, ticketId];
+  const ticketQuery = `
+        update  "tickets"
+           set "customerId" = $1,
+               "assignedToId" = $2,
+               "priority" = $3,
+               "status" = $4,
+               "dueDate" = to_timestamp($5 / 1000.0),
+               "description" = $6,
+               "details" = $7
+         where "ticketId" = $8
+         returning *
+  `;
+
+  db.query(ticketQuery, params)
+    .then(result => {
+      const ticket = result.rows[0];
+      if (!ticket) {
+        throw new ClientError('Unable to edit the ticket', 400);
+      } else {
+        res.status(200).json(ticket);
+      }
+    }).catch(err => next(err));
+
+});
+
 app.delete('/api/customer/:customerId', (req, res, next) => {
   const { customerId } = req.params;
   if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
@@ -399,7 +445,6 @@ app.delete('/api/customer/:customerId', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
 
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
