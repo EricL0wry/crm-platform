@@ -15,7 +15,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Customer from './customer';
 import NewInteraction from './new-interaction';
-
 import TicketDetails from './ticket-details';
 
 export default class App extends React.Component {
