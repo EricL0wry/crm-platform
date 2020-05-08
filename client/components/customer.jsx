@@ -6,11 +6,21 @@ import CustomerInfo from './customer-info';
 import InteractionList from './interaction-list';
 import AlertDialog from './alert-dialog';
 import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => {
+  return {
+    title: {
+    }
+  };
+});
 
 export default function Customer() {
+  const classes = useStyles();
   const [customerData, setCustomerData] = useState(null);
   const { customerId } = useParams();
   const history = useHistory();
+
   useEffect(() => {
     fetch('/api/customers/' + customerId)
       .then(response => response.json())
@@ -32,18 +42,21 @@ export default function Customer() {
     return (
       <Fragment>
         <Box display='flex' alignItems='center' >
-          <Typography variant="h4">
+          <Box p={0} flexGrow={1}>
+            <Typography variant="h4" className={classes.title}>
             Customer Info
-          </Typography>
+            </Typography>
+          </Box>
           <IconButton>map</IconButton>
           <IconButton>edit</IconButton>
           <AlertDialog icon='delete'
+            className={classes.alignRight}
             title='Are you sure you want to delete this customer?'
             text='Caution: Deleting this customer will also delete any open tickets or interactions.'
             do={handleDelete} />
         </Box>
         <CustomerInfo customerInfo={customerData.customerInfo} />
-        <Typography variant="h4">
+        <Typography variant="h4" className={classes.title}>
           Interactions
           <Link to={`/customers/${customerId}/newInteraction`} style={{ textDecoration: 'none', minWidth: '100%' }}>
             <IconButton>add_circle</IconButton>
