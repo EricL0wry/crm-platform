@@ -55,7 +55,10 @@ export default function Customer() {
             <IconButton>map</IconButton>
           </Box>
           <Box mr={1}>
-            <IconButton>edit</IconButton>
+            <Link to={`/customers/edit/${customerId}`}
+              style={{ textDecoration: 'none', minWidth: '100%' }}>
+              <IconButton>edit</IconButton>
+            </Link>
           </Box>
           <Box mr={1}>
             <AlertDialog icon='delete'
