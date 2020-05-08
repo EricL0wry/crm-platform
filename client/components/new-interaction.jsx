@@ -109,17 +109,21 @@ export default function NewInteraction() {
                   KeyboardButtonProps={{
                     'aria-label': 'change time'
                   }}
+                  fullWidth
                 />
               </MuiPickersUtilsProvider>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
               required
               id="notes"
               name="notes"
               label="Notes"
               fullWidth
+              multiline
+              rows="5"
+              variant="filled"
               onChange={handleChange}
               value={state.notes}
             />
