@@ -297,7 +297,8 @@ app.get('/api/org/:userId', (req, res, next) => {
     select "firstName",
            "lastName",
            "phoneNumber",
-           "email"
+           "email",
+           "userId"
       from "users"
      where not "userId" = $1
   `;
