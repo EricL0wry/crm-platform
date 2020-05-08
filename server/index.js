@@ -511,15 +511,16 @@ app.post('/api/interactions', (req, res, next) => {
         "timeCreated",
         "userId",
         "customerId")
-    values ($1, $2, to_timestamp($3,'YYYY-MM-DDTHH:MI:SS'), $4, $5)
+    values ($1, $2, to_timestamp($3 / 1000.0), $4, $5)
     returning *
   `;
   const params = [
     type,
     notes,
     timeCreated,
-    customerId,
-    userId];
+    userId,
+    customerId
+  ];
   db.query(sql, params)
     .then(result => {
       const interaction = result.rows[0];
