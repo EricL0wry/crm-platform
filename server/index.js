@@ -543,7 +543,7 @@ app.post('/api/interactions', (req, res, next) => {
   } = req.body;
 
   if (!type || type.trim().length === 0 ||
-    !timeCreated || timeCreated.trim().length === 0 ||
+    !timeCreated ||
     !notes || notes.trim().length === 0 ||
     !customerId || parseInt(customerId, 10) <= 0 ||
     !userId || parseInt(userId, 10) <= 0) {
