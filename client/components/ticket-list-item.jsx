@@ -27,7 +27,7 @@ export default function TicketListItem(props) {
   const ticket = props.ticket;
   return (
     <Link
-      to={`/tickets/${ticket.ticketId}`}
+      to={`/ticket/${ticket.ticketId}`}
       style={{ textDecoration: 'none', minWidth: '100%' }}
     >
       <Card className={classes.root} onClick={null}>

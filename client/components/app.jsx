@@ -9,11 +9,14 @@ import AppContext from '../lib/context';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MenuAppBar from './menu-app-bar';
 import NewCustomer from './new-customer';
+import NewTicket from './new-ticket';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Customer from './customer';
 import NewInteraction from './new-interaction';
+
+import TicketDetails from './ticket-details';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -118,6 +121,8 @@ export default class App extends React.Component {
               <Route path="/organization" component={Organization} />
               <Route path="/tickets/:userId" component={AssignedTickets}></Route>
               <Route path="/customers/:customerId/newInteraction" component={NewInteraction}></Route>
+              <Route exact path="/ticket/:ticketId" component={TicketDetails}></Route>
+              <Route exact path="/ticket/new" component={NewTicket} />
 
             </Switch>
           </BrowserRouter>
