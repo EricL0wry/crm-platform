@@ -43,14 +43,14 @@ export default function Customer() {
             do={handleDelete} />
         </Box>
         <CustomerInfo customerInfo={customerData.customerInfo} />
+        <Typography variant="h4">
+          Interactions
+          <Link to={`/customers/${customerId}/newInteraction`} style={{ textDecoration: 'none', minWidth: '100%' }}>
+            <IconButton>add_circle</IconButton>
+          </Link>
+        </Typography>
         {customerData.interactions.length === 0 ? (
           <Fragment>
-            <Typography variant="h4">
-              Interactions
-              <Link to={`/customers/${customerId}/newInteraction`} style={{ textDecoration: 'none', minWidth: '100%' }}>
-                <IconButton>add_circle</IconButton>
-              </Link>
-            </Typography>
             <Typography variant="h4"
               color="textSecondary"
               align='center'>
