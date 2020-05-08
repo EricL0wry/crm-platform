@@ -121,8 +121,8 @@ export default class App extends React.Component {
               <Route path="/organization" component={Organization} />
               <Route path="/tickets/:userId" component={AssignedTickets}></Route>
               <Route path="/customers/:customerId/newInteraction" component={NewInteraction}></Route>
-              <Route exact path="/ticket/:ticketId" component={TicketDetails}></Route>
-              <Route exact path="/ticket/new" component={NewTicket} />
+              <Route path="/ticket/new" component={NewTicket} />
+              <Route path="/ticket/:ticketId" component={TicketDetails}></Route>
 
             </Switch>
           </BrowserRouter>
