@@ -502,6 +502,28 @@ app.get('/api/customers/:customerId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/customers/edit/:customerId', (req, res, next) => {
+  const id = req.params.customerId;
+  if (id < 0 || id === null) {
+    return next(new ClientError('Valid entry is required.', 400));
+  }
+  const sql = `
+    select *
+      from "customers"
+      where "customerId" = $1
+  `;
+  const params = [id];
+  db.query(sql, params)
+    .then(result => {
+      const customer = result.rows[0];
+      if (!customer) {
+        throw new ClientError(`Unable to find id of ${id}`, 404);
+      }
+      res.status(200).json(customer);
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/ticket/:ticketId', (req, res, next) => {
   const { ticketId } = req.params;
   if (!parseInt(ticketId, 10) || Math.sign(ticketId) !== 1) {

@@ -16,6 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Customer from './customer';
 import NewInteraction from './new-interaction';
 import TicketDetails from './ticket-details';
+import EditCustomer from './edit-customer';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -117,8 +118,9 @@ export default class App extends React.Component {
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
               <Route exact path="/customers/:customerId" component={Customer} />
+              <Route exact path="/customers/edit/:customerId" component={EditCustomer} />
               <Route path="/organization" component={Organization} />
-              <Route path="/tickets/:userId" component={AssignedTickets}></Route>
+              <Route path="/tickets" component={AssignedTickets}></Route>
               <Route path="/customers/:customerId/newInteraction" component={NewInteraction}></Route>
               <Route path="/ticket/new" component={NewTicket} />
               <Route path="/ticket/:ticketId" component={TicketDetails}></Route>
