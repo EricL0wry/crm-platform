@@ -21,11 +21,6 @@ export default function InteractionList(props) {
   const classes = useStyles();
   return (
     <Fragment>
-      <Typography variant="h4">
-        Interactions
-        <IconButton>add_circle</IconButton>
-      </Typography>
-
       <List className={classes.root} style={{ textDecoration: 'none' }}>
         {interactions.map((interaction, index) => (
           <ListItem disableGutters key={index}>
