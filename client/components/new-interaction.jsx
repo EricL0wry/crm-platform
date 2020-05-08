@@ -41,7 +41,6 @@ export default function NewInteraction() {
     const newInteraction = Object.assign({}, state);
     newInteraction.userId = context.getUser().userId;
     newInteraction.customerId = customerId;
-    // newInteraction.timeCreated = newInteraction.date + 'T' + newInteraction.time + ':00';
     newInteraction.timeCreated = state.date.getTime();
     const req = {
       method: 'POST',
