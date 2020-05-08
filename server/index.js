@@ -359,7 +359,6 @@ app.get('/api/customers/:customerId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-
 app.get('/api/ticket/:ticketId', (req, res, next) => {
   const { ticketId } = req.params;
   if (!parseInt(ticketId, 10) || Math.sign(ticketId) !== 1) {
@@ -399,7 +398,6 @@ app.get('/api/ticket/:ticketId', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
 
 app.post('/api/customers', (req, res, next) => {
   const {
@@ -470,7 +468,6 @@ app.post('/api/customers', (req, res, next) => {
     .catch(err => next(err));
 });
 
-
 app.put('/api/tickets', (req, res, next) => {
   const {
     status,
@@ -521,7 +518,7 @@ app.put('/api/tickets', (req, res, next) => {
 app.delete('/api/customers/:customerId', (req, res, next) => {
   const { customerId } = req.params;
   if (!parseInt(customerId, 10) || Math.sign(customerId) !== 1) {
-    return{next(new ClientError('userId must be a positive integer', 400));
+    return next(new ClientError('userId must be a positive integer', 400));
   }
 
   const params = [customerId];
