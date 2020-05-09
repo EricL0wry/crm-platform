@@ -6,6 +6,7 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -23,19 +24,25 @@ app.post('/api/login', (req, res, next) => {
   }
 
   const sql = `
-    select "userId", "email"
+    select "userId", "email", "password"
     from "users"
-    where "email" = $1 and "password" = $2
+    where "email" = $1
   `;
-  const params = [email, password];
+  const params = [email];
   db.query(sql, params)
     .then(result => {
       const user = result.rows[0];
       if (!user) {
-        throw new ClientError('No userId found', 404);
-      } else {
-        res.json(user);
+        return next(new ClientError('No userId found', 404));
       }
+      return bcrypt.compare(password, user.password)
+        .then(result => {
+          if (result) {
+            return res.status(200).json(user);
+          } else {
+            throw new ClientError('Incorrect password', 204);
+          }
+        });
     })
     .catch(err => {
       next(err);
