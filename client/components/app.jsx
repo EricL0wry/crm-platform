@@ -22,10 +22,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {
-        email: 'ourguy@lfz.com',
-        userId: 1
-      },
+      currentUser: null,
       notification: {
         isOpen: false,
         message: ''
@@ -42,7 +39,19 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-
+    fetch('/api/login')
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then(user => {
+        if (user) {
+          this.setState({
+            currentUser: user
+          });
+        }
+      });
   }
 
   onLogin(user) {
