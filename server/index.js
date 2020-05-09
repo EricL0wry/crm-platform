@@ -15,6 +15,29 @@ app.use(sessionMiddleware);
 
 app.use(express.json());
 
+app.get('/api/login', (req, res, next) => {
+  const userId = req.session.userId;
+  if (!userId) {
+    return next(new ClientError('No user logged in', 404));
+  }
+  const sql = `
+    select "userId", "email"
+      from "users"
+     where "userId" = $1
+  `;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const user = result.rows[0];
+      if (!user) {
+        delete req.session.userId;
+        throw new ClientError('User could not be found', 404);
+      }
+      res.status(200).json(user);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/login', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
