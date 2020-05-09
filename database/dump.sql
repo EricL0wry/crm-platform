@@ -650,12 +650,12 @@ COPY public.tickets ("ticketId", status, priority, description, details, "startD
 --
 
 COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle", "phoneNumber", email, "addressStreet", "addressCity", "addressState", "addressZip", password) FROM stdin;
-1	Our	Guy	LearningFuze	Sales	9496797699	ourguy@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	password
-2	Local	Host	LearningFuze	Server	9496797699	localhost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	password
-3	Ub	Untu	LearningFuze	Operator	9496797699	ubuntu@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	password
-4	Magilla	Gorilla	LearningFuze	Gorilla	9496797699	localhost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	password
-5	Tad	Ghostal	LearningFuze	Host	9496797699	spghost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	password
-6	Outta	Ideas	LearningFuze	Sales	9496797699	email@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	password
+2	Local	Host	LearningFuze	Server	9496797699	localhost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$cdjpFqZJG6TYcgdqqyyYQeoaxzum.osTU/IHfUywJj0Ix.op9vr/K
+1	Our	Guy	LearningFuze	Sales	9496797699	ourguy@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$SP4ywQuH7GGNjWwO6U8s8OAtO5WMyi0zqT4rW8TRZYzk5Uv6MHOWy
+5	Tad	Ghostal	LearningFuze	Host	9496797699	spghost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$vZ3YgSOPQUUf7tbgHDiSN.UqhWf.phupgyWzEbDUIsOSxqAGkg6JK
+4	Magilla	Gorilla	LearningFuze	Gorilla	9496797699	localhost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$NOJWq8EwqTBWdXlN1PCWKOHFoZkT1kFwmGyeSbpZu4GlAoMeqP8Lm
+6	Outta	Ideas	LearningFuze	Sales	9496797699	email@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$M0r7fmKAYK2CYU87/Z0LZ.COxnZBrSU/aLLVifZP0h6WuB9zoAL5e
+3	Ub	Untu	LearningFuze	Operator	9496797699	ubuntu@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$mFICQuFYN2AxoZdcfTTwbuxB0pf1JKhzVc5XLtLIXztH5XeOH4Qha
 \.
 
 

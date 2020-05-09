@@ -6,6 +6,7 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -23,23 +24,107 @@ app.post('/api/login', (req, res, next) => {
   }
 
   const sql = `
-    select "userId", "email"
+    select "userId", "email", "password"
     from "users"
-    where "email" = $1 and "password" = $2
+    where "email" = $1
   `;
-  const params = [email, password];
+  const params = [email];
   db.query(sql, params)
     .then(result => {
       const user = result.rows[0];
       if (!user) {
-        throw new ClientError('No userId found', 404);
-      } else {
-        res.json(user);
+        return next(new ClientError('No userId found', 404));
       }
+      return bcrypt.compare(password, user.password)
+        .then(result => {
+          if (result) {
+            return res.status(200).json(user);
+          } else {
+            throw new ClientError('Incorrect password', 204);
+          }
+        });
     })
     .catch(err => {
       next(err);
     });
+});
+
+app.post('/api/signup', (req, res, next) => {
+  const {
+    firstName,
+    lastName,
+    jobTitle,
+    email,
+    password
+  } = req.body;
+
+  if (!firstName || firstName.trim().length === 0 ||
+    !lastName || lastName.trim().length === 0 ||
+    !jobTitle || jobTitle.trim().length === 0 ||
+    !email || email.trim().length === 0 ||
+    !password || password.trim().length === 0) {
+    return next(new ClientError('either missing field or in improper format', 400));
+
+  }
+  const companyName = 'LearningFuze';
+  const phoneNumber = '9496797699';
+  const addressStreet = '9200 Irvine Center Dr. #200';
+  const addressCity = 'Irvine';
+  const addressState = 'CA';
+  const addressZip = '92618';
+
+  const saltRounds = 10;
+  bcrypt.hash(password, saltRounds, (ignoreMe, hash) => {
+    const sql = `
+        insert into "users"
+          ("firstName",
+           "lastName",
+           "companyName",
+           "jobTitle",
+           "phoneNumber",
+           "email",
+           "addressStreet",
+           "addressCity",
+           "addressState",
+           "addressZip",
+           "password"
+          )
+        values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        returning "firstName",
+                  "lastName",
+                  "companyName",
+                  "jobTitle",
+                  "phoneNumber",
+                  "email",
+                  "addressStreet",
+                  "addressCity",
+                  "addressState",
+                  "addressZip"
+    `;
+    const params = [
+      firstName,
+      lastName,
+      companyName,
+      jobTitle,
+      phoneNumber,
+      email,
+      addressStreet,
+      addressCity,
+      addressState,
+      addressZip,
+      hash
+    ];
+    db.query(sql, params)
+      .then(result => {
+        const newUser = result.rows[0];
+        if (!newUser) {
+          throw new ClientError('User could not be created', 400);
+        } else {
+          res.status(200).json(newUser);
+        }
+      })
+      .catch(err => next(err));
+  });
 });
 
 app.get('/api/tickets/:userId', (req, res, next) => {
