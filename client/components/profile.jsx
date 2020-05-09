@@ -23,18 +23,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Profile(props) {
+  const classes = useStyles();
+  const context = useContext(AppContext);
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    fetch('/api/users/1')
+    fetch(`/api/users/${context.getUser().userId}`)
       .then(res => res.json())
       .then(data => {
         setUser(data);
       });
   }, []);
-  if (!user) {
-    return null;
-  }
+
   const {
     firstName,
     lastName,
@@ -43,8 +43,7 @@ export default function Profile(props) {
     phoneNumber,
     email
   } = user;
-  const classes = useStyles();
-  const context = useContext(AppContext);
+
   const handleLogout = () => {
     context.onLogout();
     props.history.push('/');
