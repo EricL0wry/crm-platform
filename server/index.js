@@ -74,6 +74,16 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
+app.post('/api/logout', (req, res, next) => {
+  const userId = req.session.userId;
+  if (!userId) {
+    return next(new ClientError('No user logged in', 404));
+  }
+
+  delete req.session.userId;
+  res.status(204).json();
+});
+
 app.post('/api/signup', (req, res, next) => {
   const {
     firstName,
