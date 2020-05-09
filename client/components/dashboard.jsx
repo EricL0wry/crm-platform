@@ -14,7 +14,7 @@ export default function Dashboard() {
       .then(data => {
         setMyData(data);
       })
-      .catch(error => console.log('Fetch failed!', error));
+      .catch(error => console.error('Fetch failed!', error));
   }, []);
 
   if (myData !== null) {
