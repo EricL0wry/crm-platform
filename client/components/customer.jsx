@@ -20,12 +20,14 @@ const useStyles = makeStyles(theme => {
 export default function Customer() {
   const classes = useStyles();
   const [customerData, setCustomerData] = useState(null);
+  const [locationData, setLocationData] = useState(null);
   const { customerId } = useParams();
   const history = useHistory();
   const context = useContext(ApplicationContext);
 
   useEffect(() => {
     getCustomers();
+    getLocationData();
   }, []);
 
   const getCustomers = () => {
@@ -52,8 +54,13 @@ export default function Customer() {
       .catch(error => console.error(error));
   };
 
-  const getMapData = () => {
-
+  const getLocationData = () => {
+    fetch('/api/location/' + customerId)
+      .then(response => response.json())
+      .then(data => {
+        setLocationData(data);
+      })
+      .catch(error => console.error(error));
   };
 
   if (customerData !== null) {
@@ -66,7 +73,7 @@ export default function Customer() {
             </Typography>
           </Box>
           <Box mr={1}>
-            <MapDialog icon='map' />
+            <MapDialog icon='map' locationData={locationData}/>
           </Box>
           <Box mr={1}>
             <Link to={`/customers/edit/${customerId}`}
