@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/Icon';
 import TicketDetailList from './ticket-details-list';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -37,11 +37,13 @@ export default function TicketDetails(props) {
   } else {
     return (
       <Fragment>
-        <Box display='flex' alignItems='center' justifyContent='space-between' >
+        <Box display="flex" alignItems="center" justifyContent="space-between">
           <Typography variant="h4" className={classes.title}>
             Ticket Details
           </Typography>
-          <IconButton className={classes.edit}>edit</IconButton>
+          <Link className={classes.edit} to={`/ticket/edit/${ticketId}`}>
+            <IconButton>edit</IconButton>
+          </Link>
         </Box>
         <TicketDetailList ticketData={ticketData} />
       </Fragment>

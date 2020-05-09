@@ -16,6 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Customer from './customer';
 import NewInteraction from './new-interaction';
 import TicketDetails from './ticket-details';
+import UpdateTicket from './update-ticket';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -121,6 +122,7 @@ export default class App extends React.Component {
               <Route path="/tickets/:userId" component={AssignedTickets}></Route>
               <Route path="/customers/:customerId/newInteraction" component={NewInteraction}></Route>
               <Route path="/ticket/new" component={NewTicket} />
+              <Route path="/ticket/edit/:ticketId" component={UpdateTicket}></Route>
               <Route path="/ticket/:ticketId" component={TicketDetails}></Route>
 
             </Switch>

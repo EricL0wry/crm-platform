@@ -34,7 +34,7 @@ export default function AssignedTickets() {
       <Fragment>
         <Typography className={classes.titleStyles} variant="h4">
           Tickets
-          <Link className={classes.addButton} to="/ticket/new">
+          <Link className={classes.addButton} to="/customer/new">
             <IconButton>add_circle</IconButton>
           </Link>
         </Typography>
