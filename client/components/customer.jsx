@@ -8,6 +8,7 @@ import AlertDialog from './alert-dialog';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import ApplicationContext from '../lib/context';
+import MapDialog from './map-dialog';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -51,6 +52,10 @@ export default function Customer() {
       .catch(error => console.error(error));
   };
 
+  const getMapData = () => {
+
+  };
+
   if (customerData !== null) {
     return (
       <Fragment>
@@ -61,7 +66,7 @@ export default function Customer() {
             </Typography>
           </Box>
           <Box mr={1}>
-            <IconButton>map</IconButton>
+            <MapDialog icon='map' />
           </Box>
           <Box mr={1}>
             <Link to={`/customers/edit/${customerId}`}
