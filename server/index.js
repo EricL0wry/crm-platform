@@ -38,6 +38,8 @@ app.post('/api/login', (req, res, next) => {
       return bcrypt.compare(password, user.password)
         .then(result => {
           if (result) {
+            delete user.password;
+            req.session.user = user;
             return res.status(200).json(user);
           } else {
             throw new ClientError('Incorrect password', 204);
