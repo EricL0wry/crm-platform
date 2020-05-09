@@ -531,6 +531,46 @@ app.get('/api/ticket/:ticketId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/location/:custId', (req, res, next) => {
+  const { custId } = req.params;
+  if (!parseInt(custId, 10)) {
+    return next(new ClientError('"custId" must be a positive integer', 400));
+  }
+
+  const params = [custId];
+  const custQuery = `
+    select "firstName",
+           "lastName",
+           "addressStreet",
+           "addressCity",
+           "addressState",
+           "addressZip"
+      from "customers"
+     where "customerId" = $1
+  `;
+
+  db.query(custQuery, params)
+    .then(result => {
+      const locationResponse = { userInfo: result.rows[0] };
+      return locationResponse;
+    })
+    .then(result => {
+      const locationResponse = result;
+      const { addressStreet: street, addressCity: city, addressState: state, addressZip: zip, firstName } = result.userInfo;
+      const addr = `${street}, ${city}, ${state}, ${zip}`;
+      const initial = firstName[0];
+
+      const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=500x400&markers=size:mid%7Ccolor:red%7Clabel:${initial}%7C%22${addr}%22&center=%22${addr}%22&key=${process.env.GOOGLE_MAP_KEY}`;
+      const googleUrl = `https://www.google.com/maps/search/?api=1&query=%22${addr}%22`;
+
+      locationResponse.mapUrl = mapUrl;
+      locationResponse.googleUrl = googleUrl;
+
+      res.json(locationResponse);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/customers', (req, res, next) => {
   const {
     firstName,
