@@ -3,6 +3,7 @@ import AppContext from '../lib/context';
 import TicketList from './ticket-list';
 import Weather from './weather';
 import Typography from '@material-ui/core/Typography';
+import Loading from './loading';
 
 export default function Dashboard() {
   const context = useContext(AppContext);
@@ -33,7 +34,7 @@ export default function Dashboard() {
       </Fragment>
     );
   } else {
-    return null;
+    return <Loading />;
   }
 
 }

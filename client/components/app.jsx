@@ -17,12 +17,14 @@ import Customer from './customer';
 import NewInteraction from './new-interaction';
 import TicketDetails from './ticket-details';
 import EditCustomer from './edit-customer';
+import Loading from './loading';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentUser: null,
+      isLoading: true,
       notification: {
         isOpen: false,
         message: ''
@@ -46,11 +48,9 @@ export default class App extends React.Component {
         }
       })
       .then(user => {
-        if (user) {
-          this.setState({
-            currentUser: user
-          });
-        }
+        const newState = { isLoading: false };
+        newState.currentUser = user || null;
+        this.setState(newState);
       });
   }
 
@@ -106,7 +106,11 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.currentUser) {
+    if (this.state.isLoading) {
+      return (
+        <Loading />
+      );
+    } else if (this.state.currentUser) {
       return (
         <AppContext.Provider value={this.contextValue}>
           <Snackbar
