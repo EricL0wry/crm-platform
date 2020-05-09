@@ -8,6 +8,7 @@ import AlertDialog from './alert-dialog';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import ApplicationContext from '../lib/context';
+import MapDialog from './map-dialog';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -19,12 +20,14 @@ const useStyles = makeStyles(theme => {
 export default function Customer() {
   const classes = useStyles();
   const [customerData, setCustomerData] = useState(null);
+  const [locationData, setLocationData] = useState(null);
   const { customerId } = useParams();
   const history = useHistory();
   const context = useContext(ApplicationContext);
 
   useEffect(() => {
     getCustomers();
+    getLocationData();
   }, []);
 
   const getCustomers = () => {
@@ -51,6 +54,15 @@ export default function Customer() {
       .catch(error => console.error(error));
   };
 
+  const getLocationData = () => {
+    fetch('/api/location/' + customerId)
+      .then(response => response.json())
+      .then(data => {
+        setLocationData(data);
+      })
+      .catch(error => console.error(error));
+  };
+
   if (customerData !== null) {
     return (
       <Fragment>
@@ -61,7 +73,7 @@ export default function Customer() {
             </Typography>
           </Box>
           <Box mr={1}>
-            <IconButton>map</IconButton>
+            <MapDialog icon='map' locationData={locationData}/>
           </Box>
           <Box mr={1}>
             <Link to={`/customers/edit/${customerId}`}
