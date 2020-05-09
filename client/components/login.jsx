@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AppContext from '../lib/context';
 
@@ -27,7 +27,13 @@ const useStyles = makeStyles(theme => ({
 export default function Login() {
   const classes = useStyles();
   const context = useContext(AppContext);
-  const [state, setState] = useState({ email: '', password: '' });
+  const usernameErrMsg = 'Could not find user';
+  const passwordErrMsg = 'Incorrect password';
+  const [state, setState] = useState({
+    email: '',
+    password: '',
+    error: ''
+  });
 
   const onChange = event => {
     const newState = Object.assign({}, state);
@@ -49,9 +55,22 @@ export default function Login() {
       body: JSON.stringify(loginInput)
     };
     fetch('/api/login', req)
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 404) {
+          throw new Error(usernameErrMsg);
+        } else {
+          throw new Error(passwordErrMsg);
+        }
+      })
       .then(data => {
         context.onLogin(data);
+      })
+      .catch(err => {
+        const newState = Object.assign({}, state);
+        newState.error = err.message;
+        setState(newState);
       });
   };
 
@@ -61,7 +80,9 @@ export default function Login() {
         <Grid className={ classes.loginContainer } item container xs={12} sm={8} md={3} direction="column" alignItems="center">
           <img className={classes.logo} src="/images/placeholder-logo.png" />
           <form className={classes.loginForm} onSubmit={handleSubmit}>
-            <Input
+            <TextField
+              error={state.error === usernameErrMsg}
+              helperText={state.error === usernameErrMsg ? usernameErrMsg : ''}
               placeholder="email"
               type="email"
               name="email"
@@ -69,7 +90,9 @@ export default function Login() {
               inputProps={{ 'aria-label': 'description' }}
               onChange={onChange}
               value={state.email} />
-            <Input
+            <TextField
+              error={state.error === passwordErrMsg}
+              helperText={state.error === passwordErrMsg ? passwordErrMsg : ''}
               placeholder="password"
               type="password"
               name="password"
