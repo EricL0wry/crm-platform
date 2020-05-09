@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ApplicationContext from '../lib/context';
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 
 export default function InteractionListItem(props) {
   const classes = useStyles();
+  const context = useContext(ApplicationContext);
   const date = new Date(props.interaction.timeCreated);
   const [open, setOpen] = React.useState(false);
 
@@ -43,9 +45,13 @@ export default function InteractionListItem(props) {
     fetch('/api/interactions/' + props.interaction.interactionId, {
       method: 'DELETE'
     })
+      .then(result => {
+        setOpen(false);
+        props.getCustomers();
+        context.openSnackbar('Interaction successfully deleted');
+      })
       .catch(error => console.error('Fetch failed!', error));
-    setOpen(false);
-    props.getCustomers();
+
   };
 
   return (
