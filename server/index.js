@@ -39,7 +39,7 @@ app.post('/api/login', (req, res, next) => {
         .then(result => {
           if (result) {
             delete user.password;
-            req.session.user = user;
+            req.session.userId = user.userId;
             return res.status(200).json(user);
           } else {
             throw new ClientError('Incorrect password', 204);
