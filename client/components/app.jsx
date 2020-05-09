@@ -59,7 +59,15 @@ export default class App extends React.Component {
   }
 
   onLogout() {
-    this.setState({ currentUser: null });
+    const req = {
+      method: 'POST'
+    };
+    fetch('/api/logout', req)
+      .then(response => {
+        if (response.status === 204) {
+          this.setState({ currentUser: null });
+        }
+      });
   }
 
   isLoggedIn() {
