@@ -678,7 +678,7 @@ app.get('/api/location/:custId', (req, res, next) => {
       const addr = `${street}, ${city}, ${state}, ${zip}`;
       const initial = firstName[0];
 
-      const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=290x4500&markers=size:mid%7Ccolor:red%7Clabel:${initial}%7C%22${addr}%22&center=%22${addr}%22&key=${process.env.GOOGLE_MAP_KEY}`;
+      const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=290x375&markers=size:mid%7Ccolor:red%7Clabel:${initial}%7C%22${addr}%22&center=%22${addr}%22&key=${process.env.GOOGLE_MAP_KEY}`;
       const googleUrl = `https://www.google.com/maps/search/?api=1&query=%22${addr}%22`;
 
       locationResponse.mapUrl = mapUrl;

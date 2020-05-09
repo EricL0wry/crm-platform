@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => {
     },
     mapImg: {
       width: '100%',
+      minHeight: '375px',
       objectFit: 'contain'
     },
     grey: {
@@ -34,78 +35,92 @@ export default function MapDialog(props) {
 
   const handleClose = () => setOpen(false);
 
-  return (
-    <div>
-      <IconButton onClick={handleClickOpen}>{props.icon}</IconButton>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="location-title"
-        aria-describedby="location-dialog-description"
-        fullWidth
-        className={classes.dialog}
-      >
-        <DialogTitle id="location-title" >
-          <Box>
-            <Typography variant="h4">
+  if (props.locationData !== null) {
+    const {
+      addressCity: city,
+      addressState: state,
+      addressStreet: street,
+      addressZip: zip,
+      firstName,
+      lastName
+    } = props.locationData.userInfo;
+    const { googleUrl, mapUrl } = props.locationData;
+
+    return (
+      <div>
+        <IconButton onClick={handleClickOpen}>{props.icon}</IconButton>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="location-title"
+          aria-describedby="location-dialog-description"
+          fullWidth
+          className={classes.dialog}
+        >
+          <DialogTitle id="location-title" >
+            <Box>
+              <Typography variant="h4">
               Location
-            </Typography>
-          </Box>
-        </DialogTitle>
-        <DialogContent>
+              </Typography>
+            </Box>
+          </DialogTitle>
+          <DialogContent>
 
-          <List>
-            <Grid container spacing={2}>
-              <Grid className={classes.grey} item xs={4}>
-                <Box display='flex' alignItems='center' height='100%'>
-                  <Typography>
+            <List>
+              <Grid container spacing={2}>
+                <Grid className={classes.grey} item xs={4}>
+                  <Box display='flex' alignItems='center' height='100%'>
+                    <Typography>
                     Name
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>
-                    Will Billiamson
-                </Typography>
-              </Grid>
-              <Grid className={classes.grey} item xs={4}>
-                <Box display='flex' alignItems='center' height='100%'>
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={8}>
                   <Typography>
+                    {firstName} {lastName}
+                  </Typography>
+                </Grid>
+                <Grid className={classes.grey} item xs={4}>
+                  <Box display='flex' alignItems='center' height='100%'>
+                    <Typography>
                     Street
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>
-                  12345 Bill Avenue
-                </Typography>
-              </Grid>
-              <Grid className={classes.grey} item xs={4}>
-                <Box display='flex' alignItems='center' height='100%'>
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={8}>
                   <Typography>
-                    City/State
+                    {street}
                   </Typography>
-                </Box>
+                </Grid>
+                <Grid className={classes.grey} item xs={4}>
+                  <Box display='flex' alignItems='center' height='100%'>
+                    <Typography>
+                    City/State
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography>
+                    {city}, {state} {zip}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={8}>
-                <Typography>
-                  New York, NY, 12345
-                </Typography>
-              </Grid>
-            </Grid>
-          </List>
-        </DialogContent>
-        <img className={classes.mapImg} src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=290x375&markers=size:mid%7Ccolor:red%7Clabel:W%7C%229200%20Irvine%20Center%20Dr.,%20Irvine,%20CA,%2092618%22&center=%229200%20Irvine%20Center%20Dr.,%20Irvine,%20CA,%2092618%22&key=AIzaSyDrfcCNcukCbWUX1qpoa6g42UOG7f0i550" alt="Customer Location Map" />
+            </List>
+          </DialogContent>
+          <img className={classes.mapImg} src={mapUrl} alt="Customer Location Map" />
 
-        <DialogActions>
-          <Button color="primary" autoFocus>
+          <DialogActions>
+            <Button color="primary" href={googleUrl} autoFocus>
             Google
-          </Button>
-          <Button onClick={handleClose} color="primary">
+            </Button>
+            <Button onClick={handleClose} color="primary">
             Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  } else {
+    return null;
+  }
 }
