@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, useContext, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/Icon';
 import { Link, useParams, useHistory } from 'react-router-dom';
@@ -7,6 +7,7 @@ import InteractionList from './interaction-list';
 import AlertDialog from './alert-dialog';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
+import ApplicationContext from '../lib/context';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -20,6 +21,7 @@ export default function Customer() {
   const [customerData, setCustomerData] = useState(null);
   const { customerId } = useParams();
   const history = useHistory();
+  const context = useContext(ApplicationContext);
 
   useEffect(() => {
     getCustomers();
@@ -37,9 +39,16 @@ export default function Customer() {
   const handleDelete = () => {
     fetch('/api/customers/' + customerId, {
       method: 'DELETE'
+    }).then(response => {
+      if (response.status === 204) {
+        history.push('/customers');
+        context.openSnackbar('Customer successfully deleted!');
+      } else {
+        context.openSnackbar('Customer successfully deleted!');
+        throw new Error('Fetch failed!');
+      }
     })
-      .catch(error => console.error('Fetch failed!', error));
-    history.push('/customers');
+      .catch(error => console.error(error));
   };
 
   if (customerData !== null) {
