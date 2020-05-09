@@ -72,7 +72,7 @@ export default function EditCustomer(props) {
   return (
     <Fragment>
       <Typography variant="h4" gutterBottom>
-        New Customer
+        Edit Customer
       </Typography>
       <form onSubmit={handleSubmit} autoComplete="off">
         <Grid container spacing={2}>
