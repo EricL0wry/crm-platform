@@ -51,14 +51,7 @@ export default function MenuAppBar(props) {
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuDrawer />
-          </IconButton>
+          <MenuDrawer />
           <Typography variant="h6" className={classes.title} align="center">
               BasedSales
           </Typography>
