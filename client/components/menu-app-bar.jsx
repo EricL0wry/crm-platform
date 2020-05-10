@@ -39,7 +39,7 @@ export default function MenuAppBar(props) {
   };
 
   const handleProfileClicked = () => {
-
+    handleClose();
   };
 
   const handleLogout = () => {
@@ -88,7 +88,7 @@ export default function MenuAppBar(props) {
               onClose={handleClose}
             >
               <Link to='/profile' style={{ textDecoration: 'none' }}>
-                <MenuItem >Profile</MenuItem>
+                <MenuItem onClick={handleProfileClicked}>Profile</MenuItem>
               </Link>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
