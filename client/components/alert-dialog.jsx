@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/Icon';
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -25,7 +24,7 @@ export default function AlertDialog(props) {
 
   return (
     <div>
-      <IconButton onClick={handleClickOpen}>{props.icon}</IconButton>
+      <IconButton color="error" onClick={handleClickOpen}>{props.icon}</IconButton>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -39,11 +38,11 @@ export default function AlertDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleDelete} color="secondary" autoFocus>
+            DELETE
+          </Button>
           <Button onClick={handleClose} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleDelete} color="primary" autoFocus>
-            DELETE
           </Button>
         </DialogActions>
       </Dialog>
