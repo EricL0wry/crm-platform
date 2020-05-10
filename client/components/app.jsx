@@ -16,16 +16,19 @@ import CloseIcon from '@material-ui/icons/Close';
 import Customer from './customer';
 import NewInteraction from './new-interaction';
 import TicketDetails from './ticket-details';
+<<<<<<< HEAD
 import UpdateTicket from './update-ticket';
+=======
+import EditCustomer from './edit-customer';
+import Loading from './loading';
+>>>>>>> 58215592dfd4e7828886d3e5bc611c7c7d167387
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {
-        email: 'ourguy@lfz.com',
-        userId: 1
-      },
+      currentUser: null,
+      isLoading: true,
       notification: {
         isOpen: false,
         message: ''
@@ -42,7 +45,17 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-
+    fetch('/api/login')
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then(user => {
+        const newState = { isLoading: false };
+        newState.currentUser = user || null;
+        this.setState(newState);
+      });
   }
 
   onLogin(user) {
@@ -50,7 +63,15 @@ export default class App extends React.Component {
   }
 
   onLogout() {
-    this.setState({ currentUser: null });
+    const req = {
+      method: 'POST'
+    };
+    fetch('/api/logout', req)
+      .then(response => {
+        if (response.status === 204) {
+          this.setState({ currentUser: null });
+        }
+      });
   }
 
   isLoggedIn() {
@@ -89,7 +110,11 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.currentUser) {
+    if (this.state.isLoading) {
+      return (
+        <Loading />
+      );
+    } else if (this.state.currentUser) {
       return (
         <AppContext.Provider value={this.contextValue}>
           <Snackbar
@@ -118,8 +143,9 @@ export default class App extends React.Component {
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
               <Route exact path="/customers/:customerId" component={Customer} />
+              <Route exact path="/customers/edit/:customerId" component={EditCustomer} />
               <Route path="/organization" component={Organization} />
-              <Route path="/tickets/:userId" component={AssignedTickets}></Route>
+              <Route path="/tickets" component={AssignedTickets}></Route>
               <Route path="/customers/:customerId/newInteraction" component={NewInteraction}></Route>
               <Route path="/ticket/new" component={NewTicket} />
               <Route path="/ticket/edit/:ticketId" component={UpdateTicket}></Route>

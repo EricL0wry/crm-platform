@@ -11,6 +11,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import BusinessIcon from '@material-ui/icons/Business';
+import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -63,7 +64,7 @@ export default function MenuDrawer() {
         },
         {
           label: 'Tickets',
-          path: '/tickets/:userId'
+          path: '/tickets'
         },
         {
           label: 'Customers',
@@ -89,7 +90,14 @@ export default function MenuDrawer() {
   return (
     <div>
       <React.Fragment key={'left'}>
-        <MenuIcon onClick={toggleDrawer('left', true)} />
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={toggleDrawer('left', true)}>
+          <MenuIcon />
+        </IconButton>
+
         <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
           {list('left')}
         </Drawer>

@@ -3,6 +3,7 @@ import AppContext from '../lib/context';
 import TicketList from './ticket-list';
 import Weather from './weather';
 import Typography from '@material-ui/core/Typography';
+import Loading from './loading';
 
 export default function Dashboard() {
   const context = useContext(AppContext);
@@ -14,13 +15,13 @@ export default function Dashboard() {
       .then(data => {
         setMyData(data);
       })
-      .catch(error => console.log('Fetch failed!', error));
+      .catch(error => console.error('Fetch failed!', error));
   }, []);
 
   if (myData !== null) {
     return (
       <Fragment>
-        <Weather weather={myData.weather} userInfo={myData.userInfo} />
+        <Weather weather={myData.weather} forcast={myData.weather_3days} userInfo={myData.userInfo} />
         {myData.ticketList.length === 0 ? (
           <Typography variant="h4"
             color="textSecondary"
@@ -33,7 +34,7 @@ export default function Dashboard() {
       </Fragment>
     );
   } else {
-    return null;
+    return <Loading />;
   }
 
 }
