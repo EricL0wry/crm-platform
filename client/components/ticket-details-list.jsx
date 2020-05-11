@@ -116,7 +116,7 @@ export default function TicketDetailsList(props) {
         </Grid>
         <Grid item xs={8}>
           <Typography>
-            {!dueDate ? dueDate : dueDate.substring(0, 10)}
+            {!dueDate ? 'No Due Date' : dueDate.substring(0, 10)}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
