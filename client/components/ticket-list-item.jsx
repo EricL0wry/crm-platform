@@ -35,7 +35,7 @@ export default function TicketListItem(props) {
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <Typography className={classes.text} color="textSecondary">
-                TKT: {ticket.ticketId}
+                TKT: {('0000' + ticket.ticketId).slice(-4)}
               </Typography>
               <Typography className={classes.text} color="textSecondary">
                 Name: {ticket.firstName + ' ' + ticket.lastName}
@@ -49,7 +49,7 @@ export default function TicketListItem(props) {
                 Priority: {priorities[ticket.priority]}
               </Typography>
               <Typography className={classes.text} color="textSecondary">
-                Due: {ticket.dueDate}
+                Due: {ticket.dueDate ? new Date(ticket.dueDate).toDateString() : 'No Due Date'}
               </Typography>
               <Typography className={classes.text} color="textSecondary">
                 Created by: {ticket.ownerFirstName + ' ' + ticket.ownerLastName}
