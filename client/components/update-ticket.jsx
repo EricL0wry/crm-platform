@@ -68,7 +68,7 @@ export default function updateTicket() {
   };
 
   const handleCancel = () => {
-    history.push('/tickets');
+    history.push(`/ticket/${ticketId}`);
   };
 
   const handleSubmit = event => {
