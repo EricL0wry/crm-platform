@@ -32,6 +32,7 @@ ALTER TABLE ONLY public.tickets DROP CONSTRAINT tickets_pk;
 ALTER TABLE ONLY public."ticketStatus" DROP CONSTRAINT "ticketStatus_pk";
 ALTER TABLE ONLY public."ticketPriority" DROP CONSTRAINT "ticketPriority_pk";
 ALTER TABLE ONLY public.interactions DROP CONSTRAINT interactions_pk;
+ALTER TABLE ONLY public.users DROP CONSTRAINT email_unique;
 ALTER TABLE ONLY public.customers DROP CONSTRAINT customers_pk;
 ALTER TABLE public.users ALTER COLUMN "userId" DROP DEFAULT;
 ALTER TABLE public.tickets ALTER COLUMN "ticketId" DROP DEFAULT;
@@ -252,8 +253,8 @@ CREATE TABLE public.tickets (
     priority integer NOT NULL,
     description text NOT NULL,
     details text NOT NULL,
-    "startDate" timestamp without time zone NOT NULL,
-    "dueDate" timestamp without time zone,
+    "startDate" timestamp(6) with time zone NOT NULL,
+    "dueDate" timestamp(6) with time zone,
     "ownerId" integer NOT NULL,
     "assignedToId" integer,
     "customerId" integer NOT NULL
@@ -634,14 +635,14 @@ COPY public."ticketStatus" ("statusId", name) FROM stdin;
 --
 
 COPY public.tickets ("ticketId", status, priority, description, details, "startDate", "dueDate", "ownerId", "assignedToId", "customerId") FROM stdin;
-1	1	3	 Low on stock on propane	Call Jan about propane vendors	2020-05-04 16:58:40.520663	\N	1	1	1
-2	1	3	Need quotes on propane accessories	Call Hank for more prices	2020-05-04 17:02:23.816835	\N	1	1	1
-3	1	3	 Call Bill	Ask him why his name is so weird	2020-05-04 17:03:53.62954	\N	1	1	1
-4	2	1	 Call Mom	She keeps texting me how run my biz wth	2020-05-04 17:05:24.140499	\N	1	1	1
-5	1	1	 Kill Bill Vol. 1	Ask him if he wants to go watch a movie.	2020-05-04 17:06:07.963722	\N	1	1	1
-6	1	1	Visit Bills shop	Check what supplies Bill needs	2020-05-04 17:06:53.867358	\N	1	1	1
-7	1	1	Propane tank expiration dates	Check inventory for expired tanks. See if Will can take any expired	2020-05-04 17:08:46.46379	\N	1	1	1
-8	1	2	BBQ Specials	Send email to Will regarding July’s Weber grill specials	2020-05-04 17:09:36.481726	\N	1	1	1
+1	1	3	 Low on stock on propane	Call Jan about propane vendors	2020-05-04 16:58:40.520663-07	\N	1	1	1
+2	1	3	Need quotes on propane accessories	Call Hank for more prices	2020-05-04 17:02:23.816835-07	\N	1	1	1
+3	1	3	 Call Bill	Ask him why his name is so weird	2020-05-04 17:03:53.62954-07	\N	1	1	1
+4	2	1	 Call Mom	She keeps texting me how run my biz wth	2020-05-04 17:05:24.140499-07	\N	1	1	1
+5	1	1	 Kill Bill Vol. 1	Ask him if he wants to go watch a movie.	2020-05-04 17:06:07.963722-07	\N	1	1	1
+6	1	1	Visit Bills shop	Check what supplies Bill needs	2020-05-04 17:06:53.867358-07	\N	1	1	1
+7	1	1	Propane tank expiration dates	Check inventory for expired tanks. See if Will can take any expired	2020-05-04 17:08:46.46379-07	\N	1	1	1
+8	1	2	BBQ Specials	Send email to Will regarding July’s Weber grill specials	2020-05-04 17:09:36.481726-07	\N	1	1	1
 \.
 
 
@@ -653,9 +654,9 @@ COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle",
 2	Local	Host	LearningFuze	Server	9496797699	localhost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$cdjpFqZJG6TYcgdqqyyYQeoaxzum.osTU/IHfUywJj0Ix.op9vr/K
 1	Our	Guy	LearningFuze	Sales	9496797699	ourguy@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$SP4ywQuH7GGNjWwO6U8s8OAtO5WMyi0zqT4rW8TRZYzk5Uv6MHOWy
 5	Tad	Ghostal	LearningFuze	Host	9496797699	spghost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$vZ3YgSOPQUUf7tbgHDiSN.UqhWf.phupgyWzEbDUIsOSxqAGkg6JK
-4	Magilla	Gorilla	LearningFuze	Gorilla	9496797699	localhost@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$NOJWq8EwqTBWdXlN1PCWKOHFoZkT1kFwmGyeSbpZu4GlAoMeqP8Lm
 6	Outta	Ideas	LearningFuze	Sales	9496797699	email@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$M0r7fmKAYK2CYU87/Z0LZ.COxnZBrSU/aLLVifZP0h6WuB9zoAL5e
 3	Ub	Untu	LearningFuze	Operator	9496797699	ubuntu@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$mFICQuFYN2AxoZdcfTTwbuxB0pf1JKhzVc5XLtLIXztH5XeOH4Qha
+4	Magilla	Gorilla	LearningFuze	Gorilla	9496797699	mgorilla@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$NOJWq8EwqTBWdXlN1PCWKOHFoZkT1kFwmGyeSbpZu4GlAoMeqP8Lm
 \.
 
 
@@ -714,6 +715,14 @@ SELECT pg_catalog.setval('public."users_userId_seq"', 6, true);
 
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customers_pk PRIMARY KEY ("customerId");
+
+
+--
+-- Name: users email_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT email_unique UNIQUE (email);
 
 
 --
