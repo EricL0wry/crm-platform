@@ -19,6 +19,7 @@ import TicketDetails from './ticket-details';
 import UpdateTicket from './update-ticket';
 import EditCustomer from './edit-customer';
 import Loading from './loading';
+import NewUser from './new-user';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -141,9 +142,10 @@ export default class App extends React.Component {
               <Route path="/profile" component={Profile} />
               <Route exact path="/customers/:customerId" component={Customer} />
               <Route exact path="/customers/edit/:customerId" component={EditCustomer} />
-              <Route path="/organization" component={Organization} />
-              <Route path="/tickets" component={AssignedTickets}></Route>
               <Route path="/customers/:customerId/newInteraction" component={NewInteraction}></Route>
+              <Route exact path="/organization" component={Organization} />
+              <Route exact path="/organization/newuser" component={NewUser} />
+              <Route path="/tickets" component={AssignedTickets}></Route>
               <Route path="/ticket/new" component={NewTicket} />
               <Route path="/ticket/edit/:ticketId" component={UpdateTicket}></Route>
               <Route path="/ticket/:ticketId" component={TicketDetails}></Route>
