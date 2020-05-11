@@ -6,6 +6,7 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
+const securityMiddleware = require('./security-middleware');
 const bcrypt = require('bcrypt');
 
 const app = express();
@@ -83,6 +84,8 @@ app.post('/api/logout', (req, res, next) => {
   delete req.session.userId;
   res.status(204).json();
 });
+
+app.use(securityMiddleware);
 
 app.post('/api/signup', (req, res, next) => {
   const {
