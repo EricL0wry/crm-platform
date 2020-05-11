@@ -16,12 +16,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import Customer from './customer';
 import NewInteraction from './new-interaction';
 import TicketDetails from './ticket-details';
-<<<<<<< HEAD
 import UpdateTicket from './update-ticket';
-=======
 import EditCustomer from './edit-customer';
 import Loading from './loading';
->>>>>>> 58215592dfd4e7828886d3e5bc611c7c7d167387
 
 export default class App extends React.Component {
   constructor(props) {
