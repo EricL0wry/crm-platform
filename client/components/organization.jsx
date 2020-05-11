@@ -2,21 +2,14 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import AppContext from '../lib/context';
 import { Typography } from '@material-ui/core';
 import OrganizationList from './organization-list';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => {
-  return {
-    root: {
-      marginTop: '14px'
-    }
-  };
-});
+import Box from '@material-ui/core/Box';
+import { Link } from 'react-router-dom';
+import IconButton from '@material-ui/core/Icon';
 
 export default function Organization() {
   const context = useContext(AppContext);
   const userId = context.getUser().userId;
   const [orgData, setOrgData] = useState([]);
-  const classes = useStyles();
 
   useEffect(() => {
     fetch(`/api/org/${userId}`)
@@ -29,13 +22,19 @@ export default function Organization() {
 
   return (
     <Fragment>
-      <Typography variant="h4" className={classes.root}>
-        Organization
-      </Typography>
-      <Typography variant="h4">
-        Members
-      </Typography>
-      <OrganizationList orgData={orgData}/>
+      <Box display='flex' alignItems='center'>
+        <Box p={0} flexGrow={1}>
+          <Typography variant="h4">
+            Organization Members
+          </Typography>
+        </Box>
+        <Box mr={1}>
+          <Link to="/organization/newuser">
+            <IconButton>add_circle</IconButton>
+          </Link>
+        </Box>
+      </Box>
+      <OrganizationList orgData={orgData} />
     </Fragment>
   );
 }

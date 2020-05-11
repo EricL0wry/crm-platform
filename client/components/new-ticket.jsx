@@ -184,7 +184,7 @@ export default function NewTicket() {
               label="Short Description"
               fullWidth
               onChange={handleChange}
-              value={state.lastName}
+              value={state.description}
             />
           </Grid>
           <Grid item xs={12}>
