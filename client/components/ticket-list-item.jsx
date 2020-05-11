@@ -40,7 +40,7 @@ export default function TicketListItem(props) {
               <Typography className={classes.text} color="textSecondary">
                 Name: {ticket.firstName + ' ' + ticket.lastName}
               </Typography>
-              <Typography className={classes.text} color="textSecondary">
+              <Typography className={classes.text} color="textSecondary" noWrap>
                 Task: {ticket.description}
               </Typography>
             </Grid>
