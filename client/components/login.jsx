@@ -9,12 +9,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: '95vh'
   },
   logo: {
-    width: '70%',
-    objectFit: 'contain',
-    margin: theme.spacing(4, 0)
+    width: '100%',
+    objectFit: 'contain'
   },
   loginForm: {
     width: '100%',
@@ -77,7 +78,7 @@ export default function Login() {
 
   return (
     <Container className={classes.root} maxWidth="xs">
-      <img className={classes.logo} src="/images/placeholder-logo.png" />
+      <img className={classes.logo} src="/images/BasedLongMedBlue.png" />
       <form className={classes.loginForm} onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
