@@ -970,6 +970,24 @@ app.delete('/api/interactions/:interactionId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.delete('/api/tickets/:ticketId', (req, res, next) => {
+  const { ticketId } = req.params;
+  if (!parseInt(ticketId, 10) || Math.sign(ticketId) !== 1) {
+    return next(new ClientError('userId must be a positive integer', 400));
+  }
+
+  const params = [ticketId];
+  const customerQuery = `
+    delete from "tickets"
+         where "ticketId" = $1;
+  `;
+  db.query(customerQuery, params)
+    .then(result => {
+      res.status(204).json();
+    })
+    .catch(err => next(err));
+});
+
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
     res.status(err.status).json({ error: err.message });
