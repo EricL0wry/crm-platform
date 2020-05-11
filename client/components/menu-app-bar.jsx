@@ -3,13 +3,13 @@ import AppContext from '../lib/context';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Link, useHistory } from 'react-router-dom';
 import MenuDrawer from './menu-drawer';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,8 +18,15 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2)
   },
-  title: {
+  logo: {
+    height: '2rem',
+    objectFit: 'contain'
+  },
+  logoContainer: {
     flexGrow: 1
+  },
+  logoLink: {
+    width: 'auto'
   }
 }));
 
@@ -52,9 +59,11 @@ export default function MenuAppBar(props) {
       <AppBar position="fixed">
         <Toolbar>
           <MenuDrawer />
-          <Typography variant="h6" className={classes.title} align="center">
-              BasedSales
-          </Typography>
+          <Box className={classes.logoContainer} display="flex" justifyContent="center" alignItems="center">
+            <Link to='/' className={classes.logoLink}>
+              <img src="/images/BasedLong.png" className={classes.logo} />
+            </Link>
+          </Box>
           <div>
             <IconButton
               aria-label="account of current user"
