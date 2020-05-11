@@ -7,6 +7,10 @@ import TicketListItem from './ticket-list-item';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
+    padding: '0px',
+    '&:last-child': {
+      padding: '0px'
+    },
     backgroundColor: theme.palette.background.paper
   }
 }));

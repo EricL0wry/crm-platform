@@ -22,6 +22,11 @@ export default function Dashboard() {
     return (
       <Fragment>
         <Weather weather={myData.weather} forcast={myData.weather_3days} userInfo={myData.userInfo} />
+        <Typography variant="h5"
+          color="textSecondary"
+          align='center'>
+          Top 5 tickets
+        </Typography>
         {myData.ticketList.length === 0 ? (
           <Typography variant="h4"
             color="textSecondary"
