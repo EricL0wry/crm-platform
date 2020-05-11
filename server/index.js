@@ -158,7 +158,7 @@ app.post('/api/signup', (req, res, next) => {
         if (!newUser) {
           throw new ClientError('User could not be created', 400);
         } else {
-          res.status(200).json(newUser);
+          res.status(201).json(newUser);
         }
       })
       .catch(err => next(err));
