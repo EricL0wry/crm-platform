@@ -22,72 +22,72 @@ export default function CustomerInfo(props) {
     <List className={classes.list}>
       <Grid container spacing={1}>
         <Grid className={classes.grey} item xs={4}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
               Name
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
             {customerInfo.firstName + ' ' + customerInfo.lastName}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
               Street
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
             {customerInfo.addressStreet}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
               City/State
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
             {customerInfo.addressCity + ', ' + customerInfo.addressState + ', ' + customerInfo.addressZip}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
               Phone
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
             {phoneNumberFormater(customerInfo.phoneNumber)}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
               Email
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
             {customerInfo.email}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
               Company
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
             {customerInfo.companyName}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
               Title
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography className={classes.text} color="textSecondary" >
+          <Typography className={classes.text} color="textPrimary" >
             {customerInfo.jobTitle}
           </Typography>
         </Grid>
