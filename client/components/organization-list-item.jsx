@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
+import { phoneNumberFormater } from '../lib/helper-functions';
 
 const useStyles = makeStyles({
   root: {
@@ -12,6 +13,9 @@ const useStyles = makeStyles({
   },
   text: {
     fontSize: 14
+  },
+  icon: {
+    fontSize: 20
   },
   card: {
     width: '100%',
@@ -33,17 +37,21 @@ export default function OrganizationListItem(props) {
           <Grid item xs={1}>
             <Icon>accessibility</Icon>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={4}>
             <Typography className={classes.text} color="textSecondary">
-              Name: {`${firstName} ${lastName}`}
+              {`${firstName} ${lastName}`}
             </Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Icon className={classes.icon}>phone</Icon>
+            <Icon className={classes.icon}>email</Icon>
           </Grid>
           <Grid item xs={6}>
             <Typography className={classes.text} color="textSecondary">
-              Phone: {phoneNumber}
+              {phoneNumberFormater(phoneNumber)}
             </Typography>
             <Typography className={classes.text} color="textSecondary">
-              Email: {email}
+              {email}
             </Typography>
           </Grid>
         </Grid>
