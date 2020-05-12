@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
   },
   titleStyles: {
     marginTop: theme.spacing(2)
+  },
+  icon: {
+    color: theme.palette.primary.light
   }
 }));
 
@@ -35,7 +38,7 @@ export default function AssignedTickets() {
         <Typography className={classes.titleStyles} variant="h4">
           Tickets
           <Link className={classes.addButton} to="/ticket/new">
-            <IconButton>add_circle</IconButton>
+            <IconButton className={classes.icon}>add_circle</IconButton>
           </Link>
         </Typography>
         <TicketList tickets={ticketList} />
