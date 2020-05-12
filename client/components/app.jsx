@@ -20,6 +20,7 @@ import UpdateTicket from './update-ticket';
 import EditCustomer from './edit-customer';
 import Loading from './loading';
 import NewUser from './new-user';
+import InvalidRoute from './invalid-route';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -149,7 +150,7 @@ export default class App extends React.Component {
               <Route path="/ticket/new" component={NewTicket} />
               <Route path="/ticket/edit/:ticketId" component={UpdateTicket}></Route>
               <Route path="/ticket/:ticketId" component={TicketDetails}></Route>
-
+              <Route component={InvalidRoute}></Route>
             </Switch>
           </BrowserRouter>
         </AppContext.Provider>
