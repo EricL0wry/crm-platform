@@ -5,13 +5,13 @@ import IconButton from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core';
 import AppContext from '../lib/context';
 import TicketList from './ticket-list';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
-  addButton: {
-    marginLeft: theme.spacing(26)
-  },
   titleStyles: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(1.5),
+    marginLeft: theme.spacing(1.5)
   }
 }));
 
@@ -32,12 +32,19 @@ export default function AssignedTickets() {
   if (ticketList !== null) {
     return (
       <Fragment>
-        <Typography className={classes.titleStyles} variant="h4">
+        <Box display='flex' alignItems='center'>
+          <Box p={0} flexGrow={1}>
+            <Typography className={classes.titleStyles}
+              variant="h4">
           Tickets
-          <Link className={classes.addButton} to="/ticket/new">
-            <IconButton>add_circle</IconButton>
-          </Link>
-        </Typography>
+            </Typography>
+          </Box>
+          <Box mr={1.5}>
+            <Link to="/ticket/new">
+              <IconButton>add_circle</IconButton>
+            </Link>
+          </Box>
+        </Box >
         <TicketList tickets={ticketList} />
       </Fragment>
     );
