@@ -6,7 +6,6 @@ import InteractionListItem from './interaction-list-item';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    minWidth: '100%',
     padding: '4px',
     '&:last-child': {
       padding: '4px'

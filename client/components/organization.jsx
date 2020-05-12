@@ -9,9 +9,7 @@ import IconButton from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
   titleStyles: {
-    marginTop: theme.spacing(1.5),
-    marginBottom: theme.spacing(1.5),
-    marginLeft: theme.spacing(1.5)
+    margin: theme.spacing(1.5)
   }
 }));
 
@@ -32,14 +30,14 @@ export default function Organization() {
 
   return (
     <Fragment>
-      <Box display='flex' alignItems='center'>
+      <Box display='flex' alignItems='center' className={classes.titleStyles}>
         <Box p={0} flexGrow={1}>
-          <Typography className={classes.titleStyles}
+          <Typography
             variant="h4">
             Organization Members
           </Typography>
         </Box>
-        <Box mr={1.5}>
+        <Box>
           <Link to="/organization/newuser">
             <IconButton>add_circle</IconButton>
           </Link>

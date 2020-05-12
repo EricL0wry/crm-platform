@@ -9,9 +9,7 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   titleStyles: {
-    marginTop: theme.spacing(1.5),
-    marginBottom: theme.spacing(1.5),
-    marginLeft: theme.spacing(1.5)
+    margin: theme.spacing(1.5)
   }
 }));
 
@@ -32,14 +30,14 @@ export default function AssignedTickets() {
   if (ticketList !== null) {
     return (
       <Fragment>
-        <Box display='flex' alignItems='center'>
+        <Box display='flex' alignItems='center' className={classes.titleStyles}>
           <Box p={0} flexGrow={1}>
-            <Typography className={classes.titleStyles}
+            <Typography
               variant="h4">
           Tickets
             </Typography>
           </Box>
-          <Box mr={1.5}>
+          <Box >
             <Link to="/ticket/new">
               <IconButton>add_circle</IconButton>
             </Link>
