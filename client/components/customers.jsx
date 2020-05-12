@@ -5,8 +5,18 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => {
+  return {
+    icon: {
+      color: theme.palette.primary.light
+    }
+  };
+});
 
 export default function Customers() {
+  const classes = useStyles();
   const context = useContext(AppContext);
   const userId = context.getUser().userId;
   const [customerList, setCustomerList] = useState([]);
@@ -30,7 +40,7 @@ export default function Customers() {
         </Box>
         <Box mr={1}>
           <Link to="/customer/new">
-            <IconButton>add_circle</IconButton>
+            <IconButton className={classes.icon}>add_circle</IconButton>
           </Link>
         </Box>
       </Box>
