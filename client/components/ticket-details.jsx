@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => {
     },
     edit: {
       marginRight: '10px'
+    },
+    icon: {
+      color: theme.palette.primary.light
     }
   };
 });
@@ -64,7 +67,7 @@ export default function TicketDetails(props) {
           </Box>
           <Box mr={1}>
             <Link to={`/ticket/edit/${ticketId}`}>
-              <IconButton>edit</IconButton>
+              <IconButton className={classes.icon}>edit</IconButton>
             </Link>
           </Box>
           <Box mr={1}>
