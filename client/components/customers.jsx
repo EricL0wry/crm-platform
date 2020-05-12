@@ -6,21 +6,13 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => {
-  return {
-    icon: {
-      color: theme.palette.primary.light
-    }
-  };
-});
 
 const useStyles = makeStyles(theme => ({
   titleStyles: {
-    marginTop: theme.spacing(1.5),
-    marginBottom: theme.spacing(1.5),
-    marginLeft: theme.spacing(1.5)
+    margin: theme.spacing(1.5)
+  },
+  icon: {
+    color: theme.palette.primary.light
   }
 }));
 
@@ -28,7 +20,6 @@ export default function Customers() {
   const classes = useStyles();
   const context = useContext(AppContext);
   const userId = context.getUser().userId;
-  const classes = useStyles();
   const [customerList, setCustomerList] = useState([]);
 
   useEffect(() => {
@@ -42,9 +33,9 @@ export default function Customers() {
 
   return (
     <Fragment>
-      <Box display='flex' alignItems='center'>
+      <Box display='flex' alignItems='center' className={classes.titleStyles}>
         <Box p={0} flexGrow={1}>
-          <Typography className={classes.titleStyles}
+          <Typography
             variant="h4">
             My Customers
           </Typography>

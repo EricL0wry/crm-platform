@@ -6,19 +6,13 @@ import OrganizationList from './organization-list';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/Icon';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => {
-  return {
-    icon: {
-      color: theme.palette.primary.light
-    }
-  };
-});
 
 const useStyles = makeStyles(theme => ({
   titleStyles: {
     margin: theme.spacing(1.5)
+  },
+  icon: {
+    color: theme.palette.primary.light
   }
 }));
 
@@ -27,7 +21,6 @@ export default function Organization() {
   const classes = useStyles();
   const userId = context.getUser().userId;
   const [orgData, setOrgData] = useState([]);
-  const classes = useStyles();
 
   useEffect(() => {
     fetch(`/api/org/${userId}`)
