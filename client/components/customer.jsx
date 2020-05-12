@@ -13,6 +13,7 @@ import MapDialog from './map-dialog';
 const useStyles = makeStyles(theme => {
   return {
     title: {
+      margin: theme.spacing(1.5)
     }
   };
 });
@@ -66,9 +67,9 @@ export default function Customer() {
   if (customerData !== null) {
     return (
       <Fragment>
-        <Box display='flex' alignItems='center'>
+        <Box display='flex' alignItems='center' className={classes.title}>
           <Box p={0} flexGrow={1}>
-            <Typography variant="h4" className={classes.title}>
+            <Typography variant="h4">
             Customer Info
             </Typography>
           </Box>
@@ -89,17 +90,11 @@ export default function Customer() {
               do={handleDelete} />
           </Box>
         </Box>
-        <Link to={'/customers'}
-          style={{ textDecoration: 'none', minWidth: '100%' }}>
-          <Typography variant="h5" className={classes.title}>
-            Back
-          </Typography>
-        </Link>
         <CustomerInfo customerInfo={customerData.customerInfo} />
 
-        <Box display='flex' alignItems='center'>
+        <Box display='flex' alignItems='center' className={classes.title}>
           <Box p={0} flexGrow={1}>
-            <Typography variant="h4" className={classes.title}>
+            <Typography variant="h4">
           Interactions
             </Typography>
           </Box>
