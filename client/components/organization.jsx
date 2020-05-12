@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { makeStyles, Typography } from '@material-ui/core';
 import AppContext from '../lib/context';
-import { Typography } from '@material-ui/core';
+
 import OrganizationList from './organization-list';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
@@ -15,8 +16,15 @@ const useStyles = makeStyles(theme => {
   };
 });
 
+const useStyles = makeStyles(theme => ({
+  titleStyles: {
+    margin: theme.spacing(1.5)
+  }
+}));
+
 export default function Organization() {
   const context = useContext(AppContext);
+  const classes = useStyles();
   const userId = context.getUser().userId;
   const [orgData, setOrgData] = useState([]);
   const classes = useStyles();
@@ -32,13 +40,14 @@ export default function Organization() {
 
   return (
     <Fragment>
-      <Box display='flex' alignItems='center'>
+      <Box display='flex' alignItems='center' className={classes.titleStyles}>
         <Box p={0} flexGrow={1}>
-          <Typography variant="h4">
+          <Typography
+            variant="h4">
             Organization Members
           </Typography>
         </Box>
-        <Box mr={1}>
+        <Box>
           <Link to="/organization/newuser">
             <IconButton className={classes.icon}>add_circle</IconButton>
           </Link>

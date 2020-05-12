@@ -77,12 +77,6 @@ export default function TicketDetails(props) {
           </Box>
         </Box>
         <TicketDetailList ticketData={ticketData} />
-        <Link to={'/tickets'}
-          style={{ textDecoration: 'none', minWidth: '100%' }}>
-          <Typography variant="h5" className={classes.title}>
-            Back
-          </Typography>
-        </Link>
       </Fragment>
     );
   }

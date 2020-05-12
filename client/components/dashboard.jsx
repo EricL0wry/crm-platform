@@ -4,6 +4,7 @@ import TicketList from './ticket-list';
 import Weather from './weather';
 import Typography from '@material-ui/core/Typography';
 import Loading from './loading';
+import Box from '@material-ui/core/Box';
 
 export default function Dashboard() {
   const context = useContext(AppContext);
@@ -22,16 +23,19 @@ export default function Dashboard() {
     return (
       <Fragment>
         <Weather weather={myData.weather} forcast={myData.weather_3days} userInfo={myData.userInfo} />
-        <Typography variant="h5"
-          color="textSecondary"
-          align='center'>
-          Top 5 tickets
-        </Typography>
+        <Box pt={'8px'}>
+          <Typography variant="h5"
+            color="textPrimary"
+            align='center'
+          >
+          Top 5 Tickets
+          </Typography>
+        </Box>
         {myData.ticketList.length === 0 ? (
           <Typography variant="h4"
             color="textSecondary"
             align = 'center'>
-            There is no ticket
+            There Is No Ticket
           </Typography>
         ) : (
           <TicketList tickets={myData.ticketList} />

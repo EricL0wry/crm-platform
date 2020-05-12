@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 export default function TicketListItem(props) {
   const classes = useStyles();
-  const priorities = ['', 'Hign', 'Medium', 'Low'];
+  const priorities = ['', 'High', 'Medium', 'Low'];
   const ticket = props.ticket;
   return (
     <Link

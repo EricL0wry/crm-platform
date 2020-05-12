@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, Fragment } from 'react';
+import { makeStyles } from '@material-ui/core';
 import AppContext from '../lib/context';
 import CustomerList from './customer-list';
 import Typography from '@material-ui/core/Typography';
@@ -15,10 +16,19 @@ const useStyles = makeStyles(theme => {
   };
 });
 
+const useStyles = makeStyles(theme => ({
+  titleStyles: {
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(1.5),
+    marginLeft: theme.spacing(1.5)
+  }
+}));
+
 export default function Customers() {
   const classes = useStyles();
   const context = useContext(AppContext);
   const userId = context.getUser().userId;
+  const classes = useStyles();
   const [customerList, setCustomerList] = useState([]);
 
   useEffect(() => {
@@ -34,11 +44,12 @@ export default function Customers() {
     <Fragment>
       <Box display='flex' alignItems='center'>
         <Box p={0} flexGrow={1}>
-          <Typography variant="h4">
-        My Customers
+          <Typography className={classes.titleStyles}
+            variant="h4">
+            My Customers
           </Typography>
         </Box>
-        <Box mr={1}>
+        <Box mr={1.5}>
           <Link to="/customer/new">
             <IconButton className={classes.icon}>add_circle</IconButton>
           </Link>
