@@ -12,6 +12,9 @@ import MapDialog from './map-dialog';
 
 const useStyles = makeStyles(theme => {
   return {
+    icon: {
+      color: theme.palette.primary.light
+    },
     title: {
       margin: theme.spacing(1.5)
     }
@@ -79,7 +82,7 @@ export default function Customer() {
           <Box mr={1}>
             <Link to={`/customers/edit/${customerId}`}
               style={{ textDecoration: 'none', minWidth: '100%' }}>
-              <IconButton>edit</IconButton>
+              <IconButton className={classes.icon}>edit</IconButton>
             </Link>
           </Box>
           <Box mr={1}>
@@ -101,7 +104,7 @@ export default function Customer() {
           <Box mr={1}>
             <Link to={`/customers/${customerId}/newInteraction`}
               style={{ textDecoration: 'none', minWidth: '100%' }}>
-              <IconButton>add_circle</IconButton>
+              <IconButton className={classes.icon}>add_circle</IconButton>
             </Link>
           </Box>
         </Box>

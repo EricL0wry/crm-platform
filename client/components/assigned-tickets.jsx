@@ -10,6 +10,9 @@ import Box from '@material-ui/core/Box';
 const useStyles = makeStyles(theme => ({
   titleStyles: {
     margin: theme.spacing(1.5)
+  },
+  icon: {
+    color: theme.palette.primary.light
   }
 }));
 
@@ -39,7 +42,7 @@ export default function AssignedTickets() {
           </Box>
           <Box >
             <Link to="/ticket/new">
-              <IconButton>add_circle</IconButton>
+              <IconButton className={classes.icon}>add_circle</IconButton>
             </Link>
           </Box>
         </Box >
