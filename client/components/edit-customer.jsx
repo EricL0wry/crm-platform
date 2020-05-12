@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useHistory, useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
+import { isValidPhoneNumber, isValidEmail } from '../lib/helper-functions';
 
 export default function EditCustomer(props) {
   const history = useHistory();
@@ -22,6 +23,9 @@ export default function EditCustomer(props) {
     addressState: '',
     addressZip: ''
   });
+
+  const [phoneNumError, setPhoneNumError] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   useEffect(() => {
     fetch(`/api/customers/edit/${customerId}`)
@@ -43,30 +47,38 @@ export default function EditCustomer(props) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const newCustomer = Object.assign({}, state);
-    newCustomer.repId = context.getUser().userId;
-    const req = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newCustomer)
-    };
-    fetch('/api/customers', req)
-      .then(result => {
-        if (result.status === 201) {
-          return result.json();
-        } else {
-          throw new Error('Something went wrong');
-        }
-      })
-      .then(customer => {
-        if (customer) {
-          context.openSnackbar('Customer information updated!');
-          history.push(`/customers/${customerId}`);
-        }
-      })
-      .catch(err => console.error(err));
+    setPhoneNumError('');
+    setEmailError('');
+    if (!isValidPhoneNumber(state.phoneNumber)) {
+      setPhoneNumError('Not Valid Phone Number');
+    } else if (!isValidEmail(state.email)) {
+      setEmailError('Not Valid Email');
+    } else {
+      const newCustomer = Object.assign({}, state);
+      newCustomer.repId = context.getUser().userId;
+      const req = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCustomer)
+      };
+      fetch('/api/customers', req)
+        .then(result => {
+          if (result.status === 201) {
+            return result.json();
+          } else {
+            throw new Error('Something went wrong');
+          }
+        })
+        .then(customer => {
+          if (customer) {
+            context.openSnackbar('Customer information updated!');
+            history.push(`/customers/${customerId}`);
+          }
+        })
+        .catch(err => console.error(err));
+    }
   };
 
   return (
@@ -126,6 +138,8 @@ export default function EditCustomer(props) {
               id="phoneNumber"
               name="phoneNumber"
               label="Phone"
+              error = {!!phoneNumError}
+              helperText={phoneNumError}
               fullWidth
               onChange={handleChange}
               value={state.phoneNumber}
@@ -137,6 +151,8 @@ export default function EditCustomer(props) {
               id="email"
               name="email"
               label="E-mail"
+              error={!!emailError}
+              helperText={emailError}
               fullWidth
               onChange={handleChange}
               value={state.email}

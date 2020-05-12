@@ -474,6 +474,7 @@ app.get('/api/customerlist/:userId', (req, res, next) => {
            "email"
     from "customers"
     where "repId" = $1
+    order by "customerId"
   `;
   const params = [userId];
   db.query(sql, params)

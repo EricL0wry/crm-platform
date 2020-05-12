@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
+import { phoneNumberFormater } from '../lib/helper-functions';
 
 const useStyles = makeStyles({
   root: {
@@ -13,6 +14,9 @@ const useStyles = makeStyles({
   },
   text: {
     fontSize: 14
+  },
+  icon: {
+    fontSize: 20
   },
   card: {
     width: '100%',
@@ -32,19 +36,23 @@ export default function CustomerListItem(props) {
         <CardContent className={classes.card}>
           <Grid container alignItems="center">
             <Grid item xs={1}>
-              <Icon>accessibility</Icon>
+              <Icon className={classes.icon}>accessibility</Icon>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={3}>
               <Typography className={classes.text} color="textSecondary" >
-                Name: {customer.firstName + ' ' + customer.lastName}
+                {customer.firstName + ' ' + customer.lastName}
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={1}>
+              <Icon className={classes.icon}>phone</Icon>
+              <Icon className={classes.icon}>email</Icon>
+            </Grid>
+            <Grid item xs={7}>
               <Typography className={classes.text} color="textSecondary" >
-                Phone: {customer.phoneNumber}
+                {phoneNumberFormater(customer.phoneNumber)}
               </Typography>
               <Typography className={classes.text} color="textSecondary" >
-                Email: {customer.email}
+                {customer.email}
               </Typography>
             </Grid>
           </Grid>

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import { phoneNumberFormater } from '../lib/helper-functions';
 
 const useStyles = makeStyles(theme => ({
   grey: {
@@ -57,7 +58,7 @@ export default function CustomerInfo(props) {
         </Grid>
         <Grid item xs={8}>
           <Typography className={classes.text} color="textSecondary" >
-            {customerInfo.phoneNumber}
+            {phoneNumberFormater(customerInfo.phoneNumber)}
           </Typography>
         </Grid>
         <Grid className={classes.grey} item xs={4}>
