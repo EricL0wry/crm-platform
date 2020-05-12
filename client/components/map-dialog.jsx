@@ -23,6 +23,9 @@ const useStyles = makeStyles(theme => {
     },
     grey: {
       backgroundColor: theme.background.darkgrey
+    },
+    icon: {
+      color: theme.palette.primary.light
     }
   };
 });
@@ -48,7 +51,7 @@ export default function MapDialog(props) {
 
     return (
       <div>
-        <IconButton onClick={handleClickOpen}>{props.icon}</IconButton>
+        <IconButton onClick={handleClickOpen} className={classes.icon}>{props.icon}</IconButton>
         <Dialog
           open={open}
           onClose={handleClose}
