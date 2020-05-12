@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
+import { isValidPhoneNumber, isValidEmail } from '../lib/helper-functions';
 
 export default function NewCustomer() {
   const history = useHistory();
@@ -22,6 +23,9 @@ export default function NewCustomer() {
     addressZip: ''
   });
 
+  const [phoneNumError, setPhoneNumError] = useState('');
+  const [emailError, setEmailError] = useState('');
+
   const handleChange = event => {
     const newState = Object.assign({}, state);
     newState[event.target.name] = event.target.value;
@@ -34,30 +38,38 @@ export default function NewCustomer() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const newCustomer = Object.assign({}, state);
-    newCustomer.repId = context.getUser().userId;
-    const req = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newCustomer)
-    };
-    fetch('/api/customers', req)
-      .then(result => {
-        if (result.status === 201) {
-          return result.json();
-        } else {
-          throw new Error('Something went wrong');
-        }
-      })
-      .then(customer => {
-        if (customer) {
-          context.openSnackbar('New Customer Added');
-          history.push('/customers');
-        }
-      })
-      .catch(err => console.error(err));
+    setPhoneNumError('');
+    setEmailError('');
+    if (!isValidPhoneNumber(state.phoneNumber)) {
+      setPhoneNumError('Not Valid Phone Number');
+    } else if (!isValidEmail(state.email)) {
+      setEmailError('Not Valid Email');
+    } else {
+      const newCustomer = Object.assign({}, state);
+      newCustomer.repId = context.getUser().userId;
+      const req = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCustomer)
+      };
+      fetch('/api/customers', req)
+        .then(result => {
+          if (result.status === 201) {
+            return result.json();
+          } else {
+            throw new Error('Something went wrong');
+          }
+        })
+        .then(customer => {
+          if (customer) {
+            context.openSnackbar('New Customer Added');
+            history.push('/customers');
+          }
+        })
+        .catch(err => console.error(err));
+    }
   };
 
   return (
@@ -117,6 +129,8 @@ export default function NewCustomer() {
               id="phoneNumber"
               name="phoneNumber"
               label="Phone"
+              error={!!phoneNumError}
+              helperText={phoneNumError}
               fullWidth
               onChange={handleChange}
               value={state.phoneNumber}
@@ -128,6 +142,8 @@ export default function NewCustomer() {
               id="email"
               name="email"
               label="E-mail"
+              error={!!emailError}
+              helperText={emailError}
               fullWidth
               onChange={handleChange}
               value={state.email}
