@@ -89,12 +89,6 @@ export default function Customer() {
               do={handleDelete} />
           </Box>
         </Box>
-        <Link to={'/customers'}
-          style={{ textDecoration: 'none', minWidth: '100%' }}>
-          <Typography variant="h5" className={classes.title}>
-            Back
-          </Typography>
-        </Link>
         <CustomerInfo customerInfo={customerData.customerInfo} />
 
         <Box display='flex' alignItems='center'>
