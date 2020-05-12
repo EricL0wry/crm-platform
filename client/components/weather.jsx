@@ -63,10 +63,10 @@ export default function Weather(props) {
       <CardContent className={classes.cardContent}>
         <Grid container spacing={3} justify="space-between">
           <Grid item xs={12}>
-            <Typography className={classes.header} color="textSecondary">
+            <Typography className={classes.header} color="textPrimary">
               Good Morning <br />{props.userInfo.firstName}
             </Typography>
-            <Typography className={classes.text} color="textSecondary">
+            <Typography className={classes.text} color="textPrimary">
               Here is the current weather information at {props.weather.name}
             </Typography>
           </Grid>

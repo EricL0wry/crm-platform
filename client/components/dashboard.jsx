@@ -25,7 +25,7 @@ export default function Dashboard() {
         <Weather weather={myData.weather} forcast={myData.weather_3days} userInfo={myData.userInfo} />
         <Box pt={'8px'}>
           <Typography variant="h5"
-            color="textSecondary"
+            color="textPrimary"
             align='center'
           >
           Top 5 Tickets
