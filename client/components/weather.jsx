@@ -55,9 +55,9 @@ export default function Weather(props) {
   const url = 'https://openweathermap.org/img/wn/' + icon + '@2x.png';
   const url2 = 'https://openweathermap.org/img/wn/' + icon2 + '@2x.png';
   const url3 = 'https://openweathermap.org/img/wn/' + icon3 + '@2x.png';
-  const weather = props.weather.weather[0].description;
-  const weather2 = props.forcast.list[6].weather[0].description;
-  const weather3 = props.forcast.list[14].weather[0].description;
+  const temperature = props.weather.main.temp;
+  const temperature2 = props.forcast.list[6].main.temp;
+  const temperature3 = props.forcast.list[14].main.temp;
   return (
     <Card className={classes.root}>
       <CardContent className={classes.cardContent}>
@@ -73,21 +73,21 @@ export default function Weather(props) {
           <Grid className= {classes.marginAutoItem} item xs={4}>
             <Avatar alt="" src={url} className={classes.marginAutoItem}/>
             <Typography className={classes.text} color="textSecondary">
-              {weather} <br />
+              {temperature}<span>&#8457;</span> <br />
               {today}
             </Typography>
           </Grid>
           <Grid className={classes.marginAutoItem} item xs={4}>
             <Avatar alt="" src={url2} className={classes.marginAutoItem} />
             <Typography className={classes.text} color="textSecondary">
-              {weather2} <br />
+              {temperature2}<span>&#8457;</span> <br />
               {second}
             </Typography>
           </Grid>
           <Grid className={classes.marginAutoItem} item xs={4}>
             <Avatar alt="" src={url3} className={classes.marginAutoItem} />
             <Typography className={classes.text} color="textSecondary">
-              {weather3} <br />
+              {temperature3}<span>&#8457;</span><br />
               {third}
             </Typography>
           </Grid>
