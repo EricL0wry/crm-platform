@@ -58,16 +58,27 @@ export default function Weather(props) {
   const temperature = props.weather.main.temp;
   const temperature2 = props.forcast.list[6].main.temp;
   const temperature3 = props.forcast.list[14].main.temp;
+
+  const hrs = d.getHours();
+  let greeting = '';
+  if (hrs < 12) {
+    greeting = 'Good Morning';
+  } else if (hrs < 17) {
+    greeting = 'Good Afternoon';
+  } else {
+    greeting = 'Good Evening';
+  }
+
   return (
     <Card className={classes.root}>
       <CardContent className={classes.cardContent}>
         <Grid container spacing={3} justify="space-between">
           <Grid item xs={12}>
             <Typography className={classes.header} color="textPrimary">
-              Good Morning <br />{props.userInfo.firstName}
+              {greeting}, <br />{props.userInfo.firstName}!
             </Typography>
             <Typography className={classes.text} color="textPrimary">
-              Here is the current weather information at {props.weather.name}
+              Here is the current weather information for {props.weather.name}
             </Typography>
           </Grid>
           <Grid className= {classes.marginAutoItem} item xs={4}>
