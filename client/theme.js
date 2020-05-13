@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
+import red from '@material-ui/core/colors/red';
 import grey from '@material-ui/core/colors/grey';
 
 const theme = createMuiTheme({
@@ -8,7 +8,7 @@ const theme = createMuiTheme({
       main: '#3F51B5',
       light: '#5EA7DB'
     },
-    secondary: purple
+    secondary: red
   },
   status: {
     danger: 'red'

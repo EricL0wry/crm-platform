@@ -206,8 +206,7 @@ export default function Profile(props) {
         <Button
           onClick={handleLogout}
           variant="contained"
-          color="secondary"
-          context=""
+          color="primary"
         >
           Log Out
         </Button>
