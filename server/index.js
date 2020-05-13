@@ -472,7 +472,8 @@ app.get('/api/customerlist/:userId', (req, res, next) => {
            "firstName",
            "lastName",
            "phoneNumber",
-           "email"
+           "email",
+           "imagePath"
     from "customers"
     where "repId" = $1
     order by "customerId"
