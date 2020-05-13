@@ -743,7 +743,7 @@ COPY public.users ("userId", "firstName", "lastName", "companyName", "jobTitle",
 7	Grant	Kang	LearningFuze	Software Developer	9496797699	gkang@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$cdjpFqZJG6TYcgdqqyyYQeoaxzum.osTU/IHfUywJj0Ix.op9vr/K	/images/users/grant.jpg
 9	Eric	Lowry	LearningFuze	Software Developer	9496797699	elowry@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$vZ3YgSOPQUUf7tbgHDiSN.UqhWf.phupgyWzEbDUIsOSxqAGkg6JK	/images/users/eric.jpg
 10	Yizhou	Liu	LearningFuze	Software Developer	9496797699	yliu@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$M0r7fmKAYK2CYU87/Z0LZ.COxnZBrSU/aLLVifZP0h6WuB9zoAL5e	/images/users/lewis.png
-8	Kevin	Kim	LearningFuze	Software Developer	9496797699	kkim@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$SP4ywQuH7GGNjWwO6U8s8OAtO5WMyi0zqT4rW8TRZYzk5Uv6MHOWy	/images/users/kevin.jpg
+8	Kevin	Kim	LearningFuze	Software Developer	9496797699	kkim@lfz.com	9200 Irvine Center Dr. #200	Irvine	CA	92618	$2b$10$SP4ywQuH7GGNjWwO6U8s8OAtO5WMyi0zqT4rW8TRZYzk5Uv6MHOWy	/images/users/kevin.png
 \.
 
 
