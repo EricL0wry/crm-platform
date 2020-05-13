@@ -58,27 +58,34 @@ export default function MenuDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {[{
-          label: 'Dashboard',
-          path: '/'
-        },
-        {
-          label: 'Tickets',
-          path: '/tickets'
-        },
-        {
-          label: 'Customers',
-          path: '/customers'
-        },
-        {
-          label: 'Organization',
-          path: '/organization'
-        }
+        {[
+          {
+            label: 'Dashboard',
+            path: '/'
+          },
+          {
+            label: 'Tickets',
+            path: '/tickets'
+          },
+          {
+            label: 'Customers',
+            path: '/customers'
+          },
+          {
+            label: 'Organization',
+            path: '/organization'
+          }
         ].map((item, index) => (
-          <Link to={item.path} key={item.label} style={{ textDecoration: 'none' }}>
+          <Link
+            to={item.path}
+            key={item.label}
+            style={{ textDecoration: 'none', color: 'black' }}
+          >
             <ListItem button>
               {renderIcon(index)}
-              <ListItemText primary={item.label} />
+              <ListItemText
+                primary={item.label}
+              />
             </ListItem>
           </Link>
         ))}
@@ -94,11 +101,16 @@ export default function MenuDrawer() {
           edge="start"
           color="inherit"
           aria-label="menu"
-          onClick={toggleDrawer('left', true)}>
+          onClick={toggleDrawer('left', true)}
+        >
           <MenuIcon />
         </IconButton>
 
-        <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)}>
+        <Drawer
+          anchor={'left'}
+          open={state.left}
+          onClose={toggleDrawer('left', false)}
+        >
           {list('left')}
         </Drawer>
       </React.Fragment>
