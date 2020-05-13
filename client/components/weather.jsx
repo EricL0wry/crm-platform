@@ -9,7 +9,8 @@ import Avatar from '@material-ui/core/Avatar';
 const useStyles = makeStyles({
   root: {
     minWidth: '100%',
-    minHeight: 180
+    minHeight: 180,
+    backgroundColor: '#fefefa'
   },
   cardContent: {
     padding: '4px',
@@ -70,7 +71,7 @@ export default function Weather(props) {
   }
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} elevation={4}>
       <CardContent className={classes.cardContent}>
         <Grid container spacing={3} justify="space-between">
           <Grid item xs={12}>
