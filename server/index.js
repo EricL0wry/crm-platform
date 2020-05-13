@@ -184,7 +184,7 @@ app.get('/api/tickets/:userId', (req, res, next) => {
          inner join "users" as "u"
             on "t"."ownerId" = "u"."userId"
         where "t"."ownerId" = $1
-        order by "t"."dueDate"
+        order by "t"."ticketId"
       `;
   const params = [userId];
   db.query(sql, params).then(result => {
