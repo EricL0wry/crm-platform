@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { Box } from '@material-ui/core';
 
 export default function NewTicket() {
   const history = useHistory();
@@ -97,132 +98,134 @@ export default function NewTicket() {
       <Typography variant="h4" gutterBottom>
         New Ticket
       </Typography>
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <InputLabel id="demo-simple-select-label">Customer</InputLabel>
-            <Select
-              labelId="customerId"
-              id="customerId"
-              name="customerId"
-              value={state.customerId}
-              onChange={handleChange}
-              fullWidth>
-              {customers.map(customer => {
-                return (
-                  <MenuItem
-                    key={customer.customerId}
-                    value={customer.customerId}>
-                    {`${customer.firstName} ${customer.lastName}`}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputLabel id="demo-simple-select-label">Assigned To</InputLabel>
-            <Select
-              labelId="assignedToId"
-              id="assignedToId"
-              name="assignedToId"
-              value={state.assignedToId}
-              onChange={handleChange}
-              fullWidth>
-              {users.map(user => {
-                return (
-                  <MenuItem
-                    key={user.userId}
-                    value={user.userId}>
-                    {`${user.firstName} ${user.lastName}`}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-            <Select
-              labelId="priority"
-              id="priority"
-              name="priority"
-              value={state.priority}
-              onChange={handleChange}
-              fullWidth>
-              {priorities.map(priority => {
-                return (
-                  <MenuItem
-                    key={priority.priorityId}
-                    value={priority.priorityId}>
-                    {priority.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                id="dueDate"
-                label="Due Date"
-                name="dueDate"
-                format="MM/dd/yyyy"
-                disablePast
-                value={state.dueDate}
-                onChange={handleDueDateChange}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date'
-                }}
+      <Box m={1}>
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <InputLabel id="demo-simple-select-label">Customer</InputLabel>
+              <Select
+                labelId="customerId"
+                id="customerId"
+                name="customerId"
+                value={state.customerId}
+                onChange={handleChange}
+                fullWidth>
+                {customers.map(customer => {
+                  return (
+                    <MenuItem
+                      key={customer.customerId}
+                      value={customer.customerId}>
+                      {`${customer.firstName} ${customer.lastName}`}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <InputLabel id="demo-simple-select-label">Assigned To</InputLabel>
+              <Select
+                labelId="assignedToId"
+                id="assignedToId"
+                name="assignedToId"
+                value={state.assignedToId}
+                onChange={handleChange}
+                fullWidth>
+                {users.map(user => {
+                  return (
+                    <MenuItem
+                      key={user.userId}
+                      value={user.userId}>
+                      {`${user.firstName} ${user.lastName}`}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+              <Select
+                labelId="priority"
+                id="priority"
+                name="priority"
+                value={state.priority}
+                onChange={handleChange}
+                fullWidth>
+                {priorities.map(priority => {
+                  return (
+                    <MenuItem
+                      key={priority.priorityId}
+                      value={priority.priorityId}>
+                      {priority.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  id="dueDate"
+                  label="Due Date"
+                  name="dueDate"
+                  format="MM/dd/yyyy"
+                  disablePast
+                  value={state.dueDate}
+                  onChange={handleDueDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date'
+                  }}
+                  fullWidth
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="description"
+                name="description"
+                label="Short Description"
                 fullWidth
+                onChange={handleChange}
+                value={state.description}
               />
-            </MuiPickersUtilsProvider>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="description"
-              name="description"
-              label="Short Description"
-              fullWidth
-              onChange={handleChange}
-              value={state.description}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="details"
-              name="details"
-              label="Details"
-              fullWidth
-              multiline
-              rows="5"
-              variant="filled"
-              onChange={handleChange}
-              value={state.details}
-            />
-          </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="details"
+                name="details"
+                label="Details"
+                fullWidth
+                multiline
+                rows="5"
+                variant="filled"
+                onChange={handleChange}
+                value={state.details}
+              />
+            </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
-              Submit
-            </Button>
+            <Grid item xs={12} sm={6}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                Submit
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={handleCancel}
+                fullWidth
+                variant="contained"
+              >
+                Cancel
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button
-              onClick={handleCancel}
-              fullWidth
-              variant="contained"
-            >
-              Cancel
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+        </form>
+      </Box>
     </Fragment>
   );
 }
