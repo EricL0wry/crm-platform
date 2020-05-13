@@ -113,7 +113,7 @@ export default function MapDialog(props) {
           <img className={classes.mapImg} src={mapUrl} alt="Customer Location Map" />
 
           <DialogActions>
-            <Button color="primary" href={googleUrl} autoFocus>
+            <Button color="primary" href={googleUrl} target="_blank" autoFocus>
             Google
             </Button>
             <Button onClick={handleClose} color="primary">
