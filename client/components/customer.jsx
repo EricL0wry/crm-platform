@@ -17,6 +17,10 @@ const useStyles = makeStyles(theme => {
     },
     title: {
       margin: theme.spacing(1.5)
+    },
+    titleBottom: {
+      margin: theme.spacing(1.5),
+      marginBottom: theme.spacing(1)
     }
   };
 });
@@ -95,7 +99,7 @@ export default function Customer() {
         </Box>
         <CustomerInfo customerInfo={customerData.customerInfo} />
 
-        <Box display='flex' alignItems='center' className={classes.title}>
+        <Box display='flex' alignItems='center' className={classes.titleBottom}>
           <Box p={0} flexGrow={1}>
             <Typography variant="h4">
           Interactions

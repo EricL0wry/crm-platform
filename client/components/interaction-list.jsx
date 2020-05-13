@@ -6,20 +6,10 @@ import InteractionListItem from './interaction-list-item';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: '4px',
-    '&:last-child': {
-      padding: '4px'
-    },
-    backgroundColor: theme.background.darkgrey
+    paddingTop: '0'
   },
   text: {
     fontSize: 14
-  },
-  listItem: {
-    padding: '2px',
-    '&:last-child': {
-      padding: '2px'
-    }
   }
 }));
 
