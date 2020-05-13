@@ -31,6 +31,32 @@ const useStyles = makeStyles({
 
 });
 
+const temp2days = list => {
+  const dayTemp = [];
+  const dayIcon = [];
+  let counter = 0;
+  let dayNum = 0;
+
+  for (let i = 1; i < list.length; i++) {
+    if (counter === 0) {
+      dayTemp.push(list[i].main.temp);
+      dayIcon.push(list[i].weather[0].icon);
+    } else {
+      if (list[i].main.temp > dayTemp[dayNum]) {
+        dayTemp[dayNum] = list[i].main.temp;
+        dayIcon[dayNum] = list[i].weather[0].icon;
+
+      }
+    }
+    counter++;
+    if (counter === 8) {
+      counter = 0;
+      dayNum++;
+    }
+  }
+  return [dayTemp, dayIcon];
+};
+
 export default function Weather(props) {
   const classes = useStyles();
   const d = new Date();
@@ -49,15 +75,9 @@ export default function Weather(props) {
     second = days[n + 1];
     third = days[n + 2];
   }
-  const icon = props.weather.weather[0].icon;
-  const icon2 = props.forcast.list[6].weather[0].icon;
-  const icon3 = props.forcast.list[14].weather[0].icon;
-  const url = 'https://openweathermap.org/img/wn/' + icon + '@2x.png';
-  const url2 = 'https://openweathermap.org/img/wn/' + icon2 + '@2x.png';
-  const url3 = 'https://openweathermap.org/img/wn/' + icon3 + '@2x.png';
-  const temperature = props.weather.main.temp;
-  const temperature2 = props.forcast.list[6].main.temp;
-  const temperature3 = props.forcast.list[14].main.temp;
+
+  const [dayTemp, dayIcon] = temp2days(props.forcast.list);
+  const url = dayIcon.map(icon => ('https://openweathermap.org/img/wn/' + icon + '@2x.png'));
   return (
     <Card className={classes.root}>
       <CardContent className={classes.cardContent}>
@@ -67,27 +87,27 @@ export default function Weather(props) {
               Good Morning <br />{props.userInfo.firstName}
             </Typography>
             <Typography className={classes.text} color="textPrimary">
-              Here is the current weather information at {props.weather.name}
+              Here is the current weather information at {props.forcast.city.name}
             </Typography>
           </Grid>
           <Grid className= {classes.marginAutoItem} item xs={4}>
-            <Avatar alt="" src={url} className={classes.marginAutoItem}/>
+            <Avatar alt="" src={url[0]} className={classes.marginAutoItem}/>
             <Typography className={classes.text} color="textSecondary">
-              {temperature}<span>&#8457;</span> <br />
+              {Math.round(dayTemp[0])}<span>&#8457;</span> <br />
               {today}
             </Typography>
           </Grid>
           <Grid className={classes.marginAutoItem} item xs={4}>
-            <Avatar alt="" src={url2} className={classes.marginAutoItem} />
+            <Avatar alt="" src={url[1]} className={classes.marginAutoItem} />
             <Typography className={classes.text} color="textSecondary">
-              {temperature2}<span>&#8457;</span> <br />
+              {Math.round(dayTemp[1])}<span>&#8457;</span> <br />
               {second}
             </Typography>
           </Grid>
           <Grid className={classes.marginAutoItem} item xs={4}>
-            <Avatar alt="" src={url3} className={classes.marginAutoItem} />
+            <Avatar alt="" src={url[2]} className={classes.marginAutoItem} />
             <Typography className={classes.text} color="textSecondary">
-              {temperature3}<span>&#8457;</span><br />
+              {Math.round(dayTemp[2])}<span>&#8457;</span><br />
               {third}
             </Typography>
           </Grid>
