@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AppContext from '../lib/context';
 import Container from '@material-ui/core/Container';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Login() {
+  const history = useHistory();
   const classes = useStyles();
   const context = useContext(AppContext);
   const usernameErrMsg = 'Could not find user';
@@ -68,6 +70,7 @@ export default function Login() {
       })
       .then(data => {
         context.onLogin(data);
+        history.push('/');
       })
       .catch(err => {
         const newState = Object.assign({}, state);
