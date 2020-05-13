@@ -408,17 +408,6 @@ app.get('/api/dashboard/:userId', (req, res, next) => {
     .then(result => {
       const dashboardResponse = result;
       const { addressZip } = dashboardResponse.userInfo;
-      return fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${addressZip}&units=imperial&appid=${process.env.MAP_KEY}`)
-        .then(response => response.json())
-        .then(weather => {
-          dashboardResponse.weather = weather;
-          return dashboardResponse;
-        })
-        .catch(err => next(err));
-    })
-    .then(result => {
-      const dashboardResponse = result;
-      const { addressZip } = dashboardResponse.userInfo;
       return fetch(`https://api.openweathermap.org/data/2.5/forecast?zip=${addressZip}&units=imperial&appid=${process.env.MAP_KEY}`)
         .then(response => response.json())
         .then(weather => {

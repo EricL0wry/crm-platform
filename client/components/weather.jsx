@@ -87,7 +87,7 @@ export default function Weather(props) {
               Good Morning <br />{props.userInfo.firstName}
             </Typography>
             <Typography className={classes.text} color="textPrimary">
-              Here is the current weather information at {props.weather.name}
+              Here is the current weather information at {props.forcast.city.name}
             </Typography>
           </Grid>
           <Grid className= {classes.marginAutoItem} item xs={4}>
