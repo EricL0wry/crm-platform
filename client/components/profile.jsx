@@ -41,7 +41,8 @@ export default function Profile(props) {
     companyName,
     jobTitle,
     phoneNumber,
-    email
+    email,
+    imagePath
   } = user;
 
   const handleLogout = () => {
@@ -62,8 +63,8 @@ export default function Profile(props) {
         <Grid item>
           <Avatar
             className={classes.avatarStyles}
-            alt="default"
-            src="/images/default-user-img.JPG"
+            alt="user"
+            src={imagePath || '/images/users/placeholder.png'}
           />
         </Grid>
       </Grid>

@@ -444,7 +444,8 @@ app.get('/api/users/:userId', (req, res, next) => {
            "companyName",
            "jobTitle",
            "phoneNumber",
-           "email"
+           "email",
+           "imagePath"
       from "users"
      where "userId" = $1
   `;
@@ -497,7 +498,8 @@ app.get('/api/org/:userId', (req, res, next) => {
            "lastName",
            "phoneNumber",
            "email",
-           "userId"
+           "userId",
+           "imagePath"
       from "users"
      where not "userId" = $1
   `;
