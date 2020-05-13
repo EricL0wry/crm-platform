@@ -8,7 +8,8 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: '100%'
+    minWidth: '100%',
+    backgroundColor: '#fefefa'
   },
   text: {
     fontSize: 14
@@ -30,7 +31,7 @@ export default function TicketListItem(props) {
       to={`/ticket/${ticket.ticketId}`}
       style={{ textDecoration: 'none', minWidth: '100%' }}
     >
-      <Card className={classes.root} onClick={null}>
+      <Card className={classes.root} onClick={null} elevation={4} >
         <CardContent className={classes.card}>
           <Grid container spacing={3}>
             <Grid item xs={6}>

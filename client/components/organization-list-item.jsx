@@ -9,7 +9,8 @@ import { phoneNumberFormater } from '../lib/helper-functions';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: '100%'
+    minWidth: '100%',
+    backgroundColor: '#fefefa'
   },
   text: {
     fontSize: 14
@@ -31,7 +32,7 @@ export default function OrganizationListItem(props) {
   const { firstName, lastName, phoneNumber, email } = props.member;
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} elevation={4}>
       <CardContent className={classes.card}>
         <Grid container alignItems="center">
           <Grid item xs={1}>

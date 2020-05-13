@@ -14,7 +14,8 @@ import ApplicationContext from '../lib/context';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: '100%'
+    minWidth: '100%',
+    backgroundColor: '#fefefa'
   },
   text: {
     fontSize: 14
@@ -56,7 +57,7 @@ export default function InteractionListItem(props) {
 
   return (
     <Fragment>
-      <Card className={classes.root} onClick={handleClickOpen}>
+      <Card className={classes.root} onClick={handleClickOpen} elevation={4}>
         <CardContent className={classes.card}>
           <Grid container className={classes.root} spacing={1}>
             <Grid container item xs={12} spacing={1}>
