@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => {
     titleBottom: {
       margin: theme.spacing(1.5),
       marginBottom: theme.spacing(1)
+    },
+    noInteractions: {
+      marginTop: theme.spacing(1.5)
     }
   };
 });
@@ -114,10 +117,11 @@ export default function Customer() {
         </Box>
         {customerData.interactions.length === 0 ? (
           <Fragment>
-            <Typography variant="h4"
+            <Typography variant="h6"
               color="textSecondary"
-              align='center'>
-            There is no interaction record
+              align='center'
+              className={classes.noInteractions}>
+            This customer does not have any recorded interactions.
             </Typography>
           </Fragment>
         ) : (
