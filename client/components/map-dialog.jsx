@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/Icon';
 import { Typography } from '@material-ui/core';
@@ -21,13 +20,19 @@ const useStyles = makeStyles(theme => {
       objectFit: 'contain'
     },
     grey: {
-      backgroundColor: theme.background.darkgrey
+      backgroundColor: theme.background.lightgrey
     },
     icon: {
       color: theme.palette.primary.light
     },
     title: {
       margin: theme.spacing(2)
+    },
+    listProperties: {
+      paddingLeft: '1rem'
+    },
+    list: {
+      marginBottom: theme.spacing(2)
     }
   };
 });
@@ -65,48 +70,48 @@ export default function MapDialog(props) {
               Location
             </Typography>
           </Box>
-          <DialogContent>
-            <List>
-              <Grid container spacing={2}>
-                <Grid className={classes.grey} item xs={4}>
-                  <Box display='flex' alignItems='center' height='100%'>
-                    <Typography>
+          {/* <DialogContent> */}
+          <List className={classes.list}>
+            <Grid container spacing={2}>
+              <Grid className={classes.grey} item xs={4}>
+                <Box display='flex' alignItems='center' height='100%'>
+                  <Typography className={classes.listProperties}>
                     Name
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>
-                    {firstName} {lastName}
                   </Typography>
-                </Grid>
-                <Grid className={classes.grey} item xs={4}>
-                  <Box display='flex' alignItems='center' height='100%'>
-                    <Typography>
-                    Street
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>
-                    {street}
-                  </Typography>
-                </Grid>
-                <Grid className={classes.grey} item xs={4}>
-                  <Box display='flex' alignItems='center' height='100%'>
-                    <Typography>
-                    City/State
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>
-                    {city}, {state} {zip}
-                  </Typography>
-                </Grid>
+                </Box>
               </Grid>
-            </List>
-          </DialogContent>
+              <Grid item xs={8}>
+                <Typography>
+                  {firstName} {lastName}
+                </Typography>
+              </Grid>
+              <Grid className={classes.grey} item xs={4}>
+                <Box display='flex' alignItems='center' height='100%'>
+                  <Typography className={classes.listProperties}>
+                    Street
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography>
+                  {street}
+                </Typography>
+              </Grid>
+              <Grid className={classes.grey} item xs={4}>
+                <Box display='flex' alignItems='center' height='100%'>
+                  <Typography className={classes.listProperties}>
+                    City/State
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography>
+                  {city}, {state} {zip}
+                </Typography>
+              </Grid>
+            </Grid>
+          </List>
+          {/* </DialogContent> */}
           <img className={classes.mapImg} src={mapUrl} alt="Customer Location Map" />
           <DialogActions>
             <Button color="primary" href={googleUrl} target="_blank" autoFocus>

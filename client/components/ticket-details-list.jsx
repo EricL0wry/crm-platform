@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => {
       width: '96%'
     },
     grey: {
-      backgroundColor: theme.background.darkgrey
+      backgroundColor: theme.background.lightgrey
     }
   };
 });
