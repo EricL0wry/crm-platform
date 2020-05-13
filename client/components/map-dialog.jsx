@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/Icon';
@@ -26,6 +25,9 @@ const useStyles = makeStyles(theme => {
     },
     icon: {
       color: theme.palette.primary.light
+    },
+    title: {
+      margin: theme.spacing(2)
     }
   };
 });
@@ -55,20 +57,15 @@ export default function MapDialog(props) {
         <Dialog
           open={open}
           onClose={handleClose}
-          aria-labelledby="location-title"
-          aria-describedby="location-dialog-description"
           fullWidth
           className={classes.dialog}
         >
-          <DialogTitle id="location-title" >
-            <Box>
-              <Typography variant="h4">
+          <Box>
+            <Typography variant="h4" className={classes.title}>
               Location
-              </Typography>
-            </Box>
-          </DialogTitle>
+            </Typography>
+          </Box>
           <DialogContent>
-
             <List>
               <Grid container spacing={2}>
                 <Grid className={classes.grey} item xs={4}>
@@ -111,7 +108,6 @@ export default function MapDialog(props) {
             </List>
           </DialogContent>
           <img className={classes.mapImg} src={mapUrl} alt="Customer Location Map" />
-
           <DialogActions>
             <Button color="primary" href={googleUrl} target="_blank" autoFocus>
             Google
