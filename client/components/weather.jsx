@@ -79,13 +79,24 @@ export default function Weather(props) {
 
   const [dayTemp, dayIcon] = temp2days(props.forcast.list);
   const url = dayIcon.map(icon => ('https://openweathermap.org/img/wn/' + icon + '@2x.png'));
+
+  const hrs = d.getHours();
+  let greeting = '';
+  if (hrs < 12) {
+    greeting = 'Good Morning';
+  } else if (hrs < 17) {
+    greeting = 'Good Afternoon';
+  } else {
+    greeting = 'Good Evening';
+  }
+
   return (
     <Card className={classes.root} elevation={4}>
       <CardContent className={classes.cardContent}>
         <Grid container spacing={3} justify="space-between">
           <Grid item xs={12}>
             <Typography className={classes.header} color="textPrimary">
-              Good Morning <br />{props.userInfo.firstName}
+              {greeting}, <br />{props.userInfo.firstName}!
             </Typography>
             <Typography className={classes.text} color="textPrimary">
               Here is the current weather information at {props.forcast.city.name}
