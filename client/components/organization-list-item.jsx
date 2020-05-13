@@ -17,7 +17,8 @@ const useStyles = makeStyles({
     fontSize: 14
   },
   icon: {
-    fontSize: 20
+    fontSize: 20,
+    marginRight: '4px'
   },
   card: {
     width: '100%',
@@ -25,6 +26,10 @@ const useStyles = makeStyles({
     '&:last-child': {
       padding: '8px'
     }
+  },
+  avatar: {
+    width: '90%',
+    height: '100%'
   }
 });
 
@@ -35,29 +40,33 @@ export default function OrganizationListItem(props) {
   return (
     <Card className={classes.root} elevation={4}>
       <CardContent className={classes.card}>
-        <Grid container alignItems="center">
-          <Grid item xs={1}>
+        <Grid container alignItems="center" spacing={3} justify="space-between">
+          <Grid container item xs={3} sm={1} justify="space-evenly">
             <Avatar
+              className={classes.avatar}
               alt="user"
               src={imagePath || '/images/users/placeholder.png'}
             />
           </Grid>
-          <Grid item xs={4}>
-            <Typography className={classes.text} color="textSecondary">
-              {`${firstName} ${lastName}`}
-            </Typography>
-          </Grid>
-          <Grid item xs={1}>
-            <Icon className={classes.icon}>phone</Icon>
-            <Icon className={classes.icon}>email</Icon>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography className={classes.text} color="textSecondary">
-              {phoneNumberFormater(phoneNumber)}
-            </Typography>
-            <Typography className={classes.text} color="textSecondary">
-              {email}
-            </Typography>
+          <Grid container item xs={7} sm={2} direction="column" spacing={1}>
+            <Grid container item>
+              <Icon className={classes.icon}>person</Icon>
+              <Typography className={classes.text} color="textSecondary">
+                {`${firstName} ${lastName}`}
+              </Typography>
+            </Grid>
+            <Grid container item>
+              <Icon className={classes.icon}>phone</Icon>
+              <Typography className={classes.text} color="textSecondary">
+                {phoneNumberFormater(phoneNumber)}
+              </Typography>
+            </Grid>
+            <Grid container item>
+              <Icon className={classes.icon}>email</Icon>
+              <Typography className={classes.text} color="textSecondary">
+                {email}
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </CardContent>
