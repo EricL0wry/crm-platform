@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import { phoneNumberFormater } from '../lib/helper-functions';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles({
   root: {
@@ -29,14 +30,17 @@ const useStyles = makeStyles({
 
 export default function OrganizationListItem(props) {
   const classes = useStyles();
-  const { firstName, lastName, phoneNumber, email } = props.member;
+  const { firstName, lastName, phoneNumber, email, imagePath } = props.member;
 
   return (
     <Card className={classes.root} elevation={4}>
       <CardContent className={classes.card}>
         <Grid container alignItems="center">
           <Grid item xs={1}>
-            <Icon>accessibility</Icon>
+            <Avatar
+              alt="user"
+              src={imagePath || '/images/users/placeholder.png'}
+            />
           </Grid>
           <Grid item xs={4}>
             <Typography className={classes.text} color="textSecondary">

@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import { phoneNumberFormater } from '../lib/helper-functions';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles({
   root: {
@@ -37,7 +38,10 @@ export default function CustomerListItem(props) {
         <CardContent className={classes.card}>
           <Grid container alignItems="center">
             <Grid item xs={1}>
-              <Icon className={classes.icon}>accessibility</Icon>
+              <Avatar
+                alt="customer"
+                src={customer.imagePath || '/images/users/placeholder.png'}
+              />
             </Grid>
             <Grid item xs={3}>
               <Typography className={classes.text} color="textSecondary" >
