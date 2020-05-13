@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => {
       width: '96%'
     },
     grey: {
-      backgroundColor: theme.background.darkgrey
+      backgroundColor: theme.background.lightgrey
     },
     avatar: {
       width: theme.spacing(11),
