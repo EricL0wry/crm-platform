@@ -32,10 +32,10 @@ export default function Dashboard() {
           </Typography>
         </Box>
         {myData.ticketList.length === 0 ? (
-          <Typography variant="h4"
+          <Typography variant="h6"
             color="textSecondary"
             align = 'center'>
-            There Is No Ticket
+            You do not have any tickets assigned.
           </Typography>
         ) : (
           <TicketList tickets={myData.ticketList} />
