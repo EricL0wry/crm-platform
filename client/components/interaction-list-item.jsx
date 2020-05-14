@@ -93,6 +93,7 @@ export default function InteractionListItem(props) {
           <DialogContentText id="alert-dialog-description">
             Date: {date.toDateString()} <br />
             Time: {date.toTimeString().substring(0, 5)} <br />
+            Type: {props.interaction.type} <br />
             Notes: {props.interaction.notes}
           </DialogContentText>
         </DialogContent>
