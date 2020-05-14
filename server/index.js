@@ -662,7 +662,6 @@ app.get('/api/ticket/:ticketId', (req, res, next) => {
           "a"."imagePath" as "assigneeImagePath",
           "c"."firstName" as "custFirstName",
           "c"."lastName" as "custLastName",
-          "c"."lastName" as "custLastName",
           "c"."imagePath" as "custImagePath"
       from "tickets" as "t"
     inner join "ticketPriority" as "p"
