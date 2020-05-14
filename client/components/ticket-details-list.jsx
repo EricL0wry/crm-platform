@@ -13,6 +13,13 @@ const useStyles = makeStyles(theme => {
     },
     grey: {
       backgroundColor: theme.background.lightgrey
+    },
+    avatar: {
+      width: theme.spacing(11),
+      height: theme.spacing(11)
+    },
+    involved: {
+      marginBottom: theme.spacing(2)
     }
   };
 });
