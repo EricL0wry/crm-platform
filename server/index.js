@@ -184,7 +184,7 @@ app.get('/api/tickets/:userId', (req, res, next) => {
          inner join "users" as "u"
             on "t"."ownerId" = "u"."userId"
         where "t"."ownerId" = $1
-        order by "t"."dueDate"
+        order by "t"."ticketId"
       `;
   const params = [userId];
   db.query(sql, params).then(result => {
@@ -659,10 +659,8 @@ app.get('/api/ticket/:ticketId', (req, res, next) => {
           "o"."lastName" as "ownerLastName",
           "a"."firstName" as "assigneeFirstName",
           "a"."lastName" as "assigneeLastName",
-          "a"."imagePath" as "assigneeImagePath",
           "c"."firstName" as "custFirstName",
-          "c"."lastName" as "custLastName",
-          "c"."imagePath" as "custImagePath"
+          "c"."lastName" as "custLastName"
       from "tickets" as "t"
     inner join "ticketPriority" as "p"
         on "t"."priority" = "p"."priorityId"
