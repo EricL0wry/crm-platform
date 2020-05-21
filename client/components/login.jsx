@@ -84,25 +84,25 @@ export default function Login() {
       <img className={classes.logo} src="/images/BasedLongMedBlue.png" />
       <form className={classes.loginForm} onSubmit={handleSubmit}>
         <TextField
+          inputProps={{ 'aria-label': 'email input' }}
           variant="outlined"
-          error={state.error === usernameErrMsg}
-          helperText={state.error === usernameErrMsg ? usernameErrMsg : ''}
+          label="E-mail"
           type="email"
           name="email"
-          label="E-mail"
+          error={state.error === usernameErrMsg}
+          helperText={state.error === usernameErrMsg ? usernameErrMsg : ''}
           required
-          inputProps={{ 'aria-label': 'description' }}
           onChange={onChange}
           value={state.email}/>
         <TextField
+          inputProps={{ 'aria-label': 'password input' }}
           variant="outlined"
-          error={state.error === passwordErrMsg}
-          helperText={state.error === passwordErrMsg ? passwordErrMsg : ''}
           label="password"
           type="password"
           name="password"
+          error={state.error === passwordErrMsg}
+          helperText={state.error === passwordErrMsg ? passwordErrMsg : ''}
           required
-          inputProps={{ 'aria-label': 'description' }}
           onChange={onChange}
           value={state.password} />
         <Button
