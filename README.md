@@ -48,7 +48,7 @@ password: password
 * User can view ticket details
 
 ### Planned
-* Much more..
+* TBD
 
 ## Getting Started
 
@@ -60,7 +60,7 @@ password: password
 * An OpenWeaterMap API key
 
 ### API Requirements
-* To run this app locally, you will need a Google Maps billing account and API key. Free trials are available and more informatioon can be found at https://developers.google.com/maps/gmp-get-started.
+* To run this app locally, you will need a Google Maps billing account and API key. Free trials are available and more information can be found at https://developers.google.com/maps/gmp-get-started.
 
 * You will also need an OpenWeatherMap API key. Free trials are available at https://openweathermap.org/api.
 
