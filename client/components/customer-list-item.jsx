@@ -42,14 +42,14 @@ export default function CustomerListItem(props) {
       <Card className={classes.root} onClick={null} elevation={4}>
         <CardContent className={classes.card}>
           <Grid container alignItems="center" spacing={3} justify="space-between">
-            <Grid container item xs={3} sm={1} justify="center">
+            <Grid container item xs={3} sm={2} justify="center">
               <Avatar
                 className={classes.avatar}
                 alt="customer"
                 src={customer.imagePath || '/images/users/placeholder.png'}
               />
             </Grid>
-            <Grid container item xs={9} sm={2} direction="column" spacing={1}>
+            <Grid container item xs={9} sm={8} direction="column" spacing={1}>
               <Grid container item>
                 <Icon className={classes.icon}>person</Icon>
                 <Typography className={classes.text} color="textSecondary" >

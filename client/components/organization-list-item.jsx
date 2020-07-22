@@ -41,14 +41,14 @@ export default function OrganizationListItem(props) {
     <Card className={classes.root} elevation={4}>
       <CardContent className={classes.card}>
         <Grid container alignItems="center" spacing={3} justify="space-between">
-          <Grid container item xs={3} sm={1} justify="space-evenly">
+          <Grid container item xs={3} sm={2} justify="space-evenly">
             <Avatar
               className={classes.avatar}
               alt="user"
               src={imagePath || '/images/users/placeholder.png'}
             />
           </Grid>
-          <Grid container item xs={7} sm={2} direction="column" spacing={1}>
+          <Grid container item xs={7} sm={8} direction="column" spacing={1}>
             <Grid container item>
               <Icon className={classes.icon}>person</Icon>
               <Typography className={classes.text} color="textSecondary">
