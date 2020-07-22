@@ -45,6 +45,13 @@ export default function Login() {
     setState(newState);
   };
 
+  const onDemo = () => {
+    const newState = Object.assign({}, state);
+    newState.email = 'ourguy@lfz.com';
+    newState.password = 'password';
+    setState(newState);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
     const loginInput = {};
@@ -110,6 +117,12 @@ export default function Login() {
           color="primary"
           variant="contained"
           type="submit">Log In</Button>
+        <Button
+          className={classes.loginButton}
+          color="primary"
+          variant="contained"
+          onClick={onDemo}
+          type="submit">DEMO</Button>
       </form>
     </Container>
   );
